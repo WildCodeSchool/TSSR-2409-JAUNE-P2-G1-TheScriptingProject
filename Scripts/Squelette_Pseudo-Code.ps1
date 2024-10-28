@@ -11,42 +11,91 @@
         # DEBUT CAS demande si on doit récupérer une information ou effectuer une action
         # dans le cas 1 action sur les groupes ou user
 
-            # DEBUT CAS demande quelles actions effectuer
+$actionType = Read-Host -Prompt "Quelles type d'action souhaitez vous effectuer ?
+1) Actions sur les comptes 
+2) Actions sur les groupes
+"
+Clear-Host
+    
+    switch ($actionType) { 
+        # DEBUT CAS demande quelles actions effectuer
+        "1" { 
+            $userManagement = Read-Host -Prompt "Quelles type d'actions effectuer sur les comptes utilisateurs ?
+1) Création de compte utilisateur local
+2) Changement de mot de passe
+3) Suppression de compte utilisateur local 
+4) Désactivation de compte utilisateur local
+"
+Clear-Host
+    
             # dans le cas 1 gestion des comptes
-            
-                # DEBUT CAS Demande quel action exécuter sur les comptes    
-                # dans le cas 1 - Création de compte utilisateur local
-                
+            switch ($userManagement) {
+            # DEBUT CAS Demande quel action exécuter sur les comptes    
+            # dans le cas 1 - Création de compte utilisateur local
+                "1" {
                     # Fonction -> Création de compte utilisateur local
-                    
+                    Write-Output "Création de compte utilisateur local"
+                }
                 # dans le cas 2 - Changement de mot de passe
+                "2" {
                     # Fonction -> Changement de mot de passe
-
+                    Write-Output "Changement de mot de passe"
+                }
                 # dans le cas 3 - Suppression de compte utilisateur local 
-                    # Fonction -> Suppression de compte utilisateur local 
-
+                "3" {
+                    # Fonction -> Suppression de compte utilisateur local
+                    Write-Output  "Suppression de compte utilisateur local"
+                }
                 # dans le cas 4 - Désactivation de compte utilisateur local
+                "4" {
                     # Fonction -> Désactivation de compte utilisateur local
-                
-                # FIN CAS Demande quel action exécuter sur les comptes  
+                    Write-Output "Désactivation de compte utilisateur local"
+                }
+                Default { 
+                    Write-Output "Erreur de saisie" 
+                }
+            # FIN CAS Demande quel action exécuter sur les comptes  
+            }
+        }
+    
+        # dans le cas 2 gestion des groupe
+        "2" {
+            # Demande quel action exécuter sur les groupes  
+            $groupManagement = Read-Host -Prompt "Quelles type d'actions effectuer sur les groupes ?
+1) Ajout à un groupe d'administration
+2) Ajout à un groupe local
+3) Sortie d’un groupe local
+"
+Clear-Host
+    
+            switch ($groupManagement) {
+            # dans le cas 1 - Ajout à un groupe d'administration
+            "1" {
+                # Fonction -> Ajout à un groupe d'administration
+                Write-Host "Ajout à un groupe d'administration"
+            }
+            # dans le cas 2 - Ajout à un groupe local
+            "2" {   
+                # Fonction -> Ajout à un groupe local
+                Write-Host "Ajout à un groupe local"
+            }
+            # dans le cas 3 - Sortie d’un groupe local
+            "3" {    
+                # Fonction -> Sortie d’un groupe local
+                Write-Host "Sortie d’un groupe local"
+            }
+            Default { 
+                Write-Output "Erreur de saisie" 
+            }
+            # FIN CAS Demande quel action exécuter sur les groupes 
+            }
+        }
 
-
-            # dans le cas 2 gestion des groupe
-
-                # Demande quel action exécuter sur les groupes  
-                # dans le cas 1 - Ajout à un groupe d'administration
-                    # Fonction -> Ajout à un groupe d'administration
-
-                # dans le cas 2 - Ajout à un groupe local
-                    # Fonction -> Ajout à un groupe local
-
-                # dans le cas 3 - Sortie d’un groupe local
-                    # Fonction -> Sortie d’un groupe local
-
-                # FIN CAS Demande quel action exécuter sur les groupes  
-            
-            # FIN CAS demande quelles actions effectuer
-
+        Default {
+            Write-Output "Erreur de saisie" 
+        }
+    # FIN CAS demande quelles actions effectuer
+}
 
         # dans le cas 2 information
 
