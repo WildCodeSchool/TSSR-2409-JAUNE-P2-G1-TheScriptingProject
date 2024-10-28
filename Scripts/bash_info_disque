@@ -1,0 +1,45 @@
+#!/bin/bash
+#demande quelle action faire
+echo "----------------------------"
+echo "|  liste des informations   |"
+echo "----------------------------"
+echo "| [1]Nombre de disque       |"
+echo "| [2]Details partition      |"
+echo "| [3]Espace restant         |"
+echo "| [4]Détail dossier         |"
+echo "| [5]Liste lecteurs         |"
+echo "|---------------------------"
+read -p " A quel service souhaitez-vous avoir accès? [1 2 3 4 5] : " actionHost
+
+case $actionHost in
+    #choix 1- version de l'os
+  1) lsb_release -d 
+        ;;
+    #choix 2- affiche nombre de disque
+  2) sudo fdisk -l 
+        ;;
+    #choix 3- affiche les partitions
+  3) df -h 
+        ;;
+    #affiche le nom et l'espace d'un dossier
+    #demande de nom
+  4) read -p "Quel disque ou dossier?" choix_1
+        if [ -d "$choix_1" ]
+        then
+          find . -type d -name $choix_1 | du -hs
+
+    #retour si mauvais choix
+          else
+            echo "mauvais choix"
+        exit 1
+        fi 
+        ;;
+
+        #affiche liste des lecteurs monté
+  5) lsblk 
+        ;;
+        #sortie retour menu
+  *) exit 1 
+        ;;
+esac
+exit 0
