@@ -153,30 +153,59 @@
             # FIN CAS demande quelle action effectuer
             
 
-
-        # dans le cas 2 information
-
+            # dans le cas 2 information
+            
+            
+            write-host "
+                [1]info_machine  `r
+                [2]info_disque  `r
+                [3]info_logiciel  `r
+                "
             # DEBUT CAS demande quelles informations récupérer
+            [int]$choix=read-host "entrer l'action souhaitée"
+            switch($choix)
+            
+            
             # dans le cas 1 information sur la machine
-
-                # DEBUT CAS demande quel type d'info machine récupérer
-                # dans le cas 1 - Version de l'OS
+            {
+            # DEBUT CAS demande quel type d'info machine récupérer
+                1 {
+                write-host "
+                [1]Version os  `r
+                [2]Ram totale  `r
+                [3]Utilisation RAM  `r
+                [4]Liste utiliqateur locaux `r
+                [5]Sortie   `r
+                "
+                [int]$choix_2=read-host "que voulez-vous faire?"
+                switch($choix2)
+                    {
+                    # dans le cas 1 - Version de l'OS
                     # Fonction -> Version de l'OS
-
+                    1 {Get-computerinfo}
                 # dans le cas 2 - Mémoire RAM totale
                     # Fonction -> Mémoire RAM totale
-
+                    2 {Get-ciminstance}
                 # dans le cas 3 - Utilisation de la RAM
                     # Fonction -> Utilisation de la RAM
-                
+                    3 {Get-computerinfo}
                 # dans le cas 4 - Liste des utilisateurs locaux
                     # Fonction -> Liste des utilisateurs locaux
-                
+                    4 {Get-localuser}
                 # FIN CAS demande quel type d'info machine récupérer
-                
+                    }
+                }
 
             # dans le cas 3 information sur les disques
-
+            2 {
+                write-host "
+                [1]Nombre de disque  `r
+                [2]Partition  `r
+                [3]Espace disque restant  `r
+                [4]Nom et espacedisque d'un dossier `r
+                [5]Liste des lecteurs montés    `r
+                [6]Sortie   `r
+                "
                 # DEBUT CAS demande quel type d'info récuperer sur les disques
                 # dans le cas 1 - Nombre de disque
                     # Fonction -> Nombre de disque
@@ -195,7 +224,12 @@
                 
                 # FIN CAS demande quel type d'info récuperer sur les disques
 
-
+            3 {
+                write-host "
+                [1]Liste des applications/paquets `r
+                [2]Liste des services en cours d'éxécution  `r
+                [3]Sortie   `r
+                "
             # dans le cas 4 information sur les logiciels
 
                 # DEBUT CAS demande quel type d'info récupérer sur les logiciels
@@ -206,7 +240,7 @@
                     # Fonction -> Liste des services en cours d'execution
 
                 # FIN CAS demande quel type d'info récupérer sur les logiciels
-            
+            }
             # FIN CAS demande quelles informations récupérer
 
         # FIN CAS demande si on doit récupérer une information ou effectuer une action
@@ -216,4 +250,3 @@
 
 # demande si on doit continuer la boucle ou sortir
 # FIN BOUCLE while
-
