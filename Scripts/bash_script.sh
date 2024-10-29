@@ -153,113 +153,98 @@
             
 
 
-        # dans le cas 2 information
-        echo -e "Quelles choix de menu?\n1) information machine \n2) information disques \n3) Information logiciel"
-        read choix_menu
-        clear
-        case $choix_menu in
+       # dans le cas 2 information
 
-        1) 
-        # demande quelles informations récupérer
-        
-        
-            
-        # dans le cas 1 information sur la machine
-        
-                # demande quel type d'info machine récupérer
-
-
-            echo -e "Que faire?\n1) version de l'os \n2) Mémoire RAM totale \n3) Utilisation de la RAM \n4) Utilisateurs locaux \n0) sortie"
-            read infoMachine
+            # DEBUT CAS demande quelles informations récupérer
+            echo -e "Quelles choix de menu?\n1) information machine \n2) information disques \n3) Information logiciel"
+            read choix_menu
             clear
+                case $choix_menu in
+            # dans le cas 1 information sur la machine
+                1)
+                # DEBUT CAS demande quel type d'info machine récupérer
+                echo -e "Que faire?\n1) version de l'os \n2) Mémoire RAM totale \n3) Utilisation de la RAM \n4) Utilisateurs locaux \n0) Sortie"
+                read actionMachine
+                clear
 
-                case $infoMachine in
-                    # dans le cas 1
-                    # Fonction -> Version de l'OS
-                1) uname -r ;;
-                # dans le cas 2
-                    # Fonction -> Mémoire RAM totale
-                2) free -h ;;
-                
-                # dans le cas 3
-                    # Fonction -> Utilisation de la RAM
-                3) free -h | awk '{print $2 "----- "}' ;;
-                #probleme affichage colonne 2
-                # dans le cas 4
-                    # Fonction -> Liste des utilisateurs locaux
-                4) cat /etc/passwd ;;
-                # FIN CAS demande quel type d'info machine récupérer
-                0) exit ;;
-                *) echo "Erreur de saisie" ;;
-                esac ;;
-        
-            
-        2) 
+                    case $actionMachine in
+                        # dans le cas 1 - Version de l'OS
+                            # Fonction -> Version de l'OS
+                        1) uname -r ;;
+                        # dans le cas 2 - Mémoire RAM totale
+                            # Fonction -> Mémoire RAM totale
+                        2) free -h ;;
+                        # dans le cas 3 - Utilisation de la RAM
+                            # Fonction -> Utilisation de la RAM
+                        3) free -h | awk '{print $2 "----- "}' ;;
+                        # dans le cas 4 - Liste des utilisateurs locaux
+                            # Fonction -> Liste des utilisateurs locaux
+                        4) cat /etc/passwd ;;
+                        # FIN CAS demande quel type d'info machine récupérer
+                        0) echo "Sortie"
+                            exit ;;
+                        *) echo "Erreur de saisie" ;;
+                        esac ;;
+
             # dans le cas 3 information sur les disques
-        
-            
-            echo -e "\n1) Nombre de disque \n2) Détail partition \n3) Espace restant \n4) Détails dossier \n5) Liste lecteur \n0) sortie"
-            read infomachine2
-            clear 
-                # demande quel type d'info récuperer sur les disques
-                case $infomachine2 in
-                # dans le cas 1
+                2)
+               
+                # DEBUT CAS demande quel type d'info récuperer sur les disques
+                 echo -e "\n1) Nombre de disque \n2) Détail partition \n3) Espace restant \n4) Détails dossier \n5) Liste lecteur \n0) Sortie"
+                read actionHost
+                clear
+                case $actionHost in
+                # dans le cas 1 - Nombre de disque
                     # Fonction -> Nombre de disque
-                1) sudo lshw -class disk ;;
-                # dans le cas 2
+                    1) sudo lshw -class disk ;;
+                # dans le cas 2 - Partition (nombre, nom, FS, taille) par disque
                     # Fonction -> Partition (nombre, nom, FS, taille) par disque
-                2) df -h ;;
-                # dans le cas 3
+                    2) df -h ;;
+                # dans le cas 3 - Espace disque restant par partition/volume
                     # Fonction -> Espace disque restant par partition/volume
-                3) df -h | awk '{print $1"-------"$4}' ;;
-                # dans le cas 4
+                    3) df -h | awk '{print $1"-------"$4}' ;;
+                # dans le cas 4 - Nom et espace disque d'un dossier (nom de dossier demandé)
                     # Fonction -> Nom et espace disque d'un dossier (nom de dossier demandé)
-                4) read -p "quel nom de dossier?" choix_1
-                    if [ -d "$choix_1" ]
-                    then
-                        find . -type d -name $choix_1 | du -hs
-                    else 
-                        echo "Le nom de dossier n'existe pas"
-                        exit 1
-                    fi ;;
-                            
-                # dans le cas 5 
-                    # Fonction -> Liste des lecteurs monté (disque, CD, etc.)ns le cas 4 information sur les logiciels   
-                
-                5) lsblk ;;
+                    4) read -p "quel nom de dossier?" choix_1
+                            if [ -d "$choix_1" ]
+                            then
+                                find . -type d -name $choix_1 | du -hs
+                            else 
+                                echo "Le nom de dossier n'existe pas"
+                            exit 1
+                            fi ;;
+                # dans le cas 5 - Liste des lecteurs monté (disque, CD, etc.)
+                    # Fonction -> Liste des lecteurs monté (disque, CD, etc.)
+                    5) lsblk ;;
                 # FIN CAS demande quel type d'info récuperer sur les disques
-                
-                0) echo "Sortie" 
-                    exit ;;
-                *) echo "Erreur de saisie";;
-                esac ;;
-            
-        
-        3)
+                    0) echo "Sortie" 
+                        exit ;;
+                    *) echo "Erreur de saisie";;
+                    esac ;;
 
-                # demande quel type d'info récupérer sur les logiciels
+            # dans le cas 4 information sur les logiciels
+                3)
+                # DEBUT CAS demande quel type d'info récupérer sur les logiciels
                 echo -e "Quells informations à récupérer? \n1) Liste des applications/paquets \n2) Liste des services en cours d'écéxution \0) sortie"
                 read infoHost
                 clear
                     case $infoHost in
-                
-                # dans le cas 1
+                # dans le cas 1 - Liste des applications/paquets installées
                     # Fonction -> Liste des applications/paquets installées
-                    1) dpkg --list ;;
-                # dans le cas 2
+                        1) dpkg --list ;;
+                # dans le cas 2 - Liste des services en cours d'execution
                     # Fonction -> Liste des services en cours d'execution
-                    2) service --status-all;;
-
-                    0) echo "sortie" exit ;;
-                    *) echo "erreur de saisie" ;;
+                        2) service --status-all;;
+                        0) echo "Sortie"
+                            exit ;;
+                        *) Erreur de saisie ;;
                 # FIN CAS demande quel type d'info récupérer sur les logiciels
-                    esac
+                        esac
             # FIN CAS demande quelles informations récupérer
         esac
-        # FIN CAS demande un type d'action
+        # FIN CAS demande si on doit récupérer une information ou effectuer une action
 
     # FIN CAS accueil demande de sélectionner une cible , soit ordinateur, soit utilisateur   
 
 
 # demande si on doit continuer la boucle ou sortir
-# FIN BOUCLE
