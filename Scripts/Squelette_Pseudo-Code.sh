@@ -11,41 +11,84 @@
         # DEBUT CAS demande si on doit récupérer une information ou effectuer une action
         # dans le cas 1 action sur les groupes ou user
 
-            # DEBUT CAS demande quelles actions effectuer
-            # dans le cas 1 gestion des comptes
-            
-                # DEBUT CAS Demande quel action exécuter sur les comptes    
+        # DEBUT CAS demande quelles actions effectuer
+        # dans le cas 1 gestion des comptes
+        echo -e "Quelles type d'action souhaitez vous effectuer ?\n1) Actions sur les comptes \n2) Actions sur les groupes"
+        read actionType
+        clear
+        
+        case $actionType in
+        1)
+            # DEBUT CAS Demande quel action exécuter sur les comptes
+            echo -e "Quelles type d'actions effectuer sur les comptes utilisateurs ? \n1) Création de compte utilisateur local \n2) Changement de mot de passe \n3) Suppression de compte utilisateur local  \n4) Désactivation de compte utilisateur local "               
+            read userManagement
+            clear
+                case $userManagement in              
                 # dans le cas 1 - Création de compte utilisateur local
-                
+                1)
                     # Fonction -> Création de compte utilisateur local
-                    
+                    echo "Création de compte utilisateur local"
+                    ;;
                 # dans le cas 2 - Changement de mot de passe
+                2) 
                     # Fonction -> Changement de mot de passe
-
+                    echo "Changement de mot de passe"
+                    ;;
                 # dans le cas 3 - Suppression de compte utilisateur local 
+                3)
                     # Fonction -> Suppression de compte utilisateur local 
-
+                    echo "Suppression de compte utilisateur local "
+                    ;;
                 # dans le cas 4 - Désactivation de compte utilisateur local
+                4)    
                     # Fonction -> Désactivation de compte utilisateur local
-                
+                    echo "Désactivation de compte utilisateur local"
+                    ;;
+
+                0)
+                    echo "retour au menu précédent"
+                    ;;
+                *)
+                    echo "Erreur de saisie" 
+                    ;;
                 # FIN CAS Demande quel action exécuter sur les comptes  
-
-
-            # dans le cas 2 gestion des groupe
-
-                # Demande quel action exécuter sur les groupes  
+                esac 
+                ;;
+        
+        # dans le cas 2 gestion des groupe
+        2)
+            # Demande quel action exécuter sur les groupes 
+            echo -e "Quelles type d'actions effectuer sur les groupes ?\n1) Ajout à un groupe d'administration \n2) Ajout à un groupe local \n3) Sortie d’un groupe local "
+            read groupManagement
+            clear
+                case $groupManagement in
                 # dans le cas 1 - Ajout à un groupe d'administration
+                1)
                     # Fonction -> Ajout à un groupe d'administration
+                    echo "Ajout à un groupe d'administration"
+                    ;;
 
                 # dans le cas 2 - Ajout à un groupe local
+                2)
                     # Fonction -> Ajout à un groupe local
+                    echo "Ajout à un groupe local"
+                    ;;
 
                 # dans le cas 3 - Sortie d’un groupe local
+                3)
                     # Fonction -> Sortie d’un groupe local
+                    echo "Sortie d’un groupe local"
+                    ;;
 
+                *)
+                    echo "Erreur de saisie" 
+                    ;;
                 # FIN CAS Demande quel action exécuter sur les groupes  
-            
-            # FIN CAS demande quelles actions effectuer
+                esac 
+                ;;
+        # FIN CAS demande quelles actions effectuer
+        esac 
+
 
 
         # dans le cas 2 information
