@@ -154,7 +154,7 @@
 
 
         # dans le cas 2 information
-        echo -e "Quelles choix de menu?\n1) information machine \n2) information disques"
+        echo -e "Quelles choix de menu?\n1) information machine \n2) information disques \n3) Information logiciel"
         read choix_menu
         clear
         case $choix_menu in
@@ -235,19 +235,27 @@
                 *) echo "Erreur de saisie";;
                 esac ;;
             
-        esac
+        
+        3)
 
                 # demande quel type d'info récupérer sur les logiciels
+                echo -e "Quells informations à récupérer? \n1) Liste des applications/paquets \n2) Liste des services en cours d'écéxution \*) sortie"
+                read infoHost
+                clear
+                    case $infoHost in
+                
                 # dans le cas 1
                     # Fonction -> Liste des applications/paquets installées
-
+                    1) dpkg --list ;;
                 # dans le cas 2
                     # Fonction -> Liste des services en cours d'execution
+                    2) service --status-all;;
 
+                    *) exit ;;
                 # FIN CAS demande quel type d'info récupérer sur les logiciels
-            
+                    esac
             # FIN CAS demande quelles informations récupérer
-
+        esac
         # FIN CAS demande un type d'action
 
     # FIN CAS accueil demande de sélectionner une cible , soit ordinateur, soit utilisateur   
