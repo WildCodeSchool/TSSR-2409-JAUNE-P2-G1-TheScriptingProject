@@ -25,6 +25,7 @@ read -p " A quel service souhaitez-vous avoir accès? [1 2 3 4 *] : " actionMach
                     # Fonction -> Liste des utilisateurs locaux
                 4) cat passwd ;;
                 # FIN CAS demande quel type d'info machine récupérer
-                *) exit 0 ;;
-
+                *) exit 1 ;;
+                
                 esac 
+                exit 0
