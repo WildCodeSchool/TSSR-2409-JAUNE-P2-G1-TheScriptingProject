@@ -11,21 +11,13 @@
         # DEBUT CAS demande si on doit récupérer une information ou effectuer une action
         # dans le cas 1 action sur les groupes ou user
 
-$actionType = Read-Host -Prompt "Quelles type d'action souhaitez vous effectuer ?
-1) Actions sur les comptes 
-2) Actions sur les groupes
-"
+$actionType = Read-Host -Prompt "Quelles type d'action souhaitez vous effectuer ?`n1) Actions sur les comptes`n2) Actions sur les groupes`n"
 Clear-Host
     
     switch ($actionType) { 
         # DEBUT CAS demande quelles actions effectuer
         "1" { 
-            $userManagement = Read-Host -Prompt "Quelles type d'actions effectuer sur les comptes utilisateurs ?
-1) Création de compte utilisateur local
-2) Changement de mot de passe
-3) Suppression de compte utilisateur local 
-4) Désactivation de compte utilisateur local
-"
+            $userManagement = Read-Host -Prompt "Quelles type d'actions effectuer sur les comptes utilisateurs ?`n1) Création de compte utilisateur local`n2) Changement de mot de passe`n3) Suppression de compte utilisateur local`n4) Désactivation de compte utilisateur local`n"
 Clear-Host
     
             # dans le cas 1 gestion des comptes
@@ -61,11 +53,7 @@ Clear-Host
         # dans le cas 2 gestion des groupe
         "2" {
             # Demande quel action exécuter sur les groupes  
-            $groupManagement = Read-Host -Prompt "Quelles type d'actions effectuer sur les groupes ?
-1) Ajout à un groupe d'administration
-2) Ajout à un groupe local
-3) Sortie d’un groupe local
-"
+            $groupManagement = Read-Host -Prompt "Quelles type d'actions effectuer sur les groupes ?`n1) Ajout à un groupe d'administration`n2) Ajout à un groupe local`n3) Sortie d’un groupe local`n"
 Clear-Host
     
             switch ($groupManagement) {
