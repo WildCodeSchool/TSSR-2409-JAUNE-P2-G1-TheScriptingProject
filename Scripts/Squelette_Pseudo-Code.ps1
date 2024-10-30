@@ -18,9 +18,55 @@
                 # dans le cas 1 - Création de compte utilisateur local
                 
                     # Fonction -> Création de compte utilisateur local
-                    
+                
+                # Demander le nom d'utilisateur
+                $username = Read-Host "Entrez le nom de l'utilisateur à créer"
+
+                # Vérifier si l'utilisateur existe déjà
+                if (Get-LocalUser -Name $username -ErrorAction SilentlyContinue) {
+                    Write-Host "L'utilisateur '$username' existe déjà !"
+                exit
+                }
+
+                # Demander le mot de passe de l'utilisateur
+                $password = Read-Host "Entrez le mot de passe pour l'utilisateur '$username'" -AsSecureString
+
+                # Créer un nouvel utilisateur local
+                try {
+                    New-LocalUser -Name $username -Password $password -FullName $username -Description "Compte utilisateur local créé via script" -PasswordNeverExpires
+                    Write-Host "L'utilisateur '$username' a été créé avec succès."
+                }
+                catch {
+                    Write-Host "Erreur lors de la création de l'utilisateur : $_"
+                exit
+                }
+                        
                 # dans le cas 2 - Changement de mot de passe
                     # Fonction -> Changement de mot de passe
+
+                    # Demander le nom de l'utilisateur pour lequel changer le mot de passe
+                $utilisateur = Read-Host -Prompt "Entrez le nom de l'utilisateur"
+
+                    # Vérifier si l'utilisateur existe
+                if (Get-LocalUser -Name $utilisateur -ErrorAction SilentlyContinue) {
+                    # Demander le nouveau mot de passe
+                    $nouveauMDP = Read-Host -Prompt "Entrez le nouveau mot de passe pour $utilisateur" -AsSecureString
+    
+                    # Modifier le mot de passe de l'utilisateur
+                    Set-LocalUser -Name $utilisateur -Password $nouveauMDP
+
+                    # Vérifier si la commande a réussi
+                    if ($?) {
+                    Write-Host "Le mot de passe a été changé avec succès pour $utilisateur."
+                    } 
+                    else {
+                        Write-Host "Erreur lors du changement du mot de passe."
+                    }
+                } 
+                else {
+                    Write-Host "L'utilisateur $utilisateur n'existe pas."
+                    exit 1
+                }
 
                 # dans le cas 3 - Suppression de compte utilisateur local 
                     # Fonction -> Suppression de compte utilisateur local 
