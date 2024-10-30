@@ -99,43 +99,67 @@ switch ($targetType) {
 
         "2" {
         # dans le cas 2 information
-    
+
             # demande quelle information récupérer
+            $infoType = Read-Host "Quelles type d'action souhaitez vous effectuer ?`n1) Actions sur l'information lié à la session `n2) Actions sur l'information lié au compte`n"
+            Clear-Host
             # dans le cas 1 information lié à la session
-
-                # demande quelles info lié à la session récupérer 
+            switch ($infoType) {
+            "1" {
+                # demande quelles info lié à la session récupérer
+                $infoUser = Read-Host "Quelles type d'action souhaitez vous effectuer ?`n1) Date de dernière connexion d’un utilisateur `n2) Date de dernière modification du mot de passe `n3) Liste des sessions ouvertes par l'utilisateur`n"
+                Clear-Host
                 # dans le cas 1 - Date de dernière connexion d’un utilisateur
+                switch ($infoUser) {
+                "1" {
                     # Fonction -> Date de dernière connexion d’un utilisateur
-
+                    Write-Host "Date de dernière connexion d’un utilisateur"
+                }
                 # dans le cas 2 - Date de dernière modification du mot de passe
+                "2" {
                     # Fonction -> Date de dernière modification du mot de passe
-
+                    Write-Host "Date de dernière modification du mot de passe"
+                }
                 # dans le cas 3 - Liste des sessions ouvertes par l'utilisateur
+                "3" {
                     # Fonction -> Liste des sessions ouvertes par l'utilisateur
-
+                    Write-Host "Liste des sessions ouvertes par l'utilisateur"
+                }
                 # FIN CAS demande quelles info lié à la session récupérer
-
+                }
+            }
             # dans le cas 2 information lié au compte
-
+            "2" {
                 # demande quelles info lié au compte récupérer
+                $actiontype= Read-Host "Quelles type d'action souhaitez vous effectuer ?`n1) Groupe d’appartenance d’un utilisateur `n2) Historique des commandes exécutées par l'utilisateur `n3) Droits/permissions de l’utilisateur sur un dossier `n4) Droits/permissions de l’utilisateur sur un fichier`n"
+                Clear-Host
+                switch ($actiontype) {
                 # dans le cas 1 - Groupe d’appartenance d’un utilisateur
+                "1" {
                     # Fonction -> Groupe d’appartenance d’un utilisateur
-
+                    Write-Host "Groupe d’appartenance d’un utilisateur"
+                }
                 # dans le cas 2 - Historique des commandes exécutées par l'utilisateur
+                "2" {
                     # Fonction -> Historique des commandes exécutées par l'utilisateur
-
+                    Write-Host "Historique des commandes exécutées par l'utilisateur"
+                }
                 # dans le cas 3 - Droits/permissions de l’utilisateur sur un dossier
+                "3" {
                     # Fonction -> Droits/permissions de l’utilisateur sur un dossier
-
+                    Write-Host "Droits/permissions de l’utilisateur sur un dossier"
+                }
                 # dans le cas 4 - Droits/permissions de l’utilisateur sur un fichier
+                "4" {
                     # Fonction -> Droits/permissions de l’utilisateur sur un fichier
-                
+                    Write-Host "Droits/permissions de l’utilisateur sur un fichier"
+                }
                 # FIN CAS demande quelles info lié au compte récupérer
-        }
+                }
             # FIN CAS demande quelle information récupérer
-    }
+            }
+            }
         # FIN CAS demande si on doit récupérer une information ou effectuer une action
-}
 
     # dans le cas 2 ordinateur
 "2" {
