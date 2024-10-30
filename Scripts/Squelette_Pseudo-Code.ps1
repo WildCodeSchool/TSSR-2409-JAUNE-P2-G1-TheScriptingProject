@@ -1,92 +1,105 @@
+
 # Fonctions ()
 # Fonctions ()
 # Fonctions ()
 # ...
 
+Clear-Host
 # DEBUT BOUCLE while 
-
-    # DEBUT CAS accueil demande de sélectionner une cible , soit ordinateur, soit utilisateur
-    # dans le cas 1 utilisteur
-    
-        # DEBUT CAS demande si on doit récupérer une information ou effectuer une action
-        # dans le cas 1 action sur les groupes ou user
-
-$actionType = Read-Host -Prompt "Quelles type d'action souhaitez vous effectuer ?`n1) Actions sur les comptes`n2) Actions sur les groupes`n"
+$targetType = Read-Host -Prompt "Quel cible souhaitez vous atteindre ?`n1) Utilisateur`n2) Ordinateur`n"
 Clear-Host
-    
-    switch ($actionType) { 
-        # DEBUT CAS demande quelles actions effectuer
-        "1" { 
-            $userManagement = Read-Host -Prompt "Quelles type d'actions effectuer sur les comptes utilisateurs ?`n1) Création de compte utilisateur local`n2) Changement de mot de passe`n3) Suppression de compte utilisateur local`n4) Désactivation de compte utilisateur local`n"
-Clear-Host
-    
+# DEBUT CAS accueil demande de sélectionner une cible , soit ordinateur, soit utilisateur
+# dans le cas 1 utilisteur
+switch ($targetType) {
+"1" {
+    # DEBUT CAS demande si on doit récupérer une information ou effectuer une action
+    # dans le cas 1 action sur les groupes ou user
+    $infoactionType = Read-Host -Prompt "Que voulez vous faire ?`n1) Effectuer une action`n2) Récupérer une information`n"
+    Clear-Host
+
+        switch ($infoactionType) {
+        "1" {
+            # DEBUT CAS demande quelles actions effectuer
             # dans le cas 1 gestion des comptes
-            switch ($userManagement) {
-            # DEBUT CAS Demande quel action exécuter sur les comptes    
-            # dans le cas 1 - Création de compte utilisateur local
-                "1" {
-                    # Fonction -> Création de compte utilisateur local
-                    Write-Output "Création de compte utilisateur local"
+            $actionType = Read-Host -Prompt "Quelles type d'action souhaitez vous effectuer ? `n1) Actions sur les comptes`n2) Actions sur les groupes`n" 
+            Clear-Host
+            
+            switch ($actionType) { 
+
+                "1" { 
+                    # DEBUT CAS Demande quel action exécuter sur les comptes    
+                    # dans le cas 1 - Création de compte utilisateur local
+                    $userManagement = Read-Host -Prompt "Quelles type d'actions effectuer sur les comptes utilisateurs ?`n1) Création de compte utilisateur local`n2) Changement de mot de passe`n3) Suppression de compte utilisateur local`n4) Désactivation de compte utilisateur local`n"
+                    Clear-Host            
+                    
+                    switch ($userManagement) {
+                    
+                        "1" {
+                            # Fonction -> Création de compte utilisateur local
+                            Write-Output "Création de compte utilisateur local"
+                        }
+                        # dans le cas 2 - Changement de mot de passe
+                        "2" {
+                            # Fonction -> Changement de mot de passe
+                            Write-Output "Changement de mot de passe"
+                        }
+                        # dans le cas 3 - Suppression de compte utilisateur local 
+                        "3" {
+                            # Fonction -> Suppression de compte utilisateur local
+                            Write-Output  "Suppression de compte utilisateur local"
+                        }
+                        # dans le cas 4 - Désactivation de compte utilisateur local
+                        "4" {
+                            # Fonction -> Désactivation de compte utilisateur local
+                            Write-Output "Désactivation de compte utilisateur local"
+                        }
+                        Default { 
+                            Write-Output "Erreur de saisie" 
+                        }
+                    # FIN CAS Demande quel action exécuter sur les comptes  
+                    }
                 }
-                # dans le cas 2 - Changement de mot de passe
+            
+                # dans le cas 2 gestion des groupe
                 "2" {
-                    # Fonction -> Changement de mot de passe
-                    Write-Output "Changement de mot de passe"
+                    # Demande quel action exécuter sur les groupes  
+                    $groupManagement = Read-Host -Prompt "Quelles type d'actions effectuer sur les groupes ?`n1) Ajout à un groupe d'administration`n2) Ajout à un groupe local`n3) Sortie d’un groupe local`n"
+                    Clear-Host
+            
+                    switch ($groupManagement) {
+                    # dans le cas 1 - Ajout à un groupe d'administration
+                    "1" {
+                        # Fonction -> Ajout à un groupe d'administration
+                        Write-Host "Ajout à un groupe d'administration"
+                    }
+                    # dans le cas 2 - Ajout à un groupe local
+                    "2" {   
+                        # Fonction -> Ajout à un groupe local
+                        Write-Host "Ajout à un groupe local"
+                    }
+                    # dans le cas 3 - Sortie d’un groupe local
+                    "3" {    
+                        # Fonction -> Sortie d’un groupe local
+                        Write-Host "Sortie d’un groupe local"
+                    }
+                    Default { 
+                        Write-Output "Erreur de saisie" 
+                    }
+                    # FIN CAS Demande quel action exécuter sur les groupes 
+                    }
                 }
-                # dans le cas 3 - Suppression de compte utilisateur local 
-                "3" {
-                    # Fonction -> Suppression de compte utilisateur local
-                    Write-Output  "Suppression de compte utilisateur local"
-                }
-                # dans le cas 4 - Désactivation de compte utilisateur local
-                "4" {
-                    # Fonction -> Désactivation de compte utilisateur local
-                    Write-Output "Désactivation de compte utilisateur local"
-                }
-                Default { 
+
+                Default {
                     Write-Output "Erreur de saisie" 
                 }
-            # FIN CAS Demande quel action exécuter sur les comptes  
-            }
-        }
+        # FIN CAS demande quelles actions effectuer
     
-        # dans le cas 2 gestion des groupe
+            
+            
+
         "2" {
-            # Demande quel action exécuter sur les groupes  
-            $groupManagement = Read-Host -Prompt "Quelles type d'actions effectuer sur les groupes ?`n1) Ajout à un groupe d'administration`n2) Ajout à un groupe local`n3) Sortie d’un groupe local`n"
-Clear-Host
-    
-            switch ($groupManagement) {
-            # dans le cas 1 - Ajout à un groupe d'administration
-            "1" {
-                # Fonction -> Ajout à un groupe d'administration
-                Write-Host "Ajout à un groupe d'administration"
-            }
-            # dans le cas 2 - Ajout à un groupe local
-            "2" {   
-                # Fonction -> Ajout à un groupe local
-                Write-Host "Ajout à un groupe local"
-            }
-            # dans le cas 3 - Sortie d’un groupe local
-            "3" {    
-                # Fonction -> Sortie d’un groupe local
-                Write-Host "Sortie d’un groupe local"
-            }
-            Default { 
-                Write-Output "Erreur de saisie" 
-            }
-            # FIN CAS Demande quel action exécuter sur les groupes 
-            }
-        }
-
-        Default {
-            Write-Output "Erreur de saisie" 
-        }
-    # FIN CAS demande quelles actions effectuer
-}
-
         # dans le cas 2 information
-
+    
             # demande quelle information récupérer
             # dans le cas 1 information lié à la session
 
@@ -118,21 +131,27 @@ Clear-Host
                     # Fonction -> Droits/permissions de l’utilisateur sur un fichier
                 
                 # FIN CAS demande quelles info lié au compte récupérer
-            
+        }
             # FIN CAS demande quelle information récupérer
-
+    }
         # FIN CAS demande si on doit récupérer une information ou effectuer une action
-
+}
 
     # dans le cas 2 ordinateur
+"2" {
+    
+    # DEBUT CAS demande demande si on doit récupérer une information ou effectuer une action
+    # dans le cas 1 action
+    $infoactionType = Read-Host -Prompt "Que voulez vous faire ?`n1) Effectuer une action`n2) Récupérer une information`n"
+    Clear-Host
 
-        # DEBUT CAS demande demande si on doit récupérer une information ou effectuer une action
-        # dans le cas 1 action
-            # DEBUT CAS demande quelle action effectuer
-            # dans le cas 1 gestion de la machine
+    switch ($infoactionType) {
+    "1" {
+        # DEBUT CAS demande quelle action effectuer
+        # dans le cas 1 gestion de la machine
 
-                # DEBUT CAS demande quelles action effectuer sur la machine
-                # dans le cas 1 - Arrêt
+            # DEBUT CAS demande quelles action effectuer sur la machine
+            # dans le cas 1 - Arrêt
                     # Fonction -> Arrêt
                 # dans le cas 2 - Redémarrage
                     # Fonction -> Redémarrage
@@ -189,10 +208,10 @@ Clear-Host
             
             # FIN CAS demande quelle action effectuer
             
-
+        }   
 
         # dans le cas 2 information
-
+    "2" {
             # DEBUT CAS demande quelles informations récupérer
             # dans le cas 1 information sur la machine
 
@@ -245,11 +264,16 @@ Clear-Host
                 # FIN CAS demande quel type d'info récupérer sur les logiciels
             
             # FIN CAS demande quelles informations récupérer
-
+        }
         # FIN CAS demande si on doit récupérer une information ou effectuer une action
-
+    }
     # FIN CAS accueil demande de sélectionner une cible , soit ordinateur, soit utilisateur   
+            }
 
+        }
+
+    }
+}
 
 # demande si on doit continuer la boucle ou sortir
 # FIN BOUCLE while
