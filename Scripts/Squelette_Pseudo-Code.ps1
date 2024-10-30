@@ -227,7 +227,7 @@ switch ($targetType) {
                     {
                     # dans le cas 1 - Version de l'OS
                     # Fonction -> Version de l'OS
-                    1{Get-WmiObject Win32_OperatingSystem | Select-Object Caption, Version
+                    1{Get-WmiObject Win32_OperatingSystem | Select-Object Caption, Version}
 
                 # dans le cas 2 - Mémoire RAM totale
                     # Fonction -> Mémoire RAM totale
