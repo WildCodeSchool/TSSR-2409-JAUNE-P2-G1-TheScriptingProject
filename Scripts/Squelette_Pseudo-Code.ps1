@@ -62,7 +62,7 @@ switch ($targetType) {
             
                 # dans le cas 2 gestion des groupe
                 "2" {
-                    # Demande quel action exécuter sur les groupes  
+# Demande quel action exécuter sur les groupes  
                     $groupManagement = Read-Host -Prompt "Quelles type d'actions effectuer sur les groupes ?`n1) Ajout à un groupe d'administration`n2) Ajout à un groupe local`n3) Sortie d’un groupe local`n"
                     Clear-Host
             
@@ -70,28 +70,80 @@ switch ($targetType) {
                     # dans le cas 1 - Ajout à un groupe d'administration
                     "1" {
                         # Fonction -> Ajout à un groupe d'administration
-                        Write-Host "Ajout à un groupe d'administration"
+                        $userName = Read-Host -prompt "Saisir le nom du compte à ajouter au groupe Administrateur"
+                        if ([string]::IsNullOrEmpty($userName)) { 
+                            Write-Output "Pas de nom d'utilisateur saisi"
+                        }
+                        else{
+                            try {
+                                Add-LocalGroupMember -Group "Administrateurs" -Member "$userName"
+                                Write-Output "Ajout de $userName au groupe d'administration"
+                            }
+                            catch {
+                                Write-Output "Erreur : impossible d'ajouter l'utilisateur $userName au groupe Administrateur."
+                            }
+                        }
                     }
                     # dans le cas 2 - Ajout à un groupe local
                     "2" {   
                         # Fonction -> Ajout à un groupe local
-                        Write-Host "Ajout à un groupe local"
+                        $userName = Read-Host -prompt "Saisir le nom du compte à ajouter à un groupe"
+                        Clear-Host
+                        if ([string]::IsNullOrEmpty($userName)) { 
+                            Write-Output "Pas de nom d'utilisateur saisi"
+                        }
+                        else{
+                            $groupName = Read-Host -prompt "Saisir le nom du groupe"
+                            Clear-Host
+                            if ([string]::IsNullOrEmpty($groupName)) {
+                                Write-Output "Pas de nom de groupe saisi"
+                            }
+                            else{
+                                try {
+                                    Add-LocalGroupMember -Group  "$groupName" -Member "$userName" 
+                                    Write-Output "Ajout de $userName au groupe $groupName"
+                                }
+                                catch {
+                                    Write-Output "Erreur : impossible d'ajouter l'utilisateur $userName au groupe $groupName."
+                                }
+                            }   
+                        }
                     }
                     # dans le cas 3 - Sortie d’un groupe local
                     "3" {    
                         # Fonction -> Sortie d’un groupe local
-                        Write-Host "Sortie d’un groupe local"
-                    }
+                        # Fonction -> Ajout à un groupe local
+                        $userName = Read-Host -prompt "Saisir le nom du compte à retirer du groupe"
+                        Clear-Host
+                        if ([string]::IsNullOrEmpty($userName)) { 
+                            Write-Output "Pas de nom d'utilisateur saisi"
+                        }
+                        else{
+                            $groupName = Read-Host -prompt "Saisir le nom du groupe"
+                            Clear-Host
+                            if ([string]::IsNullOrEmpty($groupName)) {
+                                    Write-Output "Pas de nom de groupe saisi"
+                            }
+                                try {
+                                    Remove-LocalGroupMember -Group "$groupName" -Member "$userName"
+                                    Write-Output "Suppression de $userName du groupe $groupName"
+                                }
+                                catch {
+                                    Write-Output "Erreur : impossible de retirer l'utilisateur $userName au groupe $groupName."
+                                }
+                            }   
+                        }
+                    
                     Default { 
-                        Write-Output "Erreur de saisie" 
-                    }
+                            Write-Output "Erreur de saisie" 
+                        }
                     # FIN CAS Demande quel action exécuter sur les groupes 
                     }
                 }
 
-                Default {
-                    Write-Output "Erreur de saisie" 
-                }
+            Default {
+                Write-Output "Erreur de saisie" 
+    }
         # FIN CAS demande quelles actions effectuer
     
             

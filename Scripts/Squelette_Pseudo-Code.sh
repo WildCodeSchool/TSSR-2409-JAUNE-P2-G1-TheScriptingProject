@@ -36,49 +36,21 @@ case $targetType in
             echo -e "Quelles type d'actions effectuer sur les comptes utilisateurs ? \n1) Création de compte utilisateur local \n2) Changement de mot de passe \n3) Suppression de compte utilisateur local  \n4) Désactivation de compte utilisateur local "               
             read userManagement
             clear
-                case $userManagement in              
-                # dans le cas 1 - Création de compte utilisateur local
-                1)
-                    # Fonction -> Création de compte utilisateur local
-                    echo "Création de compte utilisateur local"
-                    ;;
-                # dans le cas 2 - Changement de mot de passe
-                2) 
-                    # Fonction -> Changement de mot de passe
-                    echo "Changement de mot de passe"
-                    ;;
-                # dans le cas 3 - Suppression de compte utilisateur local 
-                3)
-                    # Fonction -> Suppression de compte utilisateur local 
-                    echo "Suppression de compte utilisateur local "
-                    ;;
-                # dans le cas 4 - Désactivation de compte utilisateur local
-                4)    
-                    # Fonction -> Désactivation de compte utilisateur local
-                    echo "Désactivation de compte utilisateur local"
-                    ;;
-
-                0)
-                    echo "retour au menu précédent"
-                    ;;
-                *)
-                    echo "Erreur de saisie" 
-                    ;;
-                # FIN CAS Demande quel action exécuter sur les comptes  
-                esac 
-                ;;
-        
-        # dans le cas 2 gestion des groupe
-        2)
-            # Demande quel action exécuter sur les groupes 
-            echo -e "Quelles type d'actions effectuer sur les groupes ?\n1) Ajout à un groupe d'administration \n2) Ajout à un groupe local \n3) Sortie d’un groupe local "
-            read groupManagement
-            clear
-                case $groupManagement in
+            case $groupManagement in
                 # dans le cas 1 - Ajout à un groupe d'administration
                 1)
                     # Fonction -> Ajout à un groupe d'administration
-                    echo "Ajout à un groupe d'administration"
+                    echo -e "Merci d'indiquer l'utilisateur à ajouter au groupe sudo"
+                    read userName
+                    clear
+
+                    if [ -z "$userName" ]
+                    then
+                        echo "Aucun compte saisi"
+                        exit 1
+                    else
+                        sudo usermod -aG sudo "$userName" && echo ""$userName" ajouté au groupe sudo" 
+                    fi
                     ;;
 
                 # dans le cas 2 - Ajout à un groupe local
@@ -86,20 +58,21 @@ case $targetType in
                     # Fonction -> Ajout à un groupe local
                     echo -e "Merci d'indiquer l'utilisateur à ajouter"
                     read userName
+                    clear
 
-                    if [ -z $userName] 
+                    if [ -z "$userName" ] 
                     then
                         echo "Aucun compte saisi"
-                        false
+                        exit 1
                     fi
 
                     echo -e "Merci d'indiquer le nom du groupes auquel l'utilisateur doit être ajouté. "
                     read groupName
 
-                    if [ -z $groupName] 
+                    if [ -z "$groupName" ] 
                     then
                         echo "Aucun groupe saisi"
-                        false
+                        exit 1
                     fi
                     sudo usermod -aG "$groupName" "$userName" && ""$userName" ajouté au groupe "$groupName""
                     ;;
@@ -107,11 +80,30 @@ case $targetType in
                 # dans le cas 3 - Sortie d’un groupe local
                 3)
                     # Fonction -> Sortie d’un groupe local
-                    echo "Sortie d’un groupe local"
+                    echo -e "Merci d'indiquer l'utilisateur à retirer"
+                    read userName
+                    clear
+
+                    if [ -z "$userName"] 
+                    then
+                        echo "Aucun compte saisi"
+                        exit 1
+                    fi
+
+                    echo -e "Merci d'indiquer le nom du groupe auquel l'utilisateur doit être retiré. "
+                    read groupName
+
+                    if [ -z "$groupName"] 
+                    then
+                        echo "Aucun groupe saisi"
+                        exit 1
+                    fi
+                    sudo userdel "$groupName" "$userName" && ""$userName" a été retiré du groupe "$groupName"" && echo "Sortie d’un groupe local"
                     ;;
 
                 *)
-                    echo "Erreur de saisie" 
+                    echo "Erreur de saisie"
+                    exit 1
                     ;;
                 # FIN CAS Demande quel action exécuter sur les groupes  
                 esac 
