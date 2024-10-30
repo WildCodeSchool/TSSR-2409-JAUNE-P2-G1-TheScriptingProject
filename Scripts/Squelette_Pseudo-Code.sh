@@ -122,44 +122,69 @@ case $targetType in
     2)
         # dans le cas 2 information
 
-            # demande quelle information récupérer
+           # demande quelle information récupérer
+           echo -e "Quelles type d'action souhaitez vous effectuer ?\n1) Actions sur l'information lié à la session \n2) Actions sur l'information lié au compte"
+            read infoType
+            clear
             # dans le cas 1 information lié à la session
-
+            case $infoType in
+            1)
                 # demande quelles info lié à la session récupérer 
+                echo -e "Quelles type d'action souhaitez vous effectuer ?\n1) Date de dernière connexion d’un utilisateur \n2) Date de dernière modification du mot de passe \n3) Liste des sessions ouvertes par l'utilisateur"
+                read infoUser
+                clear
                 # dans le cas 1 - Date de dernière connexion d’un utilisateur
+                case $infoUser in
+                1) 
                     # Fonction -> Date de dernière connexion d’un utilisateur
-
+                    echo "Date de dernière connexion de d’un utilisateur"
+                    ;;
                 # dans le cas 2 - Date de dernière modification du mot de passe
+                2)
                     # Fonction -> Date de dernière modification du mot de passe
-
+                    echo "Date de dernière modification du mot de passe"
+                    ;;
                 # dans le cas 3 - Liste des sessions ouvertes par l'utilisateur
+                3)
                     # Fonction -> Liste des sessions ouvertes par l'utilisateur
-
+                    echo "Liste des sessions ouvertes par l'utilisateur"
+                    ;;
                 # FIN CAS demande quelles info lié à la session récupérer
-
+                esac
+                ;;
             # dans le cas 2 information lié au compte
+            2)
 
                 # demande quelles info lié au compte récupérer
+                echo -e "Quelles type d'action souhaitez vous effectuer ?\n1) Groupe d’appartenance d’un utilisateur \n2) Historique des commandes exécutées par l'utilisateur \n3) Droits/permissions de l’utilisateur sur un dossier \n4) Droits/permissions de l’utilisateur sur un fichier"
+                read actiontype 
+                clear
+                case $actiontype in
                 # dans le cas 1 - Groupe d’appartenance d’un utilisateur
+                1)
                     # Fonction -> Groupe d’appartenance d’un utilisateur
-
+                    echo "Groupe d’appartenance d’un utilisateur"
+                    ;;
                 # dans le cas 2 - Historique des commandes exécutées par l'utilisateur
+                2)
                     # Fonction -> Historique des commandes exécutées par l'utilisateur
-
+                    echo "Historique des commandes exécutées par l'utilisateur"
+                    ;;
                 # dans le cas 3 - Droits/permissions de l’utilisateur sur un dossier
+                3)
                     # Fonction -> Droits/permissions de l’utilisateur sur un dossier
-
+                    echo "Droits/permissions de l’utilisateur sur un dossier"
+                    ;;
                 # dans le cas 4 - Droits/permissions de l’utilisateur sur un fichier
+                4)
                     # Fonction -> Droits/permissions de l’utilisateur sur un fichier
-                
+                    echo "Droits/permissions de l’utilisateur sur un fichier"
+                    ;;
                 # FIN CAS demande quelles info lié au compte récupérer
-            
+                esac
+                ;;
             # FIN CAS demande quelle information récupérer
-
-        # FIN CAS demande si on doit récupérer une information ou effectuer une action
-    ;;
-    esac
-;;
+            esac
 
     # dans le cas 2 ordinateur
 2)    
