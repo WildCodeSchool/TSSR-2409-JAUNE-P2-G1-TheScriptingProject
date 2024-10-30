@@ -146,25 +146,73 @@
                 case $actionhost in
 
                     # dans le cas 1 - Arrêt
-                    1) arret ;;
+                    1) 
+                    
                     # Fonction -> Arrêt
-                
+                        echo "Arrêt de la machine en cours..."
+                        sudo shutdown now 
+                        ;;
+                    
+
                     # dans le cas 2 - Redémarrage
-                    2) redemarrage ;;
+                    2)  
                         # Fonction -> Redémarrage
+                        echo "Redémarrage de la machine en cours..."
+                        sudo reboot
+                        ;;
 
                     # dans le cas 3 - Verrouillage
-                    3) verrouillage ;;
+                    3) 
                         # Fonction -> Verrouillage
+                        echo "Verrouillage de la machine..."
+                        gnome-screensaver-command -l || xdg-screensaver lock || echo "Commande de verrouillage indisponible"
+                        ;;
 
                     # dans le cas 4 - Mise-à-jour du système
-                    4) mise_a_jour ;;
+                    4)
                         # Fonction -> Mise-à-jour du système
-                    
+                        echo "Mise à jour de la machine en cours..."
+                        sudo apt update && sudo apt upgrade -y
+                        ;;
                     # dans le cas 5 - PMAD
-                    5) pmad ;;
+                    5) 
                         # Fonction -> PMAD
-                    *) echo "Action non valide pour la machine" ;;
+                        echo "Action PMAD en cours..."
+                        echo -e "Saisir le nom de l'hote à atteindre\n"
+                        read hostName
+                        clear 
+
+                        if [ -z $hostName ]
+                        then 
+                            echo "Aucun nom d'hôte saisi, arrêt du script"
+                            exit 1
+                        else
+                            echo -e "Saisir le nom d'utilisateur avec lequel se connecter à $hostName\n"
+                            read userName
+                            clear
+                        fi
+
+                        if [ -z $userName ]
+                        then
+                            echo -e "Aucun nom d'utilisateur saisi, arrêt du script\n"
+                            exit 1
+                        else
+                            echo -e "Êtes vous sur de vouloir vous connecter à $userName@$hostName ? o/n\n"
+                            read validation
+                            clear
+                        fi
+
+                        case $validation in
+                            o) ssh "$userName"@"$hostName" ;;
+
+                            *) echo "Validation refusé, arrêt du script" ;;
+                        esac
+
+                        ;;
+
+                    *) 
+                        echo "Action non valide pour la machine" 
+                        ;;
                     # FIN CAS demande quelles action effectuer sur la machine
                 esac
                 ;;
