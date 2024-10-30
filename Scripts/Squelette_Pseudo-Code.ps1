@@ -212,56 +212,81 @@ switch ($targetType) {
 
         # dans le cas 2 information
     "2" {
+             write-host " Quelle info sur la machine?`n[1] info_machine  `n [2]info_disque  `n [3]info_logiciel "
             # DEBUT CAS demande quelles informations récupérer
+            $choix=read-host -Prompt "entrer l'action souhaitée"
+            switch($choix)
+        
             # dans le cas 1 information sur la machine
-
+                {
                 # DEBUT CAS demande quel type d'info machine récupérer
-                # dans le cas 1 - Version de l'OS
+            1 {
+                write-host " quelle information?`n[1] Version os  `n[2] Ram totale  `n[3] Utilisation RAM  `n[4] Liste utiliqateur locaux `n[5] Sortie "
+                $choix_2=read-host -Prompt  "que voulez-vous faire?"
+                switch($choix_2)
+                    {
+                    # dans le cas 1 - Version de l'OS
                     # Fonction -> Version de l'OS
+                    1{Get-WmiObject Win32_OperatingSystem | Select-Object Caption, Version
 
                 # dans le cas 2 - Mémoire RAM totale
                     # Fonction -> Mémoire RAM totale
-
+                    2{Get-CimInstance win32_physicalmemory | Format-Table Capacity}
                 # dans le cas 3 - Utilisation de la RAM
                     # Fonction -> Utilisation de la RAM
-                
+                     3 {Get-ComputerInfo | Select-Object TotalPhysicalMemory, OsTotalVisibleMemory, OsFreePhysicalMemory}
                 # dans le cas 4 - Liste des utilisateurs locaux
                     # Fonction -> Liste des utilisateurs locaux
-                
+                    4 {Get-localuser}
                 # FIN CAS demande quel type d'info machine récupérer
-                
-
+                    }
+                }
             # dans le cas 3 information sur les disques
 
+            2 {
+                write-host " quelle information ?`n[1] Nombre de disque  `n[2] Partition  `n[3] Espace disque restant  `n[4] Nom et espacedisque d'un dossier `n[5] Liste des lecteurs montés`n[6] Sortie"
+                $choix_3=read-host -Prompt "que voulez-vous faire?"
+                switch($choix_3)
+                    {
                 # DEBUT CAS demande quel type d'info récuperer sur les disques
                 # dans le cas 1 - Nombre de disque
                     # Fonction -> Nombre de disque
-
+                    1 {Get-Disk}
                 # dans le cas 2 - Partition (nombre, nom, FS, taille) par disque
                     # Fonction -> Partition (nombre, nom, FS, taille) par disque
-
+                    2 {Get-Partition}
                 # dans le cas 3 - Espace disque restant par partition/volume
                     # Fonction -> Espace disque restant par partition/volume
-                
+                    3 {Get-Volume}
                 # dans le cas 4 - Nom et espace disque d'un dossier (nom de dossier demandé)
                     # Fonction -> Nom et espace disque d'un dossier (nom de dossier demandé)
-
+                    4 {get-content}
                 # dans le cas 5 - Liste des lecteurs monté (disque, CD, etc.)
                     # Fonction -> Liste des lecteurs monté (disque, CD, etc.)
-                
+                    5 { Get-psdrive }
                 # FIN CAS demande quel type d'info récuperer sur les disques
+                    }
+                }
 
-
+            3 {
+                write-host "[1] Liste des applications/paquets `n[2] Liste des services en cours d'éxécution`n[3] Sortie"
+                $choix_4=read-host -Prompt "que voulez-vous faire?"
+                switch($choix_4)
+                {
             # dans le cas 4 information sur les logiciels
 
                 # DEBUT CAS demande quel type d'info récupérer sur les logiciels
                 # dans le cas 1 - Liste des applications/paquets installées
                     # Fonction -> Liste des applications/paquets installées
-
+                    1 {Get-AppxPackage}
                 # dans le cas 2 - Liste des services en cours d'execution
                     # Fonction -> Liste des services en cours d'execution
-
+                    2 {Get-service}
+                }
                 # FIN CAS demande quel type d'info récupérer sur les logiciels
+                }
+            }
+            # FIN CAS demande quelles informations récupérer
             
             # FIN CAS demande quelles informations récupérer
         }
