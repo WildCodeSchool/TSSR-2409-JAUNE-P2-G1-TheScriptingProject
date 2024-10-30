@@ -92,7 +92,8 @@ case $targetType in
 
                     echo -e "Merci d'indiquer le nom du groupe auquel l'utilisateur doit être retiré. "
                     read groupName
-
+                    clear
+                    
                     if [ -z "$groupName"] 
                     then
                         echo "Aucun groupe saisi"
