@@ -18,6 +18,44 @@
                 # dans le cas 1 - Création de compte utilisateur local
                 
                     # Fonction -> Création de compte utilisateur local
+                    clear
+                    # Demande le nom d'utilisateur
+                    read -p "Entrez le nom d'utilisateur à créer: " username
+                    clear 
+                    # Vérifie si l'utilisateur existe déjà
+                    if id "$username" &>/dev/null; then
+                        echo "L'utilisateur '$username' existe déjà!"
+                        exit 1
+                    fi
+                    clear
+                    # Demande le mot de passe
+                    read -s -p "Entrez le mot de passe pour l'utilisateur '$username': " password
+                    echo
+                    clear 
+                    # Définit le mot de passe de l'utilisateur
+                    echo "$username:$password" | chpasswd
+                    # Création de l'utilisateur avec un répertoire personnel
+                    sudo useradd -m -s /bin/bash "$username"
+
+                    # Affiche un message de confirmation
+                    echo "L'utilisateur '$username' a été créé avec succès."
+                    exit 0
+                    clear
+                # dans le cas 2 - Changement de mot de passe
+
+                    # Fonction -> Changement de mot de passe
+                    # Demander le nom de l'utilisateur pour lequel changer le mot de passe
+                    read -p "Entrez le nom de l'utilisateur : " utilisateur
+
+                    # Vérifier si l'utilisateur existe
+                    if id "$utilisateur" &>/dev/null; then
+                    # Demander le nouveau mot de passe
+                        echo "Entrez le nouveau mot de passe pour $utilisateur : "
+                        sudo passwd "$utilisateur"
+                    else
+                        echo "L'utilisateur $utilisateur n'existe pas."
+                        exit 1
+                    fi
                     
                 # dans le cas 2 - Changement de mot de passe
                     # Fonction -> Changement de mot de passe
