@@ -163,31 +163,58 @@
                     Clear-Host
                     switch ($actionHost) {
                         # dans le cas 1 - Arrêt
-                        1 { Arrêt
-                        } 
+                        1 { 
                         # Fonction -> Arrêt
+                            Write-Output "Arrêt de la machine en cours..."
+                            Stop-Computer
+                        } 
                         # dans le cas 2 - Redémarrage
-                        2 { Redémarrage
-                        }
+                        2 {     
                         # Fonction -> Redémarrage
-
+                            Write-Output "Redémarrage de la machine en cours..."
+                            Restart-Computer 
+                        }
                         # dans le cas 3 - Verrouillage
-                        3 { Verrouillage
-                        }   
+                        3 {
                         # Fonction -> Verrouillage
-
+                            Write-Output "Verrouillage de la machine..."
+                            RUNDLL32.EXE user32.dll,LockWorkStation
+                        }
                         # dans le cas 4 - Mise-à-jour du système
-                        4 { Mise à jour
-                        }   
+                        4 { 
                         # Fonction -> Mise-à-jour du système
+                            Write-Output "Mise à jour de la machine en cours..."
 
+                            # Activer le module Windows Update s'il n'est pas déjà installé
+                            #Install-Module PSWindowsUpdate -Force -Scope CurrentUser
+                            # Définir la politique d'exécution
+                            #Set-ExecutionPolicy RemoteSigned -Scope "Process ou CurrentUser ou LocalMachine"
+                            # Importer le module
+                            #Import-Module PSWindowsUpdate
+
+                            # Rechercher les mises à jour disponibles
+                            Write-Output "Recherche des mises à jour disponibles..."
+                            $updates = Get-WindowsUpdate
+
+                            # Installer les mises à jour
+                            if ($updates) {
+                                Write-Output "Installation des mises à jour..."
+                                Install-WindowsUpdate -AcceptAll -AutoReboot
+                            } else {
+                                Write-Output "Aucune mise à jour disponible."
+                            }
+
+                            Write-Output "Mises à jour terminées."
+                        }
                         # dans le cas 5 - PMAD
-                        5 { PMAD
-                        }    
+                        5 {  
                         # Fonction -> PMAD
 
-                    # FIN CAS demande quelles action effectuer sur la machine
-                    Default { Write-Output "Action non valide pour la machine" }
+
+                        }
+
+                        # FIN CAS demande quelles action effectuer sur la machine
+                        Default { Write-Output "Action non valide pour la machine" }
                     }
                 }    
                 # dans la cas 2 gestion des fichiers 
