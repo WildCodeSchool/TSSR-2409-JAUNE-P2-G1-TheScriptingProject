@@ -121,9 +121,9 @@ case $targetType in
         ;;
     2)
         # dans le cas 2 information
-
-           # demande quelle information récupérer
-           echo -e "Quelles type d'action souhaitez vous effectuer ?\n1) Actions sur l'information lié à la session \n2) Actions sur l'information lié au compte"
+        
+            # demande quelle information récupérer
+            echo -e "Quelles type d'action souhaitez vous effectuer ?\n1) Actions sur l'information lié à la session \n2) Actions sur l'information lié au compte"
             read infoType
             clear
             # dans le cas 1 information lié à la session
@@ -185,6 +185,7 @@ case $targetType in
                 ;;
             # FIN CAS demande quelle information récupérer
             esac
+        # FIN CAS demande si on doit récupérer une information ou effectuer une action
 
     # dans le cas 2 ordinateur
 2)    
