@@ -180,8 +180,8 @@ case $targetType in
             esac
         # FIN CAS demande si on doit récupérer une information ou effectuer une action
 
-    # dans le cas 2 ordinateur
-2)    
+ 2)   # dans le cas 2 ordinateur
+    
     # DEBUT CAS demande demande si on doit récupérer une information ou effectuer une action
     # dans le cas 1 action
     echo -e "Que souhaitez vous faire ?\n1) Effectuer une action\n2) Récupérer une Information"
