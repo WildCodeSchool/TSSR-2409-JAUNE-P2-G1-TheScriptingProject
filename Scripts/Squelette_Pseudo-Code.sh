@@ -188,8 +188,12 @@ case $targetType in
     read dowhatType
     clear
     case $dowhatType in
-    1)
-            # DEBUT CAS demande quelle action effectuer
+    
+    1) echo -e "Que souhaitez vous faire?"\n1) Gestion de la machine\n2) Gestion des fichiers\n3) Gestion du pare-feu
+    read tartanpion
+    clear
+            
+            1)# DEBUT CAS demande quelle action effectuer
             # dans le cas 1 gestion de la machine
 
                 # DEBUT CAS demande quelles action effectuer sur la machine
@@ -234,7 +238,7 @@ case $targetType in
                 
                 # FIN CAS demande quelles action à effectuer sur le parefeu
 
-            # dans le cas 4 gestion des logiciels
+          2)  # dans le cas 4 gestion des logiciels
 
                 echo -e "Que voulez-vous faire ?\n1) Instalaltion de logiciel\n2) Désinstaller un logiciel\n3) Exécuter un script sur la machine\n0) Sortie"
                 read action_logiciel
@@ -345,7 +349,7 @@ case $targetType in
             2) service --status-all;;
             0) echo "Sortie"
                 exit ;;
-            *) Erreur de saisie ;;
+            *) echo "Erreur de saisie" ;;
                 # FIN CAS demande quel type d'info récupérer sur les logiciels
                 esac
             # FIN CAS demande quelles informations récupérer
