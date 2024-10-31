@@ -190,7 +190,8 @@ case $targetType in
     case $dowhatType in
     
     1) echo -e "Que souhaitez vous faire?"\n1) Gestion de la machine\n2) Gestion des fichiers\n3) Gestion du pare-feu
-    read tartanpion
+    read choix_gestion
+    case choix_gestion in
     clear
             
             1)# DEBUT CAS demande quelle action effectuer
@@ -269,6 +270,7 @@ case $targetType in
                 *) echo "Erreur de saisie pour le pare-feu" ;;
                 esac
                 ;;
+                esac
             # dans le cas 4 gestion des logiciels
             4)
                 echo -e "Que voulez-vous faire ?\n1) Instalaltion de logiciel\n2) Désinstaller un logiciel\n3) Exécuter un script sur la machine\n0) Sortie"
