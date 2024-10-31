@@ -194,9 +194,9 @@ case $targetType in
     case choix_gestion in
     clear
             
-            1)# DEBUT CAS demande quelle action effectuer
-             # dans le cas 1 gestion de la machine
-            1)  
+             # DEBUT CAS demande quelle action effectuer
+             1)# dans le cas 1 gestion de la machine
+              
                 echo -e "Quelle action sur la machine ? \n1) Arret de la machine  \n2) Redemarrage de la machine \n3) Verrouillage de la machine \n4) Mise à jour de la machine \n5) Pmad"
                 read actionhost
                 clear 
@@ -227,8 +227,8 @@ case $targetType in
                         echo "Action non valide pour la machine" 
                 esac
                 ;;
-            # dans la cas 2 gestion des fichiers 
-            2)
+            2) # dans la cas 2 gestion des fichiers 
+            
                 echo -e "Quelle action sur les fichiers ? \n1) Creation repertoire \n2) Modification repertoire \n3) Suppression repertoire"
                 read actionFile
                 clear 
@@ -251,8 +251,8 @@ case $targetType in
                 *) echo "Erreur de saisie pour les fichiers" ;;
                 esac
                 ;;
-            # dans le cas 3 gestion du parefeu
-            3)    
+             3) # dans le cas 3 gestion du parefeu
+                
                 echo -e "Quelle action sur le pare-feu ? \n1) Activation du pare feu \n2) Désactivation du pare feu"
                 read actionFirewall
                 clear
@@ -270,9 +270,10 @@ case $targetType in
                 *) echo "Erreur de saisie pour le pare-feu" ;;
                 esac
                 ;;
-                esac
-            # dans le cas 4 gestion des logiciels
-            4)
+            
+           
+            4) # dans le cas 4 gestion des logiciels
+            
                 echo -e "Que voulez-vous faire ?\n1) Instalaltion de logiciel\n2) Désinstaller un logiciel\n3) Exécuter un script sur la machine\n0) Sortie"
                 read action_logiciel
                 clear
@@ -294,10 +295,10 @@ case $targetType in
                     ;;
                 # FIN CAS demande quelles actions à effectuer sur les logiciel
                 0) exit ;;
-                esac 
+                esac ;;
             # FIN CAS demande quelle action effectuer
-            
-    ;;
+                esac ;;
+   
 
         # dans le cas 2 information
     2)
