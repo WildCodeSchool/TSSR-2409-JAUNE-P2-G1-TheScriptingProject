@@ -194,52 +194,83 @@ case $targetType in
     clear
             
             1)# DEBUT CAS demande quelle action effectuer
-            # dans le cas 1 gestion de la machine
-
+             # dans le cas 1 gestion de la machine
+            1)  
+                echo -e "Quelle action sur la machine ? \n1) Arret de la machine  \n2) Redemarrage de la machine \n3) Verrouillage de la machine \n4) Mise à jour de la machine \n5) Pmad"
+                read actionhost
+                clear 
                 # DEBUT CAS demande quelles action effectuer sur la machine
+                case $actionhost in
                 # dans le cas 1 - Arrêt
+                1)
                     # Fonction -> Arrêt
                 # dans le cas 2 - Redémarrage
+                2)
                     # Fonction -> Redémarrage
 
                 # dans le cas 3 - Verrouillage
+                3)
                     # Fonction -> Verrouillage
 
                 # dans le cas 4 - Mise-à-jour du système
+                4)
                     # Fonction -> Mise-à-jour du système
 
                 # dans le cas 5 - PMAD
+                5)
                     # Fonction -> PMAD
-
+                
+                       
                 # FIN CAS demande quelles action effectuer sur la machine
-
+                *) 
+                        echo "Action non valide pour la machine" 
+                esac
+                ;;
             # dans la cas 2 gestion des fichiers 
-
+            2)
+                echo -e "Quelle action sur les fichiers ? \n1) Creation repertoire \n2) Modification repertoire \n3) Suppression repertoire"
+                read actionFile
+                clear 
                 # DEBUT CAS demande quelles actions effectuer sur les fichiers
+                case $actionFile in
+                
                 # dans le cas 1 - Création de répertoire
+                1) creation_repertoire ;;
                     # Fonction -> Création de répertoire
 
                 # dans le cas 2 - Modification de répertoire
+                2) modification_repertoire ;;
                     # Fonction -> Modification de répertoire
 
                 # dans le cas 3 - Suppression de répertoire
+                3) suppression_repertoire ;;
                     # Fonction -> Suppression de répertoire
-                
+                    
                 # FIN CAS demande quelles actions effectuer sur les fichiers
-
+                *) echo "Erreur de saisie pour les fichiers" ;;
+                esac
+                ;;
             # dans le cas 3 gestion du parefeu
-
+            3)    
+                echo -e "Quelle action sur le pare-feu ? \n1) Activation du pare feu \n2) Désactivation du pare feu"
+                read actionFirewall
+                clear
                 # DEBUT CAS demande quelles action à effectuer sur le parefeu
+                case $actionFirewall in
                 # dans le cas 1 - Activation du pare-feu
+                1) activation_pare_feu ;;
                     # Fonction -> Activation du pare-feu
 
                 # dans le cas 2 - Désactivation du pare-feu
+                2) desactivation_pare_feu ;;
                     # Fonction -> Désactivation du pare-feu
-                
+                    
                 # FIN CAS demande quelles action à effectuer sur le parefeu
-
-          2)  # dans le cas 4 gestion des logiciels
-
+                *) echo "Erreur de saisie pour le pare-feu" ;;
+                esac
+                ;;
+            # dans le cas 4 gestion des logiciels
+            4)
                 echo -e "Que voulez-vous faire ?\n1) Instalaltion de logiciel\n2) Désinstaller un logiciel\n3) Exécuter un script sur la machine\n0) Sortie"
                 read action_logiciel
                 clear
