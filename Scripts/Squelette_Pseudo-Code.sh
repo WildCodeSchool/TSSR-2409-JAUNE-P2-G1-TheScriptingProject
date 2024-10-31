@@ -4,75 +4,6 @@
 # Fonctions ()
 # Fonctions ()
 # ...
-
-
-# DEBUT BOUCLE while 
-
-    # DEBUT CAS accueil demande de sélectionner une cible , soit ordinateur, soit utilisateur
-    # dans le cas 1 utilisteur
-    
-        # DEBUT CAS demande si on doit récupérer une information ou effectuer une action
-        # dans le cas 1 action sur les groupes ou user
-
-            # DEBUT CAS demande quelles actions effectuer
-            # dans le cas 1 gestion des comptes
-            
-                # DEBUT CAS Demande quel action exécuter sur les comptes    
-                # dans le cas 1 - Création de compte utilisateur local
-                
-                    # Fonction -> Création de compte utilisateur local
-                    clear
-                    # Demande le nom d'utilisateur
-                    read -p "Entrez le nom d'utilisateur à créer: " username
-                    clear 
-                    # Vérifie si l'utilisateur existe déjà
-                    if id "$username" &>/dev/null; then
-                        echo "L'utilisateur '$username' existe déjà!"
-                        exit 1
-                    fi
-                    clear
-                    # Demande le mot de passe
-                    read -s -p "Entrez le mot de passe pour l'utilisateur '$username': " password
-                    echo
-                    clear 
-                    # Définit le mot de passe de l'utilisateur
-                    echo "$username:$password" | chpasswd
-                    # Création de l'utilisateur avec un répertoire personnel
-                    sudo useradd -m -s /bin/bash "$username"
-
-                    # Affiche un message de confirmation
-                    echo "L'utilisateur '$username' a été créé avec succès."
-                    exit 0
-                    clear
-                # dans le cas 2 - Changement de mot de passe
-
-                    # Fonction -> Changement de mot de passe
-                    # Demander le nom de l'utilisateur pour lequel changer le mot de passe
-                    read -p "Entrez le nom de l'utilisateur : " utilisateur
-
-                    # Vérifier si l'utilisateur existe
-                    if id "$utilisateur" &>/dev/null; then
-                    # Demander le nouveau mot de passe
-                        echo "Entrez le nouveau mot de passe pour $utilisateur : "
-                        sudo passwd "$utilisateur"
-                    else
-                        echo "L'utilisateur $utilisateur n'existe pas."
-                        exit 1
-                    fi
-                    
-                # dans le cas 2 - Changement de mot de passe
-                    # Fonction -> Changement de mot de passe
-
-                # dans le cas 3 - Suppression de compte utilisateur local 
-                    # Fonction -> Suppression de compte utilisateur local 
-
-                # dans le cas 4 - Désactivation de compte utilisateur local
-                    # Fonction -> Désactivation de compte utilisateur local
-                
-                # FIN CAS Demande quel action exécuter sur les comptes  
-
-
-
 clear
 # DEBUT BOUCLE while 
 
@@ -98,10 +29,58 @@ case $targetType in
         
         case $actionType in
         1)
+            echo -e "Quelles type d'actions effectuer sur les comptes utilisateurs ? \n1) Création de compte utilisateur local \n2) Changement de mot de passe \n3) Suppression de compte utilisateur local  \n4) Désactivation de compte utilisateur local "               
+            read userManagement
+            clear
+            
+            case $userManagement in
+                # Demande le nom d'utilisateur
+                1 )# Fonction -> Création de compte utilisateur local
+                    read -p "Entrez le nom d'utilisateur à créer: " username
+                    clear 
+                    # Vérifie si l'utilisateur existe déjà
+                    if id "$username" &>/dev/null; then
+                        echo "L'utilisateur '$username' existe déjà!"
+                    exit 1
+                    fi
+                    clear
+                    # Demande le mot de passe
+                    read -s -p "Entrez le mot de passe pour l'utilisateur '$username': " password
+                    clear 
+                    # Définit le mot de passe de l'utilisateur
+                    echo "$username:$password" | chpasswd
+                    # Création de l'utilisateur avec un répertoire personnel
+                    sudo useradd -m -s /bin/bash "$username"
+
+                    # Affiche un message de confirmation
+                    echo "L'utilisateur '$username' a été créé avec succès."
+                    exit 0
+                    clear
+                    ;;
+                
+                2)  # dans le cas 2 - Changement de mot de passe
+                    # Fonction -> Changement de mot de passe
+                    # Demander le nom de l'utilisateur pour lequel changer le mot de passe
+                    read -p "Entrez le nom de l'utilisateur : " utilisateur
+
+                    # Vérifier si l'utilisateur existe
+                    if id "$utilisateur" &>/dev/null; then
+                    # Demander le nouveau mot de passe
+                        echo "Entrez le nouveau mot de passe pour $utilisateur : "
+                        sudo passwd "$utilisateur"
+                    else
+                        echo "L'utilisateur $utilisateur n'existe pas."
+                        exit 1
+                    fi
+                    ;;
+                esac
+                
+        2)
             # DEBUT CAS Demande quel action exécuter sur les comptes
             echo -e "Quelles type d'actions effectuer sur les comptes utilisateurs ? \n1) Création de compte utilisateur local \n2) Changement de mot de passe \n3) Suppression de compte utilisateur local  \n4) Désactivation de compte utilisateur local "               
             read userManagement
             clear
+            
             case $groupManagement in
                 # dans le cas 1 - Ajout à un groupe d'administration
                 1)
