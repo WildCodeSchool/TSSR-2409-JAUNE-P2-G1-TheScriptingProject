@@ -1,7 +1,10 @@
+#!/bin/bash
+
 # Fonctions ()
 # Fonctions ()
 # Fonctions ()
 # ...
+
 
 # DEBUT BOUCLE while 
 
@@ -69,23 +72,113 @@
                 # FIN CAS Demande quel action exécuter sur les comptes  
 
 
-            # dans le cas 2 gestion des groupe
 
-                # Demande quel action exécuter sur les groupes  
+clear
+# DEBUT BOUCLE while 
+
+# DEBUT CAS accueil demande de sélectionner une cible , soit ordinateur, soit utilisateur
+# dans le cas 1 utilisteur
+echo -e "Que souhaitez vous atteindre?\n1) Utilisateur\n2) Ordinateur\n"
+read targetType
+clear
+case $targetType in
+1)
+    # DEBUT CAS demande si on doit récupérer une information ou effectuer une action
+    # dans le cas 1 action
+    echo -e "Que souhaitez vous faire ?\n1) Effectuer une action\n2) Récupérer une Information"
+    read dowhatType
+    clear
+    case $dowhatType in
+    1)
+        # DEBUT CAS demande quelles actions effectuer
+        # dans le cas 1 gestion des comptes
+        echo -e "Quelles type d'action souhaitez vous effectuer ?\n1) Actions sur les comptes \n2) Actions sur les groupes"
+        read actionType
+        clear
+        
+        case $actionType in
+        1)
+            # DEBUT CAS Demande quel action exécuter sur les comptes
+            echo -e "Quelles type d'actions effectuer sur les comptes utilisateurs ? \n1) Création de compte utilisateur local \n2) Changement de mot de passe \n3) Suppression de compte utilisateur local  \n4) Désactivation de compte utilisateur local "               
+            read userManagement
+            clear
+            case $groupManagement in
                 # dans le cas 1 - Ajout à un groupe d'administration
+                1)
                     # Fonction -> Ajout à un groupe d'administration
+                    echo -e "Merci d'indiquer l'utilisateur à ajouter au groupe sudo"
+                    read userName
+                    clear
+
+                    if [ -z "$userName" ]
+                    then
+                        echo "Aucun compte saisi"
+                        exit 1
+                    else
+                        sudo usermod -aG sudo "$userName" && echo ""$userName" ajouté au groupe sudo" 
+                    fi
+                    ;;
 
                 # dans le cas 2 - Ajout à un groupe local
+                2)
                     # Fonction -> Ajout à un groupe local
+                    echo -e "Merci d'indiquer l'utilisateur à ajouter"
+                    read userName
+                    clear
+
+                    if [ -z "$userName" ] 
+                    then
+                        echo "Aucun compte saisi"
+                        exit 1
+                    fi
+
+                    echo -e "Merci d'indiquer le nom du groupes auquel l'utilisateur doit être ajouté. "
+                    read groupName
+
+                    if [ -z "$groupName" ] 
+                    then
+                        echo "Aucun groupe saisi"
+                        exit 1
+                    fi
+                    sudo usermod -aG "$groupName" "$userName" && ""$userName" ajouté au groupe "$groupName""
+                    ;;
 
                 # dans le cas 3 - Sortie d’un groupe local
+                3)
                     # Fonction -> Sortie d’un groupe local
+                    echo -e "Merci d'indiquer l'utilisateur à retirer"
+                    read userName
+                    clear
 
+                    if [ -z "$userName"] 
+                    then
+                        echo "Aucun compte saisi"
+                        exit 1
+                    fi
+
+                    echo -e "Merci d'indiquer le nom du groupe auquel l'utilisateur doit être retiré. "
+                    read groupName
+                    clear
+                    
+                    if [ -z "$groupName"] 
+                    then
+                        echo "Aucun groupe saisi"
+                        exit 1
+                    fi
+                    sudo userdel "$groupName" "$userName" && ""$userName" a été retiré du groupe "$groupName"" && echo "Sortie d’un groupe local"
+                    ;;
+
+                *)
+                    echo "Erreur de saisie"
+                    exit 1
+                    ;;
                 # FIN CAS Demande quel action exécuter sur les groupes  
-            
-            # FIN CAS demande quelles actions effectuer
-
-
+                esac 
+                ;;
+        # FIN CAS demande quelles actions effectuer
+        esac 
+        ;;
+    2)
         # dans le cas 2 information
 
             # demande quelle information récupérer
@@ -102,34 +195,66 @@
                     # Fonction -> Liste des sessions ouvertes par l'utilisateur
 
                 # FIN CAS demande quelles info lié à la session récupérer
-
+                3)
             # dans le cas 2 information lié au compte
-
-                # demande quelles info lié au compte récupérer
-                # dans le cas 1 - Groupe d’appartenance d’un utilisateur
+                echo -e "Quel information souhaitez-vous?\n1) Groupe d'appartenance d'un utilisateur\n2) Historique des commandes exécutées par l'utilisateur\n3) Droits/permissions de l'utilisateur sur un dossier\n4) Droits/permission de l'utilisateur sur un fichier\n0) Sortie "
+                read info_perso
+                clear
+                case $info_perso in
                     # Fonction -> Groupe d’appartenance d’un utilisateur
-
-                # dans le cas 2 - Historique des commandes exécutées par l'utilisateur
+                1) read -p "Quel utilisateur ?" utilisateur_cible
+                    cat /etc/group | grep $utilisateur_cible ;;
+                # dans le cas 2
                     # Fonction -> Historique des commandes exécutées par l'utilisateur
-
-                # dans le cas 3 - Droits/permissions de l’utilisateur sur un dossier
+                2) shopt -s histappend
+                    source ~/.bashrc
+                    history;;
+                # dans le cas 3
                     # Fonction -> Droits/permissions de l’utilisateur sur un dossier
-
-                # dans le cas 4 - Droits/permissions de l’utilisateur sur un fichier
-                    # Fonction -> Droits/permissions de l’utilisateur sur un fichier
+                3) read -p "quelle nom de dossier? " nom_dossier
+                    if [ -d "$nom_dossier" ]
+                    then
+                        whereis $nom_dossier | ls -l
+                    else 
+                        echo "Le nom de dossier n'existe pas"
+                        exit 1
+                    fi ;;
                 
+                # dans le cas 4
+                    # Fonction -> Droits/permissions de l’utilisateur sur un fichier
+                4) read -p "quelle nom de fichier? " nom_fichier
+                    if [ -f "$nom_fichier" ]
+                    then
+                        whereis $nom_fichier | ls -l
+                    else 
+                        echo "Le nom de fichier n'existe pas"
+                        exit 1
+                    fi ;;
                 # FIN CAS demande quelles info lié au compte récupérer
-            
+                0) exit 0 ;;
             # FIN CAS demande quelle information récupérer
+                esac 
+        # FIN CAS demande un type d'action
+            
 
         # FIN CAS demande si on doit récupérer une information ou effectuer une action
-
+    ;;
+    esac
+;;
 
     # dans le cas 2 ordinateur
 
-        # DEBUT CAS demande demande si on doit récupérer une information ou effectuer une action
-         # dans le cas 1 action
-            clear 
+
+
+2)    
+    # DEBUT CAS demande demande si on doit récupérer une information ou effectuer une action
+    # dans le cas 1 action
+    echo -e "Que souhaitez vous faire ?\n1) Effectuer une action\n2) Récupérer une Information"
+    read dowhatType
+    clear
+    case $dowhatType in
+    1)
+
             # DEBUT CAS demande quelle action effectuer
             echo -e "Quelles type d'action souhaitez vous effectuer ? \n1) Actions sur la machine \n2) Actions sur les fichiers \n3) Actions sur le parefeu  \n4) Action sur les logiciels"
             read actionType
@@ -262,94 +387,133 @@
 
             
             # dans le cas 4 gestion des logiciels
-            4)
-                echo -e "Quelle action sur les logiciels ? \n1) Installation du logiciel  \n2) Désinstallation du logiciel  \n3) Exécution du logiciel"
-                read actionSoftware
+
+
+                echo -e "Que voulez-vous faire ?\n1) Instalaltion de logiciel\n2) Désinstaller un logiciel\n3) Exécuter un script sur la machine\n0) Sortie"
+                read action_logiciel
                 clear
-                # DEBUT CAS demande quelles actions à effectuer sur les logiciel 
-                case $actionSoftware in
-                # dans le cas 1 - Installation de logiciel
-                1) installation_logiciel ;;
+                case $action_logiciel in
+                # dans le cas 1
                     # Fonction -> Installation de logiciel
-                
-                # dans le cas 2 - Désinstallation de logiciel
-                2) desinstallation_logiciel ;;
+                1) read -p "Quel est le nom du logiciel? " nom_logiciel_install
+                    apt install $nom_logiciel_install ;;
+                # dans le cas 2 
                     # Fonction -> Désinstallation de logiciel
-
-                # dans le cas 3 - Exécution de script sur la machine distante
-                3) Exécution_du_logiciel ;;
+                2) read -p "Quel est le nom du logiciel? " nom_logiciel_uninstall
+                    apt remove $nom_logiciel_uninstall;;
+                # dans le cas 3
                     # Fonction -> Exécution de script sur la machine distante
-
-                *) echo "Erreur de saisie pour les logiciels" ;;
-                esac
-                ;;
-             *) echo "Erreur de saisie sur les actions"
+                3) read -p "Inserez une adresse ip" ip_valeur
+                    systemctl enable sshd
+                    ssh user@$ip_valeur
+                    
+                    ;;
                 # FIN CAS demande quelles actions à effectuer sur les logiciel
-            esac
+                0) exit ;;
+                esac 
+
             # FIN CAS demande quelle action effectuer
             
-
+    ;;
 
         # dans le cas 2 information
-
-            # DEBUT CAS demande quelles informations récupérer
+    2)
+        echo -e "Quelles choix de menu?\n1) information machine \n2) information disques \n3) Information logiciel"
+        read choix_menu
+        clear
+        case $choix_menu in
             # dans le cas 1 information sur la machine
+        1)
+         # DEBUT CAS demande quel type d'info machine récupérer
+            echo -e "Que faire?\n1) version de l'os \n2) Mémoire RAM totale \n3) Utilisation de la RAM \n4) Utilisateurs locaux \n0) Sortie"
+            read actionMachine
+            clear
 
-                # DEBUT CAS demande quel type d'info machine récupérer
-                # dans le cas 1 - Version de l'OS
-                    # Fonction -> Version de l'OS
-
-                # dans le cas 2 - Mémoire RAM totale
-                    # Fonction -> Mémoire RAM totale
-
-                # dans le cas 3 - Utilisation de la RAM
-                    # Fonction -> Utilisation de la RAM
-                
-                # dans le cas 4 - Liste des utilisateurs locaux
-                    # Fonction -> Liste des utilisateurs locaux
-                
-                # FIN CAS demande quel type d'info machine récupérer
-                
+            case $actionMachine in
+            # dans le cas 1 - Version de l'OS
+             # Fonction -> Version de l'OS
+            1) uname -r ;;
+            # dans le cas 2 - Mémoire RAM totale
+            # Fonction -> Mémoire RAM totale
+            2) free -h ;;
+            # dans le cas 3 - Utilisation de la RAM
+            # Fonction -> Utilisation de la RAM
+            3) free -h | awk '{print $2 "----- "}' ;;
+            # dans le cas 4 - Liste des utilisateurs locaux
+            # Fonction -> Liste des utilisateurs locaux
+            4) cat /etc/passwd ;;
+            # FIN CAS demande quel type d'info machine récupérer
+            0) echo "Sortie"
+                 exit ;;
+            *) echo "Erreur de saisie" ;;
+                 esac ;;
 
             # dans le cas 3 information sur les disques
-
+        2)
+               
                 # DEBUT CAS demande quel type d'info récuperer sur les disques
-                # dans le cas 1 - Nombre de disque
-                    # Fonction -> Nombre de disque
-
+            echo -e "\n1) Nombre de disque \n2) Détail partition \n3) Espace restant \n4) Détails dossier \n5) Liste lecteur \n0) Sortie"
+            read actionHost
+            clear
+            case $actionHost in
+                 # dans le cas 1 - Nombre de disque
+                # Fonction -> Nombre de disque
+                1) sudo lshw -class disk ;;
                 # dans le cas 2 - Partition (nombre, nom, FS, taille) par disque
-                    # Fonction -> Partition (nombre, nom, FS, taille) par disque
-
+                # Fonction -> Partition (nombre, nom, FS, taille) par disque
+                2) df -h ;;
                 # dans le cas 3 - Espace disque restant par partition/volume
-                    # Fonction -> Espace disque restant par partition/volume
-                
+                # Fonction -> Espace disque restant par partition/volume
+                3) df -h | awk '{print $1"-------"$4}' ;;
                 # dans le cas 4 - Nom et espace disque d'un dossier (nom de dossier demandé)
-                    # Fonction -> Nom et espace disque d'un dossier (nom de dossier demandé)
-
+                # Fonction -> Nom et espace disque d'un dossier (nom de dossier demandé)
+                4) read -p "quel nom de dossier?" choix_1
+                    if [ -d "$choix_1" ]
+                    then
+                        find . -type d -name $choix_1 | du -hs
+                    else 
+                        echo "Le nom de dossier n'existe pas"
+                    exit 1
+                    fi ;;
                 # dans le cas 5 - Liste des lecteurs monté (disque, CD, etc.)
-                    # Fonction -> Liste des lecteurs monté (disque, CD, etc.)
-                
+                # Fonction -> Liste des lecteurs monté (disque, CD, etc.)
+                5) lsblk ;;
                 # FIN CAS demande quel type d'info récuperer sur les disques
-
+                0) echo "Sortie" 
+                    exit ;;
+                *) echo "Erreur de saisie";;
+            esac ;;
 
             # dans le cas 4 information sur les logiciels
-
+        3)
                 # DEBUT CAS demande quel type d'info récupérer sur les logiciels
-                # dans le cas 1 - Liste des applications/paquets installées
-                    # Fonction -> Liste des applications/paquets installées
-
-                # dans le cas 2 - Liste des services en cours d'execution
-                    # Fonction -> Liste des services en cours d'execution
-
+        echo -e "Quells informations à récupérer? \n1) Liste des applications/paquets \n2) Liste des services en cours d'écéxution \0) sortie"
+        read infoHost
+        clear
+        case $infoHost in
+            # dans le cas 1 - Liste des applications/paquets installées
+            # Fonction -> Liste des applications/paquets installées
+            1) dpkg --list ;;
+            # dans le cas 2 - Liste des services en cours d'execution
+            # Fonction -> Liste des services en cours d'execution
+            2) service --status-all;;
+            0) echo "Sortie"
+                exit ;;
+            *) Erreur de saisie ;;
                 # FIN CAS demande quel type d'info récupérer sur les logiciels
-            
+                esac
             # FIN CAS demande quelles informations récupérer
-
-        # FIN CAS demande si on doit récupérer une information ou effectuer une action
-
+        ;;
+        esac
+        # FIN CAS demande si on doit récupérer une information ou effectuer une actionn
+    ;;
+    esac
+        
+;;
+esac
     # FIN CAS accueil demande de sélectionner une cible , soit ordinateur, soit utilisateur   
+
 
 
 # demande si on doit continuer la boucle ou sortir
 # FIN BOUCLE while
-
