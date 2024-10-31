@@ -222,64 +222,119 @@ switch ($targetType) {
     switch ($infoactionType) {
     "1" {
         # DEBUT CAS demande quelle action effectuer
+        Write-Output "Quel type d'action souhaitez-vous effectuer ? `n1) Actions sur la machine `n2) Actions sur les fichiers `n3) Actions sur le pare-feu `n4) Actions sur les logiciels"
+            $dowhatType = Read-Host "Veuillez entrer le numéro de l'action souhaitée"
+            Clear-Host
         # dans le cas 1 gestion de la machine
-
+        switch ($dowhatType) { 
             # DEBUT CAS demande quelles action effectuer sur la machine
-            # dans le cas 1 - Arrêt
+            1 {
+                Write-Output "Quelle action sur la machine ? `n1) Arrêt de la machine `n2) Redémarrage de la machine `n3) Verrouillage de la machine `n4) Mise à jour de la machine `n5) Assistance à distance (PMAD)"
+                $actionHost = Read-Host "Veuillez entrer le numéro de l'action souhaitée"
+                Clear-Host
+                switch ($actionHost) {
+                # dans le cas 1 - Arrêt
+                1 { 
                     # Fonction -> Arrêt
+                    Write-Output "Arrêt de la machine en cours..."
+                        } 
                 # dans le cas 2 - Redémarrage
+                2 {  
                     # Fonction -> Redémarrage
-
+                    Write-Output "Redémarrage de la machine en cours..."
+                } 
                 # dans le cas 3 - Verrouillage
+                3 {
                     # Fonction -> Verrouillage
-
+                    Write-Output "Verrouillage de la machine..."
+                 }   
                 # dans le cas 4 - Mise-à-jour du système
+                4 { 
                     # Fonction -> Mise-à-jour du système
+                    Write-Output "Mise à jour de la machine en cours..."
 
                 # dans le cas 5 - PMAD
+                5 { 
                     # Fonction -> PMAD
-
+                    Write-Output "PMAD en cours..."
+                }
                 # FIN CAS demande quelles action effectuer sur la machine
-
+                Default { Write-Output "Action non valide pour la machine" }
+            }
             # dans la cas 2 gestion des fichiers 
-
+            2 {
+                Write-Output "Quelle action sur les fichiers ? `n1) Création de répertoire `n2) Modification de répertoire `n3) Suppression de répertoire"
+                $actionFile = Read-Host "Veuillez entrer le numéro de l'action souhaitée"
+                Clear-Host
                 # DEBUT CAS demande quelles actions effectuer sur les fichiers
+                switch ($actionFile) {
                 # dans le cas 1 - Création de répertoire
+                1 { création 
                     # Fonction -> Création de répertoire
-
+                    Write-Output "Création de répertoire en cours..."
+                }
                 # dans le cas 2 - Modification de répertoire
+                2 { Modification 
                     # Fonction -> Modification de répertoire
-
+                    Write-Output "Modification de répertoire en cours..."
+                }
                 # dans le cas 3 - Suppression de répertoire
+                3 { suppression
                     # Fonction -> Suppression de répertoire
-                
+                    Write-Output "Suppression de répertoire en cours..."
+                }
                 # FIN CAS demande quelles actions effectuer sur les fichiers
+                 Default { Write-Output "Erreur de saisie pour les fichiers"
+                }
+            }   
 
             # dans le cas 3 gestion du parefeu
-
+            3 {
+                Write-Output "Quelle action sur le pare-feu ? `n1) Activation du pare-feu `n2) Désactivation du pare-feu"
+                $actionFirewall = Read-Host "Veuillez entrer le numéro de l'action souhaitée"
+                Clear-Host
                 # DEBUT CAS demande quelles action à effectuer sur le parefeu
+                switch ($actionFirewall) {
                 # dans le cas 1 - Activation du pare-feu
+                1 {
                     # Fonction -> Activation du pare-feu
-
+                    Write-Output "Activation des pares feu..."
+                }
                 # dans le cas 2 - Désactivation du pare-feu
+                2 {
                     # Fonction -> Désactivation du pare-feu
-                
+                    Write-Output "Désactivation des pares feu..."
+                }
                 # FIN CAS demande quelles action à effectuer sur le parefeu
-
+                Default { Write-Output "Erreur de saisie pour le pare-feu" 
+                }
+            }  
             # dans le cas 4 gestion des logiciels
-
-                # DEBUT CAS demande quelles actions à effectuer sur les logiciel 
+            4 {
+                Write-Output "Quelle action sur les logiciels ? `n1) Installation d'un logiciel `n2) Désinstallation d'un logiciel `n3) Exécution d'un logiciel"
+                $actionSoftware = Read-Host "Veuillez entrer le numéro de l'action souhaitée"
+                Clear-Host
+                # DEBUT CAS demande quelles actions à effectuer sur les logiciel
+                switch ($actionSoftware) {
                 # dans le cas 1 - Installation de logiciel
+                1 {
                     # Fonction -> Installation de logiciel
-
+                    Write-Output "Installation de logiciel..."
+                }
                 # dans le cas 2 - Désinstallation de logiciel
+                2 {
                     # Fonction -> Désinstallation de logiciel
-
+                    Write-Output "Désinstallationde logiciel..."
+                }
                 # dans le cas 3 - Exécution de script sur la machine distante
+                3 {
                     # Fonction -> Exécution de script sur la machine distante
-
+                    Write-Output "Exécution de script sur la machine distante..."
+                }
                 # FIN CAS demande quelles actions à effectuer sur les logiciel
-            
+                Default { Write-Output "Erreur de saisie pour les logiciels" 
+                }
+            }
             # FIN CAS demande quelle action effectuer
             
         }   
