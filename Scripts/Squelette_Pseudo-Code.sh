@@ -129,7 +129,7 @@ case $targetType in
                     # Fonction -> Liste des sessions ouvertes par l'utilisateur
 
                 # FIN CAS demande quelles info lié à la session récupérer
-
+                3)
             # dans le cas 2 information lié au compte
                 echo -e "Quel information souhaitez-vous?\n1) Groupe d'appartenance d'un utilisateur\n2) Historique des commandes exécutées par l'utilisateur\n3) Droits/permissions de l'utilisateur sur un dossier\n4) Droits/permission de l'utilisateur sur un fichier\n0) Sortie "
                 read info_perso
@@ -232,19 +232,30 @@ case $targetType in
 
             # dans le cas 4 gestion des logiciels
 
-                # DEBUT CAS demande quelles actions à effectuer sur les logiciel 
-                # dans le cas 1 - Installation de logiciel
+                echo -e "Que voulez-vous faire ?\n1) Instalaltion de logiciel\n2) Désinstaller un logiciel\n3) Exécuter un script sur la machine\n0) Sortie"
+                read action_logiciel
+                clear
+                case $action_logiciel in
+                # dans le cas 1
                     # Fonction -> Installation de logiciel
-
-                # dans le cas 2 - Désinstallation de logiciel
+                1) read -p "Quel est le nom du logiciel? " nom_logiciel_install
+                    apt install $nom_logiciel_install ;;
+                # dans le cas 2 
                     # Fonction -> Désinstallation de logiciel
-
-                # dans le cas 3 - Exécution de script sur la machine distante
+                2) read -p "Quel est le nom du logiciel? " nom_logiciel_uninstall
+                    apt remove $nom_logiciel_uninstall;;
+                # dans le cas 3
                     # Fonction -> Exécution de script sur la machine distante
-
+                3) read -p "Inserez une adresse ip" ip_valeur
+                    systemctl enable sshd
+                    ssh user@$ip_valeur
+                    
+                    ;;
                 # FIN CAS demande quelles actions à effectuer sur les logiciel
-            
+                0) exit ;;
+                esac 
             # FIN CAS demande quelle action effectuer
+            
     ;;
 
         # dans le cas 2 information
