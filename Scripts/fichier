@@ -1,0 +1,4 @@
+#!/bin/bash
+date=$(date '+%Y%m%d')
+cible=$whoami
+touch /home/Documents info_$cible_$date
