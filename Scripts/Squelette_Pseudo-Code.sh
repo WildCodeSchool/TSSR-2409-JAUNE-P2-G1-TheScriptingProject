@@ -131,23 +131,45 @@ case $targetType in
                 # FIN CAS demande quelles info lié à la session récupérer
 
             # dans le cas 2 information lié au compte
-
-                # demande quelles info lié au compte récupérer
-                # dans le cas 1 - Groupe d’appartenance d’un utilisateur
+                echo -e "Quel information souhaitez-vous?\n1) Groupe d'appartenance d'un utilisateur\n2) Historique des commandes exécutées par l'utilisateur\n3) Droits/permissions de l'utilisateur sur un dossier\n4) Droits/permission de l'utilisateur sur un fichier\n0) Sortie "
+                read info_perso
+                clear
+                case $info_perso in
                     # Fonction -> Groupe d’appartenance d’un utilisateur
-
-                # dans le cas 2 - Historique des commandes exécutées par l'utilisateur
+                1) read -p "Quel utilisateur ?" utilisateur_cible
+                    cat /etc/group | grep $utilisateur_cible ;;
+                # dans le cas 2
                     # Fonction -> Historique des commandes exécutées par l'utilisateur
-
-                # dans le cas 3 - Droits/permissions de l’utilisateur sur un dossier
+                2) shopt -s histappend
+                    source ~/.bashrc
+                    history;;
+                # dans le cas 3
                     # Fonction -> Droits/permissions de l’utilisateur sur un dossier
-
-                # dans le cas 4 - Droits/permissions de l’utilisateur sur un fichier
-                    # Fonction -> Droits/permissions de l’utilisateur sur un fichier
+                3) read -p "quelle nom de dossier? " nom_dossier
+                    if [ -d "$nom_dossier" ]
+                    then
+                        whereis $nom_dossier | ls -l
+                    else 
+                        echo "Le nom de dossier n'existe pas"
+                        exit 1
+                    fi ;;
                 
+                # dans le cas 4
+                    # Fonction -> Droits/permissions de l’utilisateur sur un fichier
+                4) read -p "quelle nom de fichier? " nom_fichier
+                    if [ -f "$nom_fichier" ]
+                    then
+                        whereis $nom_fichier | ls -l
+                    else 
+                        echo "Le nom de fichier n'existe pas"
+                        exit 1
+                    fi ;;
                 # FIN CAS demande quelles info lié au compte récupérer
-            
+                0) exit 0 ;;
             # FIN CAS demande quelle information récupérer
+                esac 
+        # FIN CAS demande un type d'action
+            
 
         # FIN CAS demande si on doit récupérer une information ou effectuer une action
     ;;
