@@ -206,26 +206,31 @@ case $targetType in
                 # dans le cas 1 - Arrêt
                 1)
                     # Fonction -> Arrêt
+                    echo "Arrêt de la machine en cours...";;
                 # dans le cas 2 - Redémarrage
                 2)
                     # Fonction -> Redémarrage
+                    echo "Redémarrage de la machine en cours...";;
 
                 # dans le cas 3 - Verrouillage
                 3)
                     # Fonction -> Verrouillage
+                    echo "Verrouillage de la machine...";;
 
                 # dans le cas 4 - Mise-à-jour du système
                 4)
                     # Fonction -> Mise-à-jour du système
+                    echo "Mise à jour de la machine en cours...";;
 
                 # dans le cas 5 - PMAD
                 5)
                     # Fonction -> PMAD
+                    echo "Action PMAD en cours...";;
                 
                 
                 # FIN CAS demande quelles action effectuer sur la machine
                 *) 
-                        echo "Action non valide pour la machine" 
+                    echo "Action non valide pour la machine...";; 
                 esac
                 ;;
             2) # dans la cas 2 gestion des fichiers 
@@ -237,19 +242,21 @@ case $targetType in
                 case $actionFile in
                 
                 # dans le cas 1 - Création de répertoire
-                1) creation_repertoire ;;
+                1)  
                     # Fonction -> Création de répertoire
-
+                    echo "Création de répertoire...";;
                 # dans le cas 2 - Modification de répertoire
-                2) modification_repertoire ;;
+                2) 
                     # Fonction -> Modification de répertoire
-
+                    echo "Création de répertoire...";;
                 # dans le cas 3 - Suppression de répertoire
-                3) suppression_repertoire ;;
+                3) 
                     # Fonction -> Suppression de répertoire
+                    echo "Suppression de répertoire...";;
                     
                 # FIN CAS demande quelles actions effectuer sur les fichiers
-                *) echo "Erreur de saisie pour les fichiers" ;;
+                *) 
+                    echo "Erreur de saisie pour les fichiers..." ;;
                 esac
                 ;;
             3) # dans le cas 3 gestion du parefeu
@@ -260,15 +267,18 @@ case $targetType in
                 # DEBUT CAS demande quelles action à effectuer sur le parefeu
                 case $actionFirewall in
                 # dans le cas 1 - Activation du pare-feu
-                1) activation_pare_feu ;;
+                1) 
                     # Fonction -> Activation du pare-feu
+                    echo "Activation du pare-feu...";;
 
                 # dans le cas 2 - Désactivation du pare-feu
-                2) desactivation_pare_feu ;;
+                2) 
                     # Fonction -> Désactivation du pare-feu
+                    echo "Désactivation du pare-feu...";;
                     
                 # FIN CAS demande quelles action à effectuer sur le parefeu
-                *) echo "Erreur de saisie pour le pare-feu" ;;
+                *) 
+                    echo "Erreur de saisie pour le pare-feu..." ;;
                 esac
                 ;;
             
