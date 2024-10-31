@@ -6,6 +6,72 @@
 # ...
 
 
+# DEBUT BOUCLE while 
+
+    # DEBUT CAS accueil demande de sélectionner une cible , soit ordinateur, soit utilisateur
+    # dans le cas 1 utilisteur
+    
+        # DEBUT CAS demande si on doit récupérer une information ou effectuer une action
+        # dans le cas 1 action sur les groupes ou user
+
+            # DEBUT CAS demande quelles actions effectuer
+            # dans le cas 1 gestion des comptes
+            
+                # DEBUT CAS Demande quel action exécuter sur les comptes    
+                # dans le cas 1 - Création de compte utilisateur local
+                
+                    # Fonction -> Création de compte utilisateur local
+                    clear
+                    # Demande le nom d'utilisateur
+                    read -p "Entrez le nom d'utilisateur à créer: " username
+                    clear 
+                    # Vérifie si l'utilisateur existe déjà
+                    if id "$username" &>/dev/null; then
+                        echo "L'utilisateur '$username' existe déjà!"
+                        exit 1
+                    fi
+                    clear
+                    # Demande le mot de passe
+                    read -s -p "Entrez le mot de passe pour l'utilisateur '$username': " password
+                    echo
+                    clear 
+                    # Définit le mot de passe de l'utilisateur
+                    echo "$username:$password" | chpasswd
+                    # Création de l'utilisateur avec un répertoire personnel
+                    sudo useradd -m -s /bin/bash "$username"
+
+                    # Affiche un message de confirmation
+                    echo "L'utilisateur '$username' a été créé avec succès."
+                    exit 0
+                    clear
+                # dans le cas 2 - Changement de mot de passe
+
+                    # Fonction -> Changement de mot de passe
+                    # Demander le nom de l'utilisateur pour lequel changer le mot de passe
+                    read -p "Entrez le nom de l'utilisateur : " utilisateur
+
+                    # Vérifier si l'utilisateur existe
+                    if id "$utilisateur" &>/dev/null; then
+                    # Demander le nouveau mot de passe
+                        echo "Entrez le nouveau mot de passe pour $utilisateur : "
+                        sudo passwd "$utilisateur"
+                    else
+                        echo "L'utilisateur $utilisateur n'existe pas."
+                        exit 1
+                    fi
+                    
+                # dans le cas 2 - Changement de mot de passe
+                    # Fonction -> Changement de mot de passe
+
+                # dans le cas 3 - Suppression de compte utilisateur local 
+                    # Fonction -> Suppression de compte utilisateur local 
+
+                # dans le cas 4 - Désactivation de compte utilisateur local
+                    # Fonction -> Désactivation de compte utilisateur local
+                
+                # FIN CAS Demande quel action exécuter sur les comptes  
+
+
 
 clear
 # DEBUT BOUCLE while 
@@ -177,6 +243,9 @@ case $targetType in
 ;;
 
     # dans le cas 2 ordinateur
+
+
+
 2)    
     # DEBUT CAS demande demande si on doit récupérer une information ou effectuer une action
     # dans le cas 1 action
@@ -185,52 +254,140 @@ case $targetType in
     clear
     case $dowhatType in
     1)
+
             # DEBUT CAS demande quelle action effectuer
+            echo -e "Quelles type d'action souhaitez vous effectuer ? \n1) Actions sur la machine \n2) Actions sur les fichiers \n3) Actions sur le parefeu  \n4) Action sur les logiciels"
+            read actionType
+            clear 
+            case $actionType in
             # dans le cas 1 gestion de la machine
+            1)
+               
+                echo -e "Quelle action sur la machine ? \n1) Arret de la machine  \n2) Redemarrage de la machine \n3) Verrouillage de la machine \n4) Mise à jour de la machine \n5) Pmad"
+                read actionhost
+                clear 
 
                 # DEBUT CAS demande quelles action effectuer sur la machine
-                # dans le cas 1 - Arrêt
+                case $actionhost in
+
+                    # dans le cas 1 - Arrêt
+                    1) 
+                    
                     # Fonction -> Arrêt
-                # dans le cas 2 - Redémarrage
-                    # Fonction -> Redémarrage
+                        echo "Arrêt de la machine en cours..."
+                        sudo shutdown now 
+                        ;;
+                    
 
-                # dans le cas 3 - Verrouillage
-                    # Fonction -> Verrouillage
+                    # dans le cas 2 - Redémarrage
+                    2)  
+                        # Fonction -> Redémarrage
+                        echo "Redémarrage de la machine en cours..."
+                        sudo reboot
+                        ;;
 
-                # dans le cas 4 - Mise-à-jour du système
-                    # Fonction -> Mise-à-jour du système
+                    # dans le cas 3 - Verrouillage
+                    3) 
+                        # Fonction -> Verrouillage
+                        echo "Verrouillage de la machine..."
+                        gnome-screensaver-command -l || xdg-screensaver lock || echo "Commande de verrouillage indisponible"
+                        ;;
 
-                # dans le cas 5 - PMAD
-                    # Fonction -> PMAD
+                    # dans le cas 4 - Mise-à-jour du système
+                    4)
+                        # Fonction -> Mise-à-jour du système
+                        echo "Mise à jour de la machine en cours..."
+                        sudo apt update && sudo apt upgrade -y
+                        ;;
+                    # dans le cas 5 - PMAD
+                    5) 
+                        # Fonction -> PMAD
+                        echo "Action PMAD en cours..."
+                        echo -e "Saisir le nom de l'hote à atteindre\n"
+                        read hostName
+                        clear 
 
-                # FIN CAS demande quelles action effectuer sur la machine
+                        if [ -z $hostName ]
+                        then 
+                            echo "Aucun nom d'hôte saisi, arrêt du script"
+                            exit 1
+                        else
+                            echo -e "Saisir le nom d'utilisateur avec lequel se connecter à $hostName\n"
+                            read userName
+                            clear
+                        fi
 
+                        if [ -z $userName ]
+                        then
+                            echo -e "Aucun nom d'utilisateur saisi, arrêt du script\n"
+                            exit 1
+                        else
+                            echo -e "Êtes vous sur de vouloir vous connecter à $userName@$hostName ? o/n\n"
+                            read validation
+                            clear
+                        fi
+
+                        case $validation in
+                            o) ssh "$userName"@"$hostName" ;;
+
+                            *) echo "Validation refusé, arrêt du script" ;;
+                        esac
+
+                        ;;
+
+                    *) 
+                        echo "Action non valide pour la machine" 
+                        ;;
+                    # FIN CAS demande quelles action effectuer sur la machine
+                esac
+                ;;
             # dans la cas 2 gestion des fichiers 
-
+            2) 
+                echo -e "Quelle action sur les fichiers ? \n1) Creation repertoire \n2) Modification repertoire \n3) Suppression repertoire"
+                read actionFile
+                clear 
                 # DEBUT CAS demande quelles actions effectuer sur les fichiers
+                
+                case $actionFile in
                 # dans le cas 1 - Création de répertoire
+                1) creation_repertoire ;;
                     # Fonction -> Création de répertoire
 
                 # dans le cas 2 - Modification de répertoire
+                2) modification_repertoire ;;
                     # Fonction -> Modification de répertoire
 
                 # dans le cas 3 - Suppression de répertoire
+                3) suppression_repertoire ;;
                     # Fonction -> Suppression de répertoire
-                
+                *) echo "Erreur de saisie pour les fichiers" ;;
+                esac
+                ;;
                 # FIN CAS demande quelles actions effectuer sur les fichiers
-
+            
             # dans le cas 3 gestion du parefeu
-
+            3)
+                echo -e "Quelle action sur le pare-feu ? \n1) Activation du pare feu \n2) Désactivation du pare feu"
+                read actionFirewall
+                clear
                 # DEBUT CAS demande quelles action à effectuer sur le parefeu
+                case $actionFirewall in
                 # dans le cas 1 - Activation du pare-feu
+                1) activation_pare_feu ;;
                     # Fonction -> Activation du pare-feu
 
                 # dans le cas 2 - Désactivation du pare-feu
+                2) desactivation_pare_feu ;;
                     # Fonction -> Désactivation du pare-feu
-                
+
+                *) echo "Erreur de saisie pour le pare-feu" ;;
+                esac
+                ;;
                 # FIN CAS demande quelles action à effectuer sur le parefeu
 
+            
             # dans le cas 4 gestion des logiciels
+
 
                 echo -e "Que voulez-vous faire ?\n1) Instalaltion de logiciel\n2) Désinstaller un logiciel\n3) Exécuter un script sur la machine\n0) Sortie"
                 read action_logiciel
@@ -254,6 +411,7 @@ case $targetType in
                 # FIN CAS demande quelles actions à effectuer sur les logiciel
                 0) exit ;;
                 esac 
+
             # FIN CAS demande quelle action effectuer
             
     ;;
