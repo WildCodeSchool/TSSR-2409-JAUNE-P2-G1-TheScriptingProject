@@ -113,7 +113,7 @@ case $targetType in
         esac 
         ;;
     2)
-         # dans le cas 2 information
+        # dans le cas 2 information
         
             # demande quelle information récupérer
             echo -e "Quelles type d'action souhaitez vous effectuer ?\n1) Actions sur l'information lié à la session \n2) Actions sur l'information lié au compte"
@@ -191,13 +191,14 @@ case $targetType in
     
     1) echo -e "Que souhaitez vous faire?"\n1) Gestion de la machine\n2) Gestion des fichiers\n3) Gestion du pare-feu
     read choix_gestion
-    case choix_gestion in
     clear
+    case choix_gestion in
+        
             
-             # DEBUT CAS demande quelle action effectuer
-             1)# dans le cas 1 gestion de la machine
-              
-                echo -e "Quelle action sur la machine ? \n1) Arret de la machine  \n2) Redemarrage de la machine \n3) Verrouillage de la machine \n4) Mise à jour de la machine \n5) Pmad"
+            # DEBUT CAS demande quelle action effectuer
+            1)# dans le cas 1 gestion de la machine
+            
+                echo -e "Quelle action sur la machine ? \n1) Arret de la machine\n2) Redemarrage de la machine\n3) Verrouillage de la machine\n4) Mise à jour de la machine\n5) Pmad"
                 read actionhost
                 clear 
                 # DEBUT CAS demande quelles action effectuer sur la machine
@@ -221,7 +222,7 @@ case $targetType in
                 5)
                     # Fonction -> PMAD
                 
-                       
+                
                 # FIN CAS demande quelles action effectuer sur la machine
                 *) 
                         echo "Action non valide pour la machine" 
@@ -251,7 +252,7 @@ case $targetType in
                 *) echo "Erreur de saisie pour les fichiers" ;;
                 esac
                 ;;
-             3) # dans le cas 3 gestion du parefeu
+            3) # dans le cas 3 gestion du parefeu
                 
                 echo -e "Quelle action sur le pare-feu ? \n1) Activation du pare feu \n2) Désactivation du pare feu"
                 read actionFirewall
@@ -271,7 +272,7 @@ case $targetType in
                 esac
                 ;;
             
-           
+            
             4) # dans le cas 4 gestion des logiciels
             
                 echo -e "Que voulez-vous faire ?\n1) Instalaltion de logiciel\n2) Désinstaller un logiciel\n3) Exécuter un script sur la machine\n0) Sortie"
@@ -308,14 +309,14 @@ case $targetType in
         case $choix_menu in
             # dans le cas 1 information sur la machine
         1)
-         # DEBUT CAS demande quel type d'info machine récupérer
+            # DEBUT CAS demande quel type d'info machine récupérer
             echo -e "Que faire?\n1) version de l'os \n2) Mémoire RAM totale \n3) Utilisation de la RAM \n4) Utilisateurs locaux \n0) Sortie"
             read actionMachine
             clear
 
             case $actionMachine in
             # dans le cas 1 - Version de l'OS
-             # Fonction -> Version de l'OS
+            # Fonction -> Version de l'OS
             1) uname -r ;;
             # dans le cas 2 - Mémoire RAM totale
             # Fonction -> Mémoire RAM totale
@@ -328,19 +329,19 @@ case $targetType in
             4) cat /etc/passwd ;;
             # FIN CAS demande quel type d'info machine récupérer
             0) echo "Sortie"
-                 exit ;;
+                exit ;;
             *) echo "Erreur de saisie" ;;
-                 esac ;;
+                esac ;;
 
             # dans le cas 3 information sur les disques
         2)
-               
+            
                 # DEBUT CAS demande quel type d'info récuperer sur les disques
             echo -e "\n1) Nombre de disque \n2) Détail partition \n3) Espace restant \n4) Détails dossier \n5) Liste lecteur \n0) Sortie"
             read actionHost
             clear
             case $actionHost in
-                 # dans le cas 1 - Nombre de disque
+                # dans le cas 1 - Nombre de disque
                 # Fonction -> Nombre de disque
                 1) sudo lshw -class disk ;;
                 # dans le cas 2 - Partition (nombre, nom, FS, taille) par disque
@@ -394,10 +395,10 @@ case $targetType in
     esac
         
 ;;
-esac
+esac ;;
     # FIN CAS accueil demande de sélectionner une cible , soit ordinateur, soit utilisateur   
 
-
+esac
 
 # demande si on doit continuer la boucle ou sortir
 # FIN BOUCLE while
