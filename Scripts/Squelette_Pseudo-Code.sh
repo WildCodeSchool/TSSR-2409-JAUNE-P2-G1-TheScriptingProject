@@ -179,8 +179,9 @@ case $targetType in
             # FIN CAS demande quelle information récupérer
             esac
         # FIN CAS demande si on doit récupérer une information ou effectuer une action
-
- 2)   # dans le cas 2 ordinateur
+        
+# dans le cas 2 ordinateur
+2)   
     
     # DEBUT CAS demande demande si on doit récupérer une information ou effectuer une action
     # dans le cas 1 action
@@ -233,8 +234,9 @@ case $targetType in
                     echo "Action non valide pour la machine...";; 
                 esac
                 ;;
-            2) # dans la cas 2 gestion des fichiers 
-            
+            # dans la cas 2 gestion des fichiers
+            2) 
+                 
                 echo -e "Quelle action sur les fichiers ? \n1) Creation repertoire \n2) Modification repertoire \n3) Suppression repertoire"
                 read actionFile
                 clear 
@@ -259,7 +261,8 @@ case $targetType in
                     echo "Erreur de saisie pour les fichiers..." ;;
                 esac
                 ;;
-            3) # dans le cas 3 gestion du parefeu
+            # dans le cas 3 gestion du parefeu
+            3) 
                 
                 echo -e "Quelle action sur le pare-feu ? \n1) Activation du pare feu \n2) Désactivation du pare feu"
                 read actionFirewall
@@ -281,9 +284,9 @@ case $targetType in
                     echo "Erreur de saisie pour le pare-feu..." ;;
                 esac
                 ;;
-            
-            
-            4) # dans le cas 4 gestion des logiciels
+
+            # dans le cas 4 gestion des logiciels
+            4) 
             
                 echo -e "Que voulez-vous faire ?\n1) Instalaltion de logiciel\n2) Désinstaller un logiciel\n3) Exécuter un script sur la machine\n0) Sortie"
                 read action_logiciel
@@ -311,13 +314,13 @@ case $targetType in
                 esac ;;
    
 
-        # dans le cas 2 information
+    # dans le cas 2 information
     2)
         echo -e "Quelles choix de menu?\n1) information machine \n2) information disques \n3) Information logiciel"
         read choix_menu
         clear
         case $choix_menu in
-            # dans le cas 1 information sur la machine
+        # dans le cas 1 information sur la machine
         1)
             # DEBUT CAS demande quel type d'info machine récupérer
             echo -e "Que faire?\n1) version de l'os \n2) Mémoire RAM totale \n3) Utilisation de la RAM \n4) Utilisateurs locaux \n0) Sortie"
@@ -343,7 +346,7 @@ case $targetType in
             *) echo "Erreur de saisie" ;;
                 esac ;;
 
-            # dans le cas 3 information sur les disques
+        # dans le cas 3 information sur les disques
         2)
             
                 # DEBUT CAS demande quel type d'info récuperer sur les disques
@@ -379,7 +382,7 @@ case $targetType in
                 *) echo "Erreur de saisie";;
             esac ;;
 
-            # dans le cas 4 information sur les logiciels
+        # dans le cas 4 information sur les logiciels
         3)
                 # DEBUT CAS demande quel type d'info récupérer sur les logiciels
         echo -e "Quells informations à récupérer? \n1) Liste des applications/paquets \n2) Liste des services en cours d'écéxution \0) sortie"
