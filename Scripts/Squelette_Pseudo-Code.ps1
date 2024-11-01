@@ -1,8 +1,79 @@
+#----------------------------------------------------------------------------------------------------
+#                                   Logiciels
 
-# Fonctions ()
-# Fonctions ()
-# Fonctions ()
-# ...
+function install_soft {
+    # Fonction -> Installation de logiciel
+install-package
+}
+
+function désinstall-soft {
+    # Fonction -> Désinstallation de logiciel
+uninstall-package
+}
+
+function exécution_script {
+    # Fonction -> Exécution de script sur la machine distante
+invoke-command
+}
+#---------------------------------------------------------------------------------------------------------                         
+#                                   info machine récupérer
+
+function version_os {
+
+    #Fonction -> Version de l'OS
+Get-WmiObject Win32_OperatingSystem | Select-Object Caption, Version
+}
+function ram_totale {
+    # Fonction -> Mémoire RAM totale
+Get-CimInstance win32_physicalmemory | Format-Table Capacity
+}
+function ram_utilisation {
+    # Fonction -> Utilisation de la RAM
+Get-ComputerInfo | Select-Object TotalPhysicalMemory, OsTotalVisibleMemory, OsFreePhysicalMemory
+}
+function liste_utilisateurs {
+    # Fonction -> Liste des utilisateurs locaux
+Get-localuser
+}
+#-------------------------------------------------------------------------------------------------------------
+#                                   Disque
+function nombre_Disque {
+    # Fonction -> Nombre de disque
+Get-Disk
+}
+
+function partition {
+    # Fonction -> Partition (nombre, nom, FS, taille) par disque
+get-partition
+}
+
+function espace_Restant {
+    # Fonction -> Espace disque restant par partition/volume
+get-volume
+}
+
+function nom_espace_dossier {
+    # Fonction -> Nom et espace disque d'un dossier (nom de dossier demandé)
+   
+}
+
+function liste_lecteur {
+    # Fonction -> Liste des lecteurs monté (disque, CD, etc.)
+Get-psdrive
+}
+# --------------------------------------------------------------------------------------
+
+ # DEBUT CAS demande quel type d'info récupérer sur les logiciels
+
+function liste_Appli {
+    # Fonction -> Liste des applications/paquets installées
+Get-Appxpackage
+}
+
+function service_runing {
+    # Fonction -> Liste des services en cours d'execution
+Get-service
+}
 
 Clear-Host
 # DEBUT BOUCLE while 
