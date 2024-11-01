@@ -303,8 +303,7 @@ case $choix_1 in
                         4) ;;           # Fonction -> Mise à jour du système
                         5) ;;        # Fonction -> PMAD
                         *) echo "Option invalide!" ;;
-                    esac
-                    ;;
+                    esac ;;
     
             2)  
             # Gestion des fichiers
@@ -317,8 +316,7 @@ case $choix_1 in
                     2) ;;       # Fonction -> Modification de répertoire
                     3) ;;       # Fonction -> Suppression de répertoire
                     *) echo "Option invalide!" ;;
-                esac
-                ;;
+                esac ;;
     
             3)  
             # Gestion du pare-feu
@@ -330,8 +328,7 @@ case $choix_1 in
                     1) ;;         # Fonction -> Activation du pare-feu
                     2) ;;         # Fonction -> Désactivation du pare-feu
                     *) echo "Option invalide!" ;;
-                esac
-                ;;
+                esac ;;
     
             4)  
             # Gestion des logiciels
@@ -345,8 +342,7 @@ case $choix_1 in
                     3) ;;           # Fonction -> Exécution de script sur la machine
                     0) echo "Sortie..." ;;
                     *) echo "Option invalide!" ;;
-                esac
-                ;;
+                esac ;;
     
             *) echo "Option principale invalide !" ;;
 
