@@ -1,4 +1,163 @@
 #! /bin/bash
+#-------------------------------------------------------------------------------------------
+#                                  Action Utilisateur
+function Création_de_compte_utilisateur_local()
+{
+# Demande le nom d'utilisateur
+read -p "Entrez le nom d'utilisateur à créer: " username
+clear 
+# Vérifie si l'utilisateur existe déjà
+if id "$username" &>/dev/null; then
+echo "L'utilisateur '$username' existe déjà!"
+exit 1
+fi
+clear
+# Demande le mot de passe
+read -s -p "Entrez le mot de passe pour l'utilisateur '$username': " password
+echo
+clear 
+# Définit le mot de passe de l'utilisateur
+echo "$username:$password" | chpasswd
+# Création de l'utilisateur avec un répertoire personnel
+sudo useradd -m -s /bin/bash "$username"
+
+# Affiche un message de confirmation
+echo "L'utilisateur '$username' a été créé avec succès."
+exit 0
+clear
+} 
+
+function Changement_de_mot_de_passe()
+{
+# Demander le nom de l'utilisateur pour lequel changer le mot de passe
+read -p "Entrez le nom de l'utilisateur : " utilisateur
+
+# Vérifier si l'utilisateur existe
+if id "$utilisateur" &>/dev/null; then
+# Demander le nouveau mot de passe
+    echo "Entrez le nouveau mot de passe pour $utilisateur : "
+    sudo passwd "$utilisateur"
+else
+    echo "L'utilisateur $utilisateur n'existe pas."
+    exit 1
+fi
+}
+#---------------------------------------------------------------------------------------------
+#                                  action machine
+
+function Arrêt_machine()
+{ 
+# Arrêt de la machine
+echo "Arrêt de la machine en cours..."
+sudo shutdown now 
+}
+
+
+function Redémarrage_machine()
+{ 
+    echo "Redémarrage de la machine en cours..."
+    sudo reboot
+}
+  
+
+function  Verrouillage_machine()
+{
+    echo "Verrouillage de la machine..."
+    gnome-screensaver-command -l || xdg-screensaver lock || echo "Commande de verrouillage indisponible"   
+}
+
+function Mise-à-jour_système()
+{
+    echo "Mise à jour de la machine en cours..."
+    sudo apt update && sudo apt upgrade -y
+} 
+
+
+function activer_pare_feu() 
+{
+    sudo -S ufw enable
+    echo "Activation du pare-feu réussie." 
+}
+ 
+
+function desactiver_pare_feu() 
+{
+sudo -S ufw disable
+echo "Désactivation du pare-feu réussie."
+}
+
+
+function PMAD()
+
+{
+    echo "Action PMAD en cours..."
+    echo -e "Saisir le nom de l'hote à atteindre\n"
+    read hostName
+    clear 
+
+    if [ -z $hostName ]
+    then 
+        echo "Aucun nom d'hôte saisi, arrêt du script"
+        exit 1
+    else
+        echo -e "Saisir le nom d'utilisateur avec lequel se connecter à $hostName\n"
+        read userName
+        clear
+    fi
+
+    if [ -z $userName ]
+    then
+        echo -e "Aucun nom d'utilisateur saisi, arrêt du script\n"
+        exit 1
+    else
+        echo -e "Êtes vous sur de vouloir vous connecter à $userName@$hostName ? o/n\n"
+        read validation
+        clear
+    fi
+
+    case $validation in
+        o) ssh "$userName"@"$hostName" ;;
+
+        *) echo "Validation refusé, arrêt du script" ;;
+    esac
+}
+
+#----------------------------------------------------------------------------------------------
+#                                   Info Utilisateur
+function date_dernière_connexion()
+{  
+utilisateur="userName"  # Remplacer "userName" par le nom d'utilisateur
+derniere_connexion=$(last -n 1 "$utilisateur" | awk '{print $4, $5, $6, $7}')
+echo "Dernière connexion de $utilisateur : $derniere_connexion"
+}
+
+function date_dernière_modification_mot_de_passe()
+{
+  # Remplacer "userName" par le nom d'utilisateur
+chage -l "userName" | grep "Dernier changement de mot de passe" | awk '{print $5, $6, $7}'
+}
+
+
+function liste_sessions_utilisateur() {
+    local utilisateur=$1
+
+    # Vérification que le nom d'utilisateur est fourni
+    if [ -z "$utilisateur" ]; then
+        echo "Veuillez spécifier un nom d'utilisateur."
+        return 1
+    fi
+
+    # Affiche les sessions en cours pour l'utilisateur spécifié
+    echo "Sessions ouvertes pour l'utilisateur : $utilisateur"
+    who | grep "^$utilisateur" || echo "Aucune session ouverte trouvée pour $utilisateur."
+}
+
+
+
+
+
+
+
 
 
 #----------------------------------------------------------------------------------------------------
