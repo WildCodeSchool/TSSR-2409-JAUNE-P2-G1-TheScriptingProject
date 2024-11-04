@@ -336,7 +336,39 @@ clear
 }
       
 #---------------------------------------------------------------------------------------------
+#                                Utilisateur
 
+function utilisateur_1() {
+ read -p "Quel utilisateur ?" utilisateur_cible
+cat /etc/group | grep $utilisateur_cible
+}
+
+function utilisateur_2() {
+shopt -s histappend
+source ~/.bashrc
+history
+}
+
+function utilisateur_3() {
+read -p "quelle nom de dossier? " nom_dossier
+ if [ -d "$nom_dossier" ]
+then
+    whereis $nom_dossier | ls -l
+else 
+    echo "Le nom de dossier n'existe pas"
+exit 1
+fi
+}
+
+function utilisateur_4() {
+read -p "quelle nom de fichier? " nom_fichier
+if [ -f "$nom_fichier" ]
+then
+    whereis $nom_fichier | ls -l
+else 
+    echo "Le nom de fichier n'existe pas"
+exit 1
+fi
 
 
         
@@ -430,10 +462,10 @@ case $choix_1 in
                 case $info_3 in 
 
           
-                    1) ;;  # Fonction -> Groupe d’appartenance d’un utilisateur
-                    2) ;; # Fonction -> Historique des commandes exécutées par l'utilisateur
-                    3) ;; # Fonction -> Droits/permissions de l’utilisateur sur un dossier
-                    4) ;; # Fonction -> Droits/permissions de l’utilisateur sur un fichier
+                    1) utilisateur_1 ;;  # Fonction -> Groupe d’appartenance d’un utilisateur
+                    2) utilisateur_2 ;; # Fonction -> Historique des commandes exécutées par l'utilisateur
+                    3) utilisateur_3 ;; # Fonction -> Droits/permissions de l’utilisateur sur un dossier
+                    4) utilisateur_4 ;; # Fonction -> Droits/permissions de l’utilisateur sur un fichier
                     *) echo "erreur de saisie"
                 esac ;;
                 # FIN CAS demande quelles info lié au compte récupérer
