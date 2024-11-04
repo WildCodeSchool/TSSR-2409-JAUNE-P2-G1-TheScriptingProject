@@ -1,4 +1,23 @@
 #! /bin/bash
+
+function connexion_ssh() { 
+# Demander à l'utilisateur son nom d'utilisateur
+read -p "À quel utilisateur voulez-vous être connecté ? " User
+
+# Demander l'adresse IP de connexion
+read -p "Indiquez l'IP de connexion : " Ip_Valeur
+
+# Vérifier si les valeurs saisies sont non vides
+if [ -z "$User" ] || [ -z "$Ip_Valeur" ]; then
+    echo "Erreur : Vous devez fournir à la fois un utilisateur et une adresse IP."
+    exit 1
+fi
+
+# Établir la connexion SSH
+ssh "$User@$Ip_Valeur"
+
+}
+
 #-------------------------------------------------------------------------------------------
 #                                  Action Utilisateur
 function Création_de_compte_utilisateur_local()
