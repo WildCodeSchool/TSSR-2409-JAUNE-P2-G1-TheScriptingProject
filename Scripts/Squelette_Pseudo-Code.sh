@@ -158,7 +158,18 @@ clear
 }
       
 #---------------------------------------------------------------------------------------------
+#                                        gestion de compte
 
+function creation_compte() {
+echo -e "Indiquer le nom d'utilisateur"
+read nom_utilisateur
+clear
+
+    if [ -z "$nom_utilisateur"]
+    then
+        echo "Aucun utilisateur"
+    else 
+        
 
 # DEBUT BOUCLE while 
 
@@ -360,7 +371,7 @@ clear
         2)
             # sous menu pour les disques
             echo -e "\n1) Nombre de disque \n2) Détail partition \n3) Espace restant \n4) Détails dossier \n5) Liste lecteur \n0) Sortie"
-            read info_dique
+            read info_disque
             clear
             case $info_disque in
 
