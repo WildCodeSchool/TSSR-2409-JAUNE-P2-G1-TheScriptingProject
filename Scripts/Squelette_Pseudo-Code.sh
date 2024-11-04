@@ -336,17 +336,9 @@ clear
 }
       
 #---------------------------------------------------------------------------------------------
-#                                        gestion de compte
 
-function creation_compte() {
-echo -e "Indiquer le nom d'utilisateur"
-read nom_utilisateur
-clear
 
-    if [ -z "$nom_utilisateur"]
-    then
-        echo "Aucun utilisateur"
-    else 
+
         
 #--------------------------------------------------------------------------------------------------
 # DEBUT BOUCLE while 
@@ -419,11 +411,11 @@ case $choix_1 in
                 case $info_2 in
 
               
-                    1) ;; # Fonction -> Date de dernière connexion d’un utilisateur
+                    1) date_dernière_connexion ;; # Fonction -> Date de dernière connexion d’un utilisateur
             
-                    2) ;; # Fonction -> Date de dernière modification du mot de passe
+                    2) date_dernière_modification_mot_de_passe ;; # Fonction -> Date de dernière modification du mot de passe
            
-                    3) ;; # Fonction -> Liste des sessions ouvertes par l'utilisateur
+                    3) liste_sessions_utilisateur ;; # Fonction -> Liste des sessions ouvertes par l'utilisateur
               
                 # FIN CAS demande quelles info lié à la session récupérer
                 esac ;;
@@ -476,7 +468,7 @@ case $choix_1 in
                         2) Redémarrage_machine ;;          # Fonction -> Redémarrage de la machine
                         3) Verrouillage_machine ;;             # Fonction -> Verrouillage de la machine
                         4) Mise-à-jour_système ;;           # Fonction -> Mise à jour du système
-                        5) ;;        # Fonction -> PMAD
+                        5) PMAD ;;        # Fonction -> PMAD
                         *) echo "Option invalide!" ;;
                     esac ;;
     
