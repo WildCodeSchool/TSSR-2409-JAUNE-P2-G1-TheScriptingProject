@@ -329,7 +329,7 @@ clear
         echo "Aucun utilisateur"
     else 
         
-
+#--------------------------------------------------------------------------------------------------
 # DEBUT BOUCLE while 
 
 # DEBUT CAS accueil demande de sélectionner une cible , soit ordinateur, soit utilisateur
@@ -364,8 +364,8 @@ case $choix_1 in
                 clear
                 case $usermanagement in
     
-                    1) ;; # Fonction création de compte
-                    2) ;; # Fonction changement de mot de passe
+                    1) Création_de_compte_utilisateur_local ;; # Fonction création de compte
+                    2) Changement_de_mot_de_passe ;; # Fonction changement de mot de passe
                     3) ;; # Fonction suppression de compte
                     4) ;; # Fonction désactivation de compte
                     *) echo "Option invalide!" ;;
@@ -453,10 +453,10 @@ case $choix_1 in
                     read choix_machine
                     clear
                     case $choix_machine in
-                        1) ;;            # Fonction -> Arrêt de la machine
-                        2) ;;          # Fonction -> Redémarrage de la machine
-                        3) ;;             # Fonction -> Verrouillage de la machine
-                        4) ;;           # Fonction -> Mise à jour du système
+                        1)  Arrêt_machine ;;            # Fonction -> Arrêt de la machine
+                        2) Redémarrage_machine ;;          # Fonction -> Redémarrage de la machine
+                        3) Verrouillage_machine ;;             # Fonction -> Verrouillage de la machine
+                        4) Mise-à-jour_système ;;           # Fonction -> Mise à jour du système
                         5) ;;        # Fonction -> PMAD
                         *) echo "Option invalide!" ;;
                     esac ;;
@@ -481,8 +481,8 @@ case $choix_1 in
                 clear
 
                 case $actionFirewall in
-                    1) ;;         # Fonction -> Activation du pare-feu
-                    2) ;;         # Fonction -> Désactivation du pare-feu
+                    1) activer_pare_feu ;;         # Fonction -> Activation du pare-feu
+                    2) desactiver_pare_feu ;;         # Fonction -> Désactivation du pare-feu
                     *) echo "Option invalide!" ;;
                 esac ;;
     
