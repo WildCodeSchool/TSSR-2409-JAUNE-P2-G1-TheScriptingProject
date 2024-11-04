@@ -1,30 +1,28 @@
-#!/bin/bash
+#! /bin/bash
 
 
 #----------------------------------------------------------------------------------------------------
 #                                   Logiciels
 # Fonction -> Installation de logiciel
-function install_soft ()
-{
+function install_soft() {
     read -p "Quel est le nom du logiciel? " nom_logiciel_install
 apt install $nom_logiciel_install ;
 }
-function désinstall-soft ()
-{
+
+function désinstall-soft() {
     # Fonction -> Désinstallation de logiciel
 read -p "Quel est le nom du logiciel? " nom_logiciel_uninstall
 apt remove $nom_logiciel_uninstall
 }
-function exécution_script()
-{
+
+function exécution_script() {
     # Fonction -> Exécution de script sur la machine distante
 read -p "Inserez une adresse ip" ip_valeur
 systemctl enable sshd
 ssh user@$ip_valeur
 }
 
-function historique ()
-{
+function historique() {
     #Historique
 read -p "Inserez une adresse ip" ip_valeur
 systemctl enable sshd
@@ -34,47 +32,40 @@ ssh user@$ip_valeur
 #---------------------------------------------------------------------------------------------------------                         
 #                                   info machine récupérer
 
-function version_os()
-{
+function version_os() {
     #Fonction -> Version de l'OS
 uname -r
 }
-function ram_totale()
-{
+function ram_totale() {
     # Fonction -> Mémoire RAM totale
 free -h
 }
-function ram_utilisation ()
-{
+function ram_utilisation() {
     # Fonction -> Utilisation de la RAM
 free -h | awk '{print $2 "----- "}'
 }
-function liste_utilisateurs ()
+function liste_utilisateurs() {
     # Fonction -> Liste des utilisateurs locaux
 cat /etc/passwd
 }
 #-------------------------------------------------------------------------------------------------------------
 #                                   Disque
-function nombre_disque ()
-{
+function nombre_disque() {
     # Fonction -> Nombre de disque
 sudo lshw -class disk
 }
 
-function partition ()
-{
+function partition() {
     # Fonction -> Partition (nombre, nom, FS, taille) par disque
 df -h
 }
 
-function disque_restant ()
-{
+function disque_restant() {
     # Fonction -> Espace disque restant par partition/volume
 df -h | awk '{print $1"-------"$4}'
 }
 
-function espace_dossier ()
-{
+function espace_dossier() {
     # Fonction -> Nom et espace disque d'un dossier (nom de dossier demandé)
 read -p "quel nom de dossier?" choix_1
     if [ -d "$choix_1" ]
@@ -85,30 +76,26 @@ read -p "quel nom de dossier?" choix_1
         exit 1
     fi
 }
-function liste_lecteur ()
-{
+function liste_lecteur() {
     # Fonction -> Liste des lecteurs monté (disque, CD, etc.)
-5) lsblk
+lsblk
 }
 # --------------------------------------------------------------------------------------
 #                                    Appli/service
  # DEBUT CAS demande quel type d'info récupérer sur les logiciels
 
-function liste_appli ()
-{
+function liste_appli() {
     # Fonction -> Liste des applications/paquets installées
 dpkg --list
 }
 
-function service_runing ()
-{
+function service_runing() {
     # Fonction -> Liste des services en cours d'execution
 service --status-all
 }
 #-----------------------------------------------------------------------------------------------
 #                                   GROUPE    
-function ajout_grp_admin()
-{
+function ajout_grp_admin() {
     # Fonction -> Ajout à un groupe d'administration
 echo -e "Merci d'indiquer l'utilisateur à ajouter au groupe sudo"
 read userName
@@ -123,8 +110,7 @@ clear
     fi
 }
 
-function add_grp_local ()
-{
+function add_grp_local() {
     # Fonction -> Ajout à un groupe local
 echo -e "Merci d'indiquer l'utilisateur à ajouter"
 read userName
@@ -147,8 +133,7 @@ clear
 sudo usermod -aG "$groupName" "$userName" && ""$userName" ajouté au groupe "$groupName""
 }
 
-function sortie_groupe()
-{
+function sortie_groupe() {
     # Fonction -> Sortie d’un groupe local
 echo -e "Merci d'indiquer l'utilisateur à retirer"
 read userName
