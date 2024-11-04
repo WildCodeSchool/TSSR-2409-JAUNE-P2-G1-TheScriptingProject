@@ -20,40 +20,43 @@ ssh "$User@$Ip_Valeur"
 
 #-------------------------------------------------------------------------------------------
 #                                  Action Utilisateur
-function Création_de_compte_utilisateur_local()
+
+#Fonction Création compte utilisateur
+function Création_de_compte_Utilisateur_local()
 {
-# Demande le nom d'utilisateur
+    # Demande le nom d'utilisateur
 read -p "Entrez le nom d'utilisateur à créer: " username
 clear 
-# Vérifie si l'utilisateur existe déjà
+    # Vérifie si l'utilisateur existe déjà
 if id "$username" &>/dev/null; then
 echo "L'utilisateur '$username' existe déjà!"
 exit 1
 fi
 clear
-# Demande le mot de passe
+    # Demande le mot de passe
 read -s -p "Entrez le mot de passe pour l'utilisateur '$username': " password
 echo
 clear 
-# Définit le mot de passe de l'utilisateur
+    # Définit le mot de passe de l'utilisateur
 echo "$username:$password" | chpasswd
-# Création de l'utilisateur avec un répertoire personnel
+    # Création de l'utilisateur avec un répertoire personnel
 sudo useradd -m -s /bin/bash "$username"
 
-# Affiche un message de confirmation
+    # Affiche un message de confirmation
 echo "L'utilisateur '$username' a été créé avec succès."
 exit 0
 clear
 } 
 
-function Changement_de_mot_de_passe()
+#Fonction chagement de mot de passe
+function Changement_MDP()
 {
-# Demander le nom de l'utilisateur pour lequel changer le mot de passe
+    # Demander le nom de l'utilisateur pour lequel changer le mot de passe
 read -p "Entrez le nom de l'utilisateur : " utilisateur
 
-# Vérifier si l'utilisateur existe
+    # Vérifier si l'utilisateur existe
 if id "$utilisateur" &>/dev/null; then
-# Demander le nouveau mot de passe
+    # Demander le nouveau mot de passe
     echo "Entrez le nouveau mot de passe pour $utilisateur : "
     sudo passwd "$utilisateur"
 else
@@ -61,51 +64,143 @@ else
     exit 1
 fi
 }
-#---------------------------------------------------------------------------------------------
-#                                  action machine
 
-function Arrêt_machine()
-{ 
-# Arrêt de la machine
-echo "Arrêt de la machine en cours..."
-sudo shutdown now 
+#Fonction Suppression de compte utilisateur local
+function Suppression_du_compte_utilisateur ()
+{
+        read -p "Quel utilisateur doit être supprimé du compte local ? : " userName
+        # Tester si l'utilisateur à supprimer existe
+        if cat /etc/passwd | grep $userName > /dev/null
+        then
+            read -p "Confirmation de la suppression de l'utilisateur $userName [o/n] : " validation
+            case $validation in
+            o)
+                # suppression de l'utilisisateur
+                sudo userdel $userName
+                if cat /etc/passwd | grep -wq "$userName"
+                then
+                    echo "Echec de la suppression de l'utilisateur $userName"
+                else
+                    echo "Utilisateur $userName supprimé avec succès"
+                fi
+                ;;
+            n)
+                # pas de suppression
+                echo "Suppression du compte $userName annulé"
+                ;;
+            *)
+                echo "Erreur de saisie"
+                ;;
+            esac
+        else
+            echo "Utilisateur $userName inconnu"
+        fi
 }
 
 
+#Fonction Désactivation de compte utilisateur local
+
+
+
+#Fonction -> Ajout à un groupe d'administration
+function ajout_grp_admin() {  
+echo -e "Merci d'indiquer l'utilisateur à ajouter au groupe sudo"
+read userName
+clear
+
+    if [ -z "$userName" ]
+    then
+        echo "Aucun compte saisi"
+        exit 1
+    else
+        sudo usermod -aG sudo "$userName" && echo ""$userName" ajouté au groupe sudo" 
+    fi
+}
+
+#Fonction -> Ajout à un groupe local
+function add_grp_local() { 
+echo -e "Merci d'indiquer l'utilisateur à ajouter"
+read userName
+clear
+
+    if [ -z "$userName" ] 
+    then
+        echo "Aucun compte saisi"
+        exit 1
+    fi
+
+        echo -e "Merci d'indiquer le nom du groupes auquel l'utilisateur doit être ajouté. "
+        read groupName
+
+    if [ -z "$groupName" ] 
+    then
+        echo "Aucun groupe saisi"
+        exit 1
+    fi
+sudo usermod -aG "$groupName" "$userName" && ""$userName" ajouté au groupe "$groupName""
+}
+
+#Fonction -> Sortie d’un groupe local
+function sortie_groupe() {   
+echo -e "Merci d'indiquer l'utilisateur à retirer"
+read userName
+clear
+
+    if [ -z "$userName"] 
+    then
+        echo "Aucun compte saisi"
+        exit 1
+    fi
+
+        echo -e "Merci d'indiquer le nom du groupe auquel l'utilisateur doit être retiré. "
+        read groupName
+        clear
+
+    if [ -z "$groupName"] 
+    then
+        echo "Aucun groupe saisi"
+        exit 1
+    fi
+        sudo userdel "$groupName" "$userName" && ""$userName" a été retiré du groupe "$groupName"" && echo "Sortie d’un groupe local"
+}
+
+#---------------------------------------------------------------------------------------------
+#                                  action Ordinateur
+
+#Fonction arrêt système
+function Arrêt_machine()
+{ 
+    echo "Arrêt de la machine en cours..."
+    sudo shutdown now 
+}
+
+#Fonction redémmarage système
 function Redémarrage_machine()
 { 
     echo "Redémarrage de la machine en cours..."
     sudo reboot
 }
   
-
+#Fonction verrouillage système
 function  Verrouillage_machine()
 {
     echo "Verrouillage de la machine..."
     gnome-screensaver-command -l || xdg-screensaver lock || echo "Commande de verrouillage indisponible"   
 }
 
+#Fonction mise a jour du système
 function Mise-à-jour_système()
 {
     echo "Mise à jour de la machine en cours..."
     sudo apt update && sudo apt upgrade -y
 } 
 
-
-function activer_pare_feu() 
-{
-    sudo -S ufw enable
-    echo "Activation du pare-feu réussie." 
-}
- 
-
-function desactiver_pare_feu() 
-{
-sudo -S ufw disable
-echo "Désactivation du pare-feu réussie."
-}
+#Fonction Création de répertoire
+#Fonction Modification de répertoire
+#Fonction Suppression de répertoire
 
 
+#fonction PMAD
 function PMAD()
 
 {
@@ -141,8 +236,38 @@ function PMAD()
     esac
 }
 
+#fonction activer pare feu
+function activer_pare_feu() 
+{
+    sudo -S ufw enable
+    echo "Activation du pare-feu réussie." 
+}
+ 
+#Fonction désactiver pare feu
+function desactiver_pare_feu() 
+{
+sudo -S ufw disable
+echo "Désactivation du pare-feu réussie."
+}
+
+# Fonction -> Installation de logiciel
+function install_soft() {
+    read -p "Quel est le nom du logiciel? " nom_logiciel_install
+apt install $nom_logiciel_install ;
+}
+
+# Fonction -> Désinstallation de logiciel
+function désinstall-soft() {
+read -p "Quel est le nom du logiciel? " nom_logiciel_uninstall
+apt remove $nom_logiciel_uninstall
+}
+
+#Fonction Exécution de script sur la machine distante
+
 #----------------------------------------------------------------------------------------------
 #                                   Info Utilisateur
+
+#Fonction Date de dernière connexion d’un utilisateur
 function date_dernière_connexion()
 {  
 utilisateur="userName"  # Remplacer "userName" par le nom d'utilisateur
@@ -150,13 +275,14 @@ derniere_connexion=$(last -n 1 "$utilisateur" | awk '{print $4, $5, $6, $7}')
 echo "Dernière connexion de $utilisateur : $derniere_connexion"
 }
 
+#Fonction Date de dernière modification du mot de passe
 function date_dernière_modification_mot_de_passe()
 {
   # Remplacer "userName" par le nom d'utilisateur
 chage -l "userName" | grep "Dernier changement de mot de passe" | awk '{print $5, $6, $7}'
 }
 
-
+#Fonction Liste des sessions ouvertes par l'utilisateur
 function liste_sessions_utilisateur() {
     local utilisateur=$1
 
@@ -171,184 +297,20 @@ function liste_sessions_utilisateur() {
     who | grep "^$utilisateur" || echo "Aucune session ouverte trouvée pour $utilisateur."
 }
 
-
-
-
-
-
-
-
-
-#----------------------------------------------------------------------------------------------------
-#                                   Logiciels
-# Fonction -> Installation de logiciel
-function install_soft() {
-    read -p "Quel est le nom du logiciel? " nom_logiciel_install
-apt install $nom_logiciel_install ;
-}
-
-function désinstall-soft() {
-    # Fonction -> Désinstallation de logiciel
-read -p "Quel est le nom du logiciel? " nom_logiciel_uninstall
-apt remove $nom_logiciel_uninstall
-}
-
-function exécution_script() {
-    # Fonction -> Exécution de script sur la machine distante
-read -p "Inserez une adresse ip" ip_valeur
-systemctl enable sshd
-ssh user@$ip_valeur
-}
-
-function historique() {
-    #Historique
-read -p "Inserez une adresse ip" ip_valeur
-systemctl enable sshd
-ssh user@$ip_valeur
-}
-                    
-#---------------------------------------------------------------------------------------------------------                         
-#                                   info machine récupérer
-
-function version_os() {
-    #Fonction -> Version de l'OS
-uname -r
-}
-function ram_totale() {
-    # Fonction -> Mémoire RAM totale
-free -h
-}
-function ram_utilisation() {
-    # Fonction -> Utilisation de la RAM
-free -h | awk '{print $2 "----- "}'
-}
-function liste_utilisateurs() {
-    # Fonction -> Liste des utilisateurs locaux
-cat /etc/passwd
-}
-#-------------------------------------------------------------------------------------------------------------
-#                                   Disque
-function nombre_disque() {
-    # Fonction -> Nombre de disque
-sudo lshw -class disk
-}
-
-function partition() {
-    # Fonction -> Partition (nombre, nom, FS, taille) par disque
-df -h
-}
-
-function disque_restant() {
-    # Fonction -> Espace disque restant par partition/volume
-df -h | awk '{print $1"-------"$4}'
-}
-
-function espace_dossier() {
-    # Fonction -> Nom et espace disque d'un dossier (nom de dossier demandé)
-read -p "quel nom de dossier?" choix_1
-    if [ -d "$choix_1" ]
-    then
-        find . -type d -name $choix_1 | du -hs
-    else 
-        echo "Le nom de dossier n'existe pas"
-        exit 1
-    fi
-}
-function liste_lecteur() {
-    # Fonction -> Liste des lecteurs monté (disque, CD, etc.)
-lsblk
-}
-# --------------------------------------------------------------------------------------
-#                                    Appli/service
- # DEBUT CAS demande quel type d'info récupérer sur les logiciels
-
-function liste_appli() {
-    # Fonction -> Liste des applications/paquets installées
-dpkg --list
-}
-
-function service_runing() {
-    # Fonction -> Liste des services en cours d'execution
-service --status-all
-}
-#-----------------------------------------------------------------------------------------------
-#                                   GROUPE    
-function ajout_grp_admin() {
-    # Fonction -> Ajout à un groupe d'administration
-echo -e "Merci d'indiquer l'utilisateur à ajouter au groupe sudo"
-read userName
-clear
-
-    if [ -z "$userName" ]
-    then
-        echo "Aucun compte saisi"
-        exit 1
-    else
-        sudo usermod -aG sudo "$userName" && echo ""$userName" ajouté au groupe sudo" 
-    fi
-}
-
-function add_grp_local() {
-    # Fonction -> Ajout à un groupe local
-echo -e "Merci d'indiquer l'utilisateur à ajouter"
-read userName
-clear
-
-    if [ -z "$userName" ] 
-    then
-        echo "Aucun compte saisi"
-        exit 1
-    fi
-
-        echo -e "Merci d'indiquer le nom du groupes auquel l'utilisateur doit être ajouté. "
-        read groupName
-
-    if [ -z "$groupName" ] 
-    then
-        echo "Aucun groupe saisi"
-        exit 1
-    fi
-sudo usermod -aG "$groupName" "$userName" && ""$userName" ajouté au groupe "$groupName""
-}
-
-function sortie_groupe() {
-    # Fonction -> Sortie d’un groupe local
-echo -e "Merci d'indiquer l'utilisateur à retirer"
-read userName
-clear
-
-    if [ -z "$userName"] 
-    then
-        echo "Aucun compte saisi"
-        exit 1
-    fi
-
-        echo -e "Merci d'indiquer le nom du groupe auquel l'utilisateur doit être retiré. "
-        read groupName
-        clear
-
-    if [ -z "$groupName"] 
-    then
-        echo "Aucun groupe saisi"
-        exit 1
-    fi
-        sudo userdel "$groupName" "$userName" && ""$userName" a été retiré du groupe "$groupName"" && echo "Sortie d’un groupe local"
-}
-      
-#---------------------------------------------------------------------------------------------
-#                                Utilisateur
-
+#Fonction Groupe d’appartenance d’un utilisateur
 function utilisateur_1() {
  read -p "Quel utilisateur ?" utilisateur_cible
 cat /etc/group | grep $utilisateur_cible
 }
 
+#Fonction Historique des commandes exécutées par l'utilisateur
 function utilisateur_2() {
 shopt -s histappend
 source ~/.bashrc
 history
 }
 
+#Fonction Droits/permissions de l’utilisateur sur un dossier
 function utilisateur_3() {
 read -p "quelle nom de dossier? " nom_dossier
  if [ -d "$nom_dossier" ]
@@ -360,6 +322,7 @@ exit 1
 fi
 }
 
+#Fonction Droits/permissions de l’utilisateur sur un fichier
 function utilisateur_4() {
 read -p "quelle nom de fichier? " nom_fichier
 if [ -f "$nom_fichier" ]
@@ -369,6 +332,70 @@ else
     echo "Le nom de fichier n'existe pas"
 exit 1
 fi
+#---------------------------------------------------------------------------------------------------------------------------
+#                                               info ordinateur
+#Fonction -> Version de l'OS
+function version_os() {   
+uname -r
+}
+
+# Fonction -> Nombre de disque
+function nombre_disque() {   
+sudo lshw -class disk
+}
+
+# Fonction -> Partition (nombre, nom, FS, taille) par disque
+function partition() {  
+df -h
+}
+
+# Fonction -> Espace disque restant par partition/volume
+function disque_restant() {   
+df -h | awk '{print $1"-------"$4}'
+}
+
+# Fonction -> Nom et espace disque d'un dossier (nom de dossier demandé)
+function espace_dossier() {
+read -p "quel nom de dossier?" choix_1
+    if [ -d "$choix_1" ]
+    then
+        find . -type d -name $choix_1 | du -hs
+    else 
+        echo "Le nom de dossier n'existe pas"
+        exit 1
+    fi
+}
+
+# Fonction -> Liste des lecteurs monté (disque, CD, etc.)
+function liste_lecteur() {  
+lsblk
+}
+
+ # Fonction -> Liste des applications/paquets installées
+function liste_appli() {
+dpkg --list
+}
+
+# Fonction -> Liste des services en cours d'execution
+function service_runing() { 
+service --status-all
+}
+
+# Fonction -> Liste des utilisateurs locaux
+function liste_utilisateurs() {   
+cat /etc/passwd
+}
+
+# Fonction -> Mémoire RAM totale
+function ram_totale() {
+   free -h
+}
+
+# Fonction -> Utilisation de la RAM
+function ram_utilisation() {
+    
+free -h | awk '{print $2 "----- "}'
+}
 
 
         
