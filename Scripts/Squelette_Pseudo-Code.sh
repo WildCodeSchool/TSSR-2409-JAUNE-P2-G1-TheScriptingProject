@@ -73,7 +73,7 @@ function disque_restant ()
 df -h | awk '{print $1"-------"$4}'
 }
 
-function ()
+function espace_dossier ()
 {
     # Fonction -> Nom et espace disque d'un dossier (nom de dossier demandé)
 read -p "quel nom de dossier?" choix_1
@@ -193,7 +193,7 @@ case $choix_1 in
     clear
     case $dowhatType in  
         1)   
-        #Effectuer unne action
+        #Effectuer une action
 
         
             # dans le cas 1 gestion des comptes
@@ -223,11 +223,12 @@ case $choix_1 in
                 read group_action
                 clear
                 case $groupe_action in 
-                    1) ;;   #Ajouter un utilisateur au groupe d'aministration
-                    2) ;;   #Ajouter un utilisateur à un groupe local 
-                    3) ;;   #Retirer un utilisateur d'un groupe local"
+                    1) ajout_grp_admin ;;   #Ajouter un utilisateur au groupe d'aministration
+                    2) add_grp_local ;;   #Ajouter un utilisateur à un groupe local 
+                    3) sortie_groupe ;;   #Retirer un utilisateur d'un groupe local"
                     *) echo "erreur de saisie"
-        
+
+                    esac ;;
         
         2)
             # dans le cas 2 information
@@ -344,7 +345,6 @@ case $choix_1 in
                     *) echo "Option invalide!" ;;
                 esac ;;
     
-            *) echo "Option principale invalide !" ;;
 
     
     
@@ -379,11 +379,11 @@ clear
             clear
             case $info_disque in
 
-                1) ;;   # Fonction nombre de disque
-                2) ;;   # Fonction partition
-                3)  ;;  #Fonction Espace disque restant par partition/volume
-                4)  ;;  # Fonction Nom et espace disque d'un dossier
-                5)  ;;  # Fonction Liste des lecteurs monté
+                1) nombre_disque ;;   # Fonction nombre de disque
+                2) partition ;;   # Fonction partition
+                3) disque_restant ;;  #Fonction Espace disque restant par partition/volume
+                4) espace_dossier ;;  # Fonction Nom et espace disque d'un dossier
+                5) liste_lecteur ;;  # Fonction Liste des lecteurs monté
                 0) echo "Sortie" ;;    
 
             esac ;;
@@ -396,19 +396,21 @@ clear
             clear
             case $infoHost in
 
-                1) ;;     # Fonction liste des applications/paquets installées
-                2) ;;     # Fonction liste des services en cours d'execution
+                1) liste_appli ;;     # Fonction liste des applications/paquets installées
+                2) service_runing ;;     # Fonction liste des services en cours d'execution
                 3) echo "Sortie" ;;
                 # FIN CAS demande quel type d'info récupérer sur les logiciels
             esac ;;
             # FIN CAS demande quelles informations récupérer
 
-    
+        esac ;;
         # FIN CAS demande si on doit récupérer une information ou effectuer une action
     
     esac ;;
     # FIN CAS accueil demande de sélectionner une cible , soit ordinateur, soit utilisateur   
 
 esac ;;
+esac
+
 # demande si on doit continuer la boucle ou sortir
 # FIN BOUCLE while
