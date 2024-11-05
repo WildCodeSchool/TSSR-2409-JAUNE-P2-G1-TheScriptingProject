@@ -565,7 +565,7 @@ case $choix_1 in
                 case $action_logiciel in
                     1) install_software ;;      # Fonction -> Installation de logiciel
                     2) uninstall_software ;;    # Fonction -> Désinstallation de logiciel
-                    3) ;;           # Fonction -> Exécution de script sur la machine
+                    3) ;;# ssh nommachine bash < ./nomscript.sh           # Fonction -> Exécution de script sur la machine
                     0) echo "Sortie..." ;;
                     *) echo "Option invalide!" ;;
                 esac ;;
