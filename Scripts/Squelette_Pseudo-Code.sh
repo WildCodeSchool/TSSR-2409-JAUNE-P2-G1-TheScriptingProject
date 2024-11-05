@@ -400,12 +400,6 @@ function ram_utilisation() {
 free -h | awk '{print $2 "----- "}'
 }
 
-function message_1() {
-#!/bin/bash
-horodate=$(date '+%Y%m%d')
-cible=whoami
-echo "blabla" >> info_${horodate}_${cible}.txt
-}
         
 #--------------------------------------------------------------------------------------------------
 # DEBUT BOUCLE while 
@@ -573,7 +567,7 @@ case $choix_1 in
                 case $action_logiciel in
                     1) install_software ;;      # Fonction -> Installation de logiciel
                     2) uninstall_software ;;    # Fonction -> Désinstallation de logiciel
-                    3) ;;# ssh nommachine bash < ./nomscript.sh           # Fonction -> Exécution de script sur la machine
+                    3) ssh CLILIN01 bash < ./nomscript.sh ;;          # Fonction -> Exécution de script sur la machine
                     0) echo "Sortie..." ;;
                     *) echo "Option invalide!" ;;
                 esac ;;
