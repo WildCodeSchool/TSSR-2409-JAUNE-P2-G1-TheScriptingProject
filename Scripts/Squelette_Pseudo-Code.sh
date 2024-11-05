@@ -397,7 +397,12 @@ function ram_utilisation() {
 free -h | awk '{print $2 "----- "}'
 }
 
-
+function message_1() {
+#!/bin/bash
+horodate=$(date '+%Y%m%d')
+cible=whoami
+echo "blabla" >> info_${horodate}_${cible}.txt
+}
         
 #--------------------------------------------------------------------------------------------------
 # DEBUT BOUCLE while 
