@@ -95,19 +95,74 @@ function del_user_group_local {
 # Fonction -> Activation du pare-feu
 # Fonction -> Désactivation du pare-feu
 # Fonction -> Installation de logiciel
+function install_soft {
+    install-package
+}
+
 # Fonction -> Désinstallation de logiciel
+function uninstall-soft {
+    uninstall-package
+}
+
 # Fonction -> Exécution de script sur la machine distante
+function execution_script {
+    invoke-command
+}
 
 # ---------------------------------------------------------------------------------------------------------------------------------
 #                                              FONCTIONS INFORMATIONS SUR HOTE DISTANT
 # Fonction -> Version de l'OS
+function version_os {
+    Get-WmiObject Win32_OperatingSystem | Select-Object Caption, Version
+}
+
 # Fonction -> Mémoire RAM totale
+function ram_totale {
+    Get-CimInstance win32_physicalmemory | Format-Table Capacity
+}
+
 # Fonction -> Utilisation de la RAM
+function ram_utilisation {
+    Get-ComputerInfo | Select-Object TotalPhysicalMemory, OsTotalVisibleMemory, OsFreePhysicalMemory
+}
+
 # Fonction -> Liste des utilisateurs locaux
+function liste_utilisateurs {
+    Get-LocalUser
+}
+
 # Fonction -> Nombre de disque
+function nombre_Disque {
+    Get-Disk
+}
+
 # Fonction -> Partition (nombre, nom, FS, taille) par disque
+function partition {
+    Get-Partition
+}
+
 # Fonction -> Espace disque restant par partition/volume
+function espace_Restant {
+    Get-Volume
+}
+
 # Fonction -> Nom et espace disque d'un dossier (nom de dossier demandé)
+function nom_espace_dossier {
+
+}
+
+
 # Fonction -> Liste des lecteurs monté (disque, CD, etc.)
+function liste_lecteur {
+    Get-psdrive
+}
+
 # Fonction -> Liste des applications/paquets installées
+function liste_Appli {
+    Get-Appxpackage
+}
+
 # Fonction -> Liste des services en cours d'execution
+function service_runing {
+    Get-service
+}
