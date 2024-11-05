@@ -1,9 +1,69 @@
+# ---------------------------------------------------------------------------------------------------------------------------------
+#                                                 FONCTION LOGS
+
+# Fonction pour redirection vers fichier de log
+function custom_log {
+    param (
+        [string]$message
+    )
+    Write-Output "$(Get-Date -UFormat "%Y/%m/%d - %H:%M:%S") - $($ENV:USERNAME) - $message" >> "C:\Windows\System32\LogFiles\log_evt.log"
+}
 
 # ---------------------------------------------------------------------------------------------------------------------------------
 #                                                 FONCTION ACTIONS SUR COMPTE ET GROUPE
 
 # Fonction -> Création de compte utilisateur local
+function Création_De_Compte_Utilisateur_Local {   
+    # Demander le nom d'utilisateur
+    $username = Read-Host "Entrez le nom de l'utilisateur à créer"
+
+    # Vérifier si l'utilisateur existe déjà
+    if (Get-LocalUser -Name $username -ErrorAction SilentlyContinue) {
+        Write-Host "L'utilisateur '$username' existe déjà !"
+    exit
+    }
+
+    # Demander le mot de passe de l'utilisateur
+    $password = Read-Host "Entrez le mot de passe pour l'utilisateur '$username'" -AsSecureString
+
+    # Créer un nouvel utilisateur local
+    try {
+        New-LocalUser -Name $username -Password $password -FullName $username -Description "Compte utilisateur local créé via script" -PasswordNeverExpires
+        Write-Host "L'utilisateur '$username' a été créé avec succès."
+    }
+    catch {
+        Write-Host "Erreur lors de la création de l'utilisateur : $_"
+    exit
+    }
+}
+
 # Fonction -> Changement de mot de passe
+function Changement_De_Mot_De_Passe {
+
+    # Demander le nom de l'utilisateur pour lequel changer le mot de passe
+    $utilisateur = Read-Host -Prompt "Entrez le nom de l'utilisateur"
+
+        # Vérifier si l'utilisateur existe
+    if (Get-LocalUser -Name $utilisateur -ErrorAction SilentlyContinue) {
+        # Demander le nouveau mot de passe
+        $nouveauMDP = Read-Host -Prompt "Entrez le nouveau mot de passe pour $utilisateur" -AsSecureString
+
+        # Modifier le mot de passe de l'utilisateur
+        Set-LocalUser -Name $utilisateur -Password $nouveauMDP
+
+        # Vérifier si la commande a réussi
+        if ($?) {
+        Write-Host "Le mot de passe a été changé avec succès pour $utilisateur."
+        } 
+        else {
+            Write-Host "Erreur lors du changement du mot de passe."
+        }
+    } 
+    else {
+        Write-Host "L'utilisateur $utilisateur n'existe pas."
+        exit 1
+    }
+}
 # Fonction -> Suppression de compte utilisateur local
 # Fonction -> Désactivation de compte utilisateur local
 
@@ -75,6 +135,25 @@ function del_user_group_local {
 # ---------------------------------------------------------------------------------------------------------------------------------
 #                                              FONCTIONS INFORMATIONS SUR COMPTE ET GROUPE
 # Fonction -> Date de dernière connexion d’un utilisateur
+function user_last_logon {
+    $userName = Read-Host -prompt "Saisir le nom du compte" 
+
+    if ([string]::IsNullOrEmpty($userName)) { 
+        Write-Host "Aucun nom d'utilisateur saisi" -ForegroundColor Yellow
+        return
+    }
+
+    $localUser = Get-LocalUser "$userName" -ErrorAction SilentlyContinue
+
+    if ( -not $localUser ) {
+        Write-Host "Aucun utilisateur de ce nom" -ForegroundColor Yellow
+    }
+    else{
+        Write-Output "Dernière connexion le $($localUser.lastlogon)" >> "$([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt"
+        Write-Host "Information envoyé dans "$([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt""
+    }
+}
+
 # Fonction -> Date de dernière modification du mot de passe
 # Fonction -> Liste des sessions ouvertes par l'utilisateur
 # Fonction -> Groupe d’appartenance d’un utilisateur
@@ -85,9 +164,53 @@ function del_user_group_local {
 # ---------------------------------------------------------------------------------------------------------------------------------
 #                                              FONCTIONS ACTIONS SUR HOTE DISTANT
 # Fonction -> Arrêt
+function Arrêt_De_La_Machine{
+
+    Write-Output "Arrêt de la machine en cours..."
+    Stop-Computer
+    }
+
 # Fonction -> Redémarrage
+function  Redémarrage_De_La_Machine { 
+
+    Write-Output "Redémarrage de la machine en cours..."
+    Restart-Computer
+} 
+
 # Fonction -> Verrouillage
+function  Verrouillage_De_La_Machine {
+
+    Write-Output "Verrouillage de la machine..."
+    RUNDLL32.EXE user32.dll,LockWorkStation
+}
+
 # Fonction -> Mise-à-jour du système
+function  Mise_A_Jour_Du_Système {
+
+    Write-Output "Mise à jour de la machine en cours..."
+
+    # Activer le module Windows Update s'il n'est pas déjà installé
+    #Install-Module PSWindowsUpdate -Force -Scope CurrentUser
+    # Définir la politique d'exécution
+    #Set-ExecutionPolicy RemoteSigned -Scope "Process ou CurrentUser ou LocalMachine"
+    # Importer le module
+    #Import-Module PSWindowsUpdate
+
+    # Rechercher les mises à jour disponibles
+    Write-Output "Recherche des mises à jour disponibles..."
+    $updates = Get-WindowsUpdate
+
+    # Installer les mises à jour
+    if ($updates) {
+        Write-Output "Installation des mises à jour..."
+        Install-WindowsUpdate -AcceptAll -AutoReboot
+    } else {
+        Write-Output "Aucune mise à jour disponible."
+    }
+
+    Write-Output "Mises à jour terminées."
+}
+
 # Fonction -> PMAD
 # Fonction -> Création de répertoire
 # Fonction -> Modification de répertoire
