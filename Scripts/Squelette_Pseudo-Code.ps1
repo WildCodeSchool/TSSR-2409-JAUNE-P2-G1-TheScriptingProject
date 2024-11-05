@@ -213,6 +213,7 @@ do {
                         "13" {
                             # Fonction -> Exécution de script sur la machine distante
                             Write-Output "Exécution de script sur la machine distante..."
+                            invoke-command -computername CLIWIN01 {C:\Users\Script.ps1
                         }
                         "0" { 
                             Write-Host "retour"
