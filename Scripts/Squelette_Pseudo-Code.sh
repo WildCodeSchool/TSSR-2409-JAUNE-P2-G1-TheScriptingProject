@@ -199,9 +199,72 @@ function Mise-à-jour_système()
 } 
 
 #Fonction Création de répertoire
-#Fonction Modification de répertoire
-#Fonction Suppression de répertoire
+function Création_repertoire()
+{
+  # Demander à l'utilisateur de fournir un nom de répertoire
+  read -p "Veuillez indiquer le nom du répertoire: " repertoire
 
+  # Chemin complet du répertoire dans le dossier personnel
+  chemin_complet="$HOME/$repertoire"
+
+  # Vérifier si le répertoire existe avant de le créer
+  if [ ! -d "$chemin_complet" ]; then
+    mkdir "$chemin_complet"
+    echo "Le répertoire '$chemin_complet' a été créé."
+  else
+    echo "Le répertoire '$chemin_complet' existe déjà."
+  fi
+}
+
+#Fonction Modification de répertoire
+function Modification_repertoire()
+{
+read -p "Voulez-vous déplacer ou renommer un répertoire ?  ('1'pour Renommer / '2'pour Déplacer) : " action
+
+if [ "$action" == "1" ]; then
+    read -p "Entrez le chemin actuel du répertoire : " ancien_nom
+    read -p "Entrez le nouveau nom du répertoire : " nouveau_nom
+    mv "$ancien_nom" "$nouveau_nom"
+    echo "Le répertoire a été renommé en $nouveau_nom."
+
+elif [ "$action" == "2" ]; then
+    read -p "Entrez le chemin actuel du répertoire : " repertoire
+    read -p "Entrez le nouveau chemin de destination : " destination
+    mv "$repertoire" "$destination"
+    echo "Le répertoire a été déplacé vers $destination."
+
+else
+    echo "Action non reconnue. Veuillez entrer '1' ou '2'."
+fi
+}
+
+#Fonction Suppression de répertoire
+function Suppression_repertoire()
+{ 
+    # Demander chemin du répertoire à supprimer
+read -p "Entrez le chemin actuel du répertoire : "   repertoire_a_supprimer
+
+
+    # Vérifier si le répertoire existe
+if [ -d "$repertoire_a_supprimer" ]; then
+    # Demander une confirmation
+  read -p "Êtes-vous sûr de vouloir supprimer le répertoire '$repertoire_a_supprimer' ? [o/n] " confirmation
+  if [ "$confirmation" = "o" ]; then
+    # Si l'utilisateur confirme avec "o"
+    rm -rf "$repertoire_a_supprimer"
+    echo "Le répertoire '$repertoire_a_supprimer' a été supprimé."
+  elif [ "$confirmation" = "n" ]; then
+    # Si l'utilisateur annule avec "n"
+    echo "Suppression annulée."
+
+  else
+    echo "Suppression annulée."
+  fi
+else
+  echo "Erreur : Le répertoire '$repertoire_a_supprimer' n'existe pas."
+  exit 1
+fi
+}
 
 #fonction PMAD
 function PMAD()
