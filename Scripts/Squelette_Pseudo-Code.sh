@@ -18,15 +18,13 @@ fi
 
 # Établir la connexion SSH
 ssh "$User@$Ip_Valeur"
-
 }
 
 #-------------------------------------------------------------------------------------------
 #                                  Action Utilisateur
 
 #Fonction Création compte utilisateur
-function Création_de_compte_Utilisateur_local()
-{
+function Création_de_compte_Utilisateur_local() {
     # Demande le nom d'utilisateur
 read -p "Entrez le nom d'utilisateur à créer: " username
 clear 
@@ -52,8 +50,7 @@ clear
 } 
 
 #Fonction chagement de mot de passe
-function Changement_MDP()
-{
+function Changement_MDP() {
     # Demander le nom de l'utilisateur pour lequel changer le mot de passe
 read -p "Entrez le nom de l'utilisateur : " utilisateur
 
@@ -69,8 +66,7 @@ fi
 }
 
 #Fonction Suppression de compte utilisateur local
-function Suppression_du_compte_utilisateur ()
-{
+function Suppression_du_compte_utilisateur() {
         read -p "Quel utilisateur doit être supprimé du compte local ? : " userName
         # Tester si l'utilisateur à supprimer existe
         if cat /etc/passwd | grep $userName > /dev/null
@@ -171,105 +167,36 @@ clear
 #                                  action Ordinateur
 
 #Fonction arrêt système
-function Arrêt_machine()
-{ 
+function Arrêt_machine() { 
     echo "Arrêt de la machine en cours..."
     sudo shutdown now 
 }
 
 #Fonction redémmarage système
-function Redémarrage_machine()
-{ 
+function Redémarrage_machine() { 
     echo "Redémarrage de la machine en cours..."
     sudo reboot
 }
   
 #Fonction verrouillage système
-function  Verrouillage_machine()
-{
+function  Verrouillage_machine() {
     echo "Verrouillage de la machine..."
     gnome-screensaver-command -l || xdg-screensaver lock || echo "Commande de verrouillage indisponible"   
 }
 
 #Fonction mise a jour du système
-function Mise-à-jour_système()
-{
+function Mise-à-jour_système() {
     echo "Mise à jour de la machine en cours..."
     sudo apt update && sudo apt upgrade -y
 } 
 
 #Fonction Création de répertoire
-function Création_repertoire()
-{
-  # Demander à l'utilisateur de fournir un nom de répertoire
-  read -p "Veuillez indiquer le nom du répertoire: " repertoire
-
-  # Chemin complet du répertoire dans le dossier personnel
-  chemin_complet="$HOME/$repertoire"
-
-  # Vérifier si le répertoire existe avant de le créer
-  if [ ! -d "$chemin_complet" ]; then
-    mkdir "$chemin_complet"
-    echo "Le répertoire '$chemin_complet' a été créé."
-  else
-    echo "Le répertoire '$chemin_complet' existe déjà."
-  fi
-}
-
 #Fonction Modification de répertoire
-function Modification_repertoire()
-{
-read -p "Voulez-vous déplacer ou renommer un répertoire ?  ('1'pour Renommer / '2'pour Déplacer) : " action
-
-if [ "$action" == "1" ]; then
-    read -p "Entrez le chemin actuel du répertoire : " ancien_nom
-    read -p "Entrez le nouveau nom du répertoire : " nouveau_nom
-    mv "$ancien_nom" "$nouveau_nom"
-    echo "Le répertoire a été renommé en $nouveau_nom."
-
-elif [ "$action" == "2" ]; then
-    read -p "Entrez le chemin actuel du répertoire : " repertoire
-    read -p "Entrez le nouveau chemin de destination : " destination
-    mv "$repertoire" "$destination"
-    echo "Le répertoire a été déplacé vers $destination."
-
-else
-    echo "Action non reconnue. Veuillez entrer '1' ou '2'."
-fi
-}
-
 #Fonction Suppression de répertoire
-function Suppression_repertoire()
-{ 
-    # Demander chemin du répertoire à supprimer
-read -p "Entrez le chemin actuel du répertoire : "   repertoire_a_supprimer
 
-
-    # Vérifier si le répertoire existe
-if [ -d "$repertoire_a_supprimer" ]; then
-    # Demander une confirmation
-  read -p "Êtes-vous sûr de vouloir supprimer le répertoire '$repertoire_a_supprimer' ? [o/n] " confirmation
-  if [ "$confirmation" = "o" ]; then
-    # Si l'utilisateur confirme avec "o"
-    rm -rf "$repertoire_a_supprimer"
-    echo "Le répertoire '$repertoire_a_supprimer' a été supprimé."
-  elif [ "$confirmation" = "n" ]; then
-    # Si l'utilisateur annule avec "n"
-    echo "Suppression annulée."
-
-  else
-    echo "Suppression annulée."
-  fi
-else
-  echo "Erreur : Le répertoire '$repertoire_a_supprimer' n'existe pas."
-  exit 1
-fi
-}
 
 #fonction PMAD
-function PMAD()
-
-{
+function PMAD() {
     echo "Action PMAD en cours..."
     echo -e "Saisir le nom de l'hote à atteindre\n"
     read hostName
@@ -303,15 +230,13 @@ function PMAD()
 }
 
 #fonction activer pare feu
-function activer_pare_feu() 
-{
+function activer_pare_feu() {
     sudo -S ufw enable
     echo "Activation du pare-feu réussie." 
 }
  
 #Fonction désactiver pare feu
-function desactiver_pare_feu() 
-{
+function desactiver_pare_feu() {
 sudo -S ufw disable
 echo "Désactivation du pare-feu réussie."
 }
@@ -334,16 +259,14 @@ apt remove $nom_logiciel_uninstall
 #                                   Info Utilisateur
 
 #Fonction Date de dernière connexion d’un utilisateur
-function date_dernière_connexion()
-{  
+function date_dernière_connexion() {  
 utilisateur="userName"  # Remplacer "userName" par le nom d'utilisateur
 derniere_connexion=$(last -n 1 "$utilisateur" | awk '{print $4, $5, $6, $7}')
 echo "Dernière connexion de $utilisateur : $derniere_connexion"
 }
 
 #Fonction Date de dernière modification du mot de passe
-function date_dernière_modification_mot_de_passe()
-{
+function date_dernière_modification_mot_de_passe() {
   # Remplacer "userName" par le nom d'utilisateur
 chage -l "userName" | grep "Dernier changement de mot de passe" | awk '{print $5, $6, $7}'
 }
@@ -398,6 +321,8 @@ else
     echo "Le nom de fichier n'existe pas"
 exit 1
 fi
+}
+
 #---------------------------------------------------------------------------------------------------------------------------
 #                                               info ordinateur
 #Fonction -> Version de l'OS
@@ -465,242 +390,217 @@ free -h | awk '{print $2 "----- "}'
 
         
 #--------------------------------------------------------------------------------------------------
-# DEBUT BOUCLE while 
+#!/bin/bash
 
-# DEBUT CAS accueil demande de sélectionner une cible , soit ordinateur, soit utilisateur
-# dans le cas 1 utilisteur
-echo -e "Que souhaitez vous atteindre?\n1) Utilisateur\n2) Ordinateur\n"
+# Affichage du menu de sélection de la cible (ordinateur ou utilisateur)
+echo -e "Que souhaitez-vous atteindre?\n1) Utilisateur\n2) Ordinateur\n"
 read choix_1
 clear
-case $choix_1 in
 
+# Gestion de la cible choisie
+case $choix_1 in
 1)
-#cas utilisateur
-    # DEBUT CAS demande si on doit récupérer une information ou effectuer une action
-    
-    echo -e "Que souhaitez vous faire ?\n1) Effectuer une action\n2) Récupérer une Information"
+    # Cible: Utilisateur
+    echo -e "Que souhaitez-vous faire ?\n1) Effectuer une action\n2) Récupérer une Information"
     read dowhatType
     clear
-    case $dowhatType in  
-        1)   
-        #Effectuer une action
-
-        
-            # dans le cas 1 gestion des comptes
-            echo -e "Quelles type d'action souhaitez vous effectuer ?\n1) Actions sur les comptes \n2) Actions sur les groupes"
-            read actionType
-            clear
-            case $actionType in
-        
-            1) 
-            # action exécuter sur les comptes
-                echo -e "Quelles type d'actions effectuer sur les comptes utilisateurs ? \n1) Création de compte utilisateur local \n2) Changement de mot de passe \n3) Suppression de compte utilisateur local  \n4) Désactivation de compte utilisateur local "               
-                read userManagement
-                clear
-                case $usermanagement in
     
-                    1) Création_de_compte_utilisateur_local ;; # Fonction création de compte
-                    2) Changement_de_mot_de_passe ;; # Fonction changement de mot de passe
-                    3) ;; # Fonction suppression de compte
-                    4) ;; # Fonction désactivation de compte
-                    *) echo "Option invalide!" ;;
-                
-                    esac ;;
-
-            2)
-            # action sur les groupe
-                echo "Quelle action souhaitez-vous effectuer sur les groupes ?\n1) Ajouter un utilisateur au groupe d'aministration\n2) Ajouter un utilisateur à un groupe local\n3) Retirer un utilisateur d'un groupe local"
-                read group_action
-                clear
-                case $groupe_action in 
-                    1) ajout_grp_admin ;;   #Ajouter un utilisateur au groupe d'aministration
-                    2) add_grp_local ;;   #Ajouter un utilisateur à un groupe local 
-                    3) sortie_groupe ;;   #Retirer un utilisateur d'un groupe local"
-                    *) echo "erreur de saisie"
-
-                    esac ;;
+    case $dowhatType in
+    1)
+        # Effectuer une action
+        echo -e "Quel type d'action souhaitez-vous effectuer ?\n1) Actions sur les comptes\n2) Actions sur les groupes"
+        read actionType
+        clear
+        
+        case $actionType in
+        1)
+            # Actions sur les comptes
+            echo -e "Quel type d'action sur les comptes utilisateurs ?\n1) Création de compte utilisateur local\n2) Changement de mot de passe\n3) Suppression de compte utilisateur local\n4) Désactivation de compte utilisateur local"
+            read userManagement
+            clear
+            
+            case $userManagement in
+                1) Création_de_compte_utilisateur_local ;; # Fonction de création de compte
+                2) Changement_de_mot_de_passe ;;           # Fonction de changement de mot de passe
+                3) Suppression_de_compte_utilisateur ;;    # Fonction de suppression de compte
+                4) Désactivation_de_compte_utilisateur ;;  # Fonction de désactivation de compte
+                *) echo "Option invalide!" ;;
+            esac ;;
         
         2)
-            # dans le cas 2 information
-            echo -e "Quelles type d'action souhaitez vous effectuer ?\n1) Actions sur l'information lié à la session \n2) Actions sur l'information lié au compte"
-            read info_1
+            # Actions sur les groupes
+            echo -e "Quelle action souhaitez-vous effectuer sur les groupes ?\n1) Ajouter un utilisateur au groupe d'administration\n2) Ajouter un utilisateur à un groupe local\n3) Retirer un utilisateur d'un groupe local"
+            read group_action
             clear
-            case $info_1 in 
             
-                1)
-                #cas 1 information lié à la session
-                echo -e "Quelles type d'action souhaitez vous effectuer ?\n1) Date de dernière connexion d’un utilisateur \n2) Date de dernière modification du mot de passe \n3) Liste des sessions ouvertes par l'utilisateur"
-                read info_2
-                clear
-                case $info_2 in
-
-              
-                    1) date_dernière_connexion >> info_${horodate}_${cible}.txt ;; # Fonction -> Date de dernière connexion d’un utilisateur
-            
-                    2) date_dernière_modification_mot_de_passe >> info_${horodate}_${cible}.txt ;; # Fonction -> Date de dernière modification du mot de passe
-           
-                    3) liste_sessions_utilisateur >> info_${horodate}_${cible}.txt ;; # Fonction -> Liste des sessions ouvertes par l'utilisateur
-                    *) echo "erreur de saisie"
-                # FIN CAS demande quelles info lié à la session récupérer
-                esac ;;
-            # dans le cas 2 information lié au compte
-   
-                2)
-                # demande quelles info lié au compte récupérer
-                echo -e "Quelles type d'action souhaitez vous effectuer ?\n1) Groupe d’appartenance d’un utilisateur \n2) Historique des commandes exécutées par l'utilisateur \n3) Droits/permissions de l’utilisateur sur un dossier \n4) Droits/permissions de l’utilisateur sur un fichier"
-                read info_3 
-                clear
-
-                case $info_3 in 
-
-          
-                    1) utilisateur_1 >> info_${horodate}_${cible}.txt ;;  # Fonction -> Groupe d’appartenance d’un utilisateur
-                    2) utilisateur_2 >> info_${horodate}_${cible}.txt ;; # Fonction -> Historique des commandes exécutées par l'utilisateur
-                    3) utilisateur_3 >> info_${horodate}_${cible}.txt ;; # Fonction -> Droits/permissions de l’utilisateur sur un dossier
-                    4) utilisateur_4 >> info_${horodate}_${cible}.txt ;; # Fonction -> Droits/permissions de l’utilisateur sur un fichier
-                    *) echo "erreur de saisie"
-                esac ;;
-                # FIN CAS demande quelles info lié au compte récupérer
-        
-            # FIN CAS demande quelle information récupérer
+            case $group_action in
+                1) ajout_grp_admin ;;    # Ajouter un utilisateur au groupe d'administration
+                2) add_grp_local ;;      # Ajouter un utilisateur à un groupe local
+                3) sortie_groupe ;;      # Retirer un utilisateur d'un groupe local
+                *) echo "Erreur de saisie" ;;
             esac ;;
-        # FIN CAS demande si on doit récupérer une information ou effectuer une action
         esac ;;
-    esac ;; 
-        2)  
-        #cas ordinateur
     
-            # DEBUT CAS demande demande si on doit récupérer une information ou effectuer une action
-            echo -e "Que souhaitez vous faire ?\n1) Effectuer une action\n2) Récupérer une Information"
-            read choix_2
-            clear
-            case $choix_2 in 
-    
-            1)    
-                echo -e "Que souhaitez-vous faire?\n1) Gestion de la machine\n2) Gestion des fichiers\n3) Gestion du pare-feu\n4) Gestion des logiciels"
-                read choix_gestion
-                clear
-                case $choix_gestion in
-                
-                    1)      
-                    # Gestion de la machine
-                    echo -e "Quelle action sur la machine ?\n1) Arrêt de la machine\n2) Redémarrage de la machine\n3) Verrouillage de la machine\n4) Mise à jour de la machine\n5) PMAD"
-                    read choix_machine
-                    clear
-                    case $choix_machine in
-                        1)  Arrêt_machine ;;            # Fonction -> Arrêt de la machine
-                        2) Redémarrage_machine ;;          # Fonction -> Redémarrage de la machine
-                        3) Verrouillage_machine ;;             # Fonction -> Verrouillage de la machine
-                        4) Mise-à-jour_système ;;           # Fonction -> Mise à jour du système
-                        5) PMAD ;;        # Fonction -> PMAD
-                        *) echo "Option invalide!" ;;
-                    esac ;;
-    
-            2)  
-            # Gestion des fichiers
-                echo -e "Quelle action sur les fichiers ?\n1) Création de répertoire\n2) Modification de répertoire\n3) Suppression de répertoire"
-                read actionFile
-                clear
-
-                case $actionFile in
-                    1) ;;       # Fonction -> Création de répertoire
-                    2) ;;       # Fonction -> Modification de répertoire
-                    3) ;;       # Fonction -> Suppression de répertoire
-                    *) echo "Option invalide!" ;;
-                esac ;;
-    
-            3)  
-            # Gestion du pare-feu
-                echo -e "Quelle action sur le pare-feu ?\n1) Activation du pare-feu\n2) Désactivation du pare-feu"
-                read actionFirewall
-                clear
-
-                case $actionFirewall in
-                    1) activer_pare_feu ;;         # Fonction -> Activation du pare-feu
-                    2) desactiver_pare_feu ;;         # Fonction -> Désactivation du pare-feu
-                    *) echo "Option invalide!" ;;
-                esac ;;
-    
-            4)  
-            # Gestion des logiciels
-                echo -e "Que voulez-vous faire ?\n1) Installation de logiciel\n2) Désinstallation de logiciel\n3) Exécuter un script\n0) Sortie"
-                read action_logiciel
-                clear
-
-                case $action_logiciel in
-                    1) install_software ;;      # Fonction -> Installation de logiciel
-                    2) uninstall_software ;;    # Fonction -> Désinstallation de logiciel
-                    3) ssh CLILIN01 bash < ./nomscript.sh ;;          # Fonction -> Exécution de script sur la machine
-                    0) echo "Sortie..." ;;
-                    *) echo "Option invalide!" ;;
-                esac ;;
-    
-
-    
-    
-    2)   
-    # dans le cas 2 information
-
-echo -e "Quel choix de menu?\n1) Informations sur la machine \n2) Informations sur les disques \n3) Informations sur les logiciels"
-read choix_menu
-clear
-
-    case $choix_menu in
+    2)
+        # Récupérer une information
+        echo -e "Quel type d'information souhaitez-vous obtenir ?\n1) Information liée à la session\n2) Information liée au compte"
+        read info_1
+        clear
+        
+        case $info_1 in
         1)
-            # Sous-menu pour les informations machine
-            echo -e "Que souhaitez-vous faire?\n1) Version de l'OS \n2) Mémoire RAM totale \n3) Utilisation de la RAM \n4) Utilisateurs locaux \n0) Sortie"
+            # Information liée à la session
+            echo -e "Quel type d'information ?\n1) Date de dernière connexion\n2) Date de dernière modification du mot de passe\n3) Liste des sessions ouvertes"
+            read info_2
+            clear
+            
+            case $info_2 in
+                1) date_dernière_connexion >> info_${horodate}_${cible}.txt ;; # Date de dernière connexion
+                
+                2) date_dernière_modification_mot_de_passe >> info_${horodate}_${cible}.txt ;; # Date de dernière modification du mot de passe
+                
+                3) liste_sessions_utilisateur >> info_${horodate}_${cible}.txt ;; # Liste des sessions ouvertes
+                *) echo "Erreur de saisie" ;;
+            esac ;;
+        
+        2)
+            # Information liée au compte
+            echo -e "Quel type d'information ?\n1) Groupe d’appartenance\n2) Historique des commandes\n3) Droits sur un dossier\n4) Droits sur un fichier"
+            read info_3
+            clear
+            
+            case $info_3 in
+                1) utilisateur_1 >> info_${horodate}_${cible}.txt ;; # Groupe d'appartenance
+                2) utilisateur_2 >> info_${horodate}_${cible}.txt ;; # Historique des commandes
+                3) utilisateur_3 >> info_${horodate}_${cible}.txt ;; # Droits sur un dossier
+                4) utilisateur_4 >> info_${horodate}_${cible}.txt ;; # Droits sur un fichier
+                *) echo "Erreur de saisie" ;;
+            esac ;;
+        esac ;;
+    esac  ;;
+    
+2)
+    # Cible: Ordinateur
+    echo -e "Que souhaitez-vous faire ?\n1) Effectuer une action\n2) Récupérer une information"
+    read choix_2
+    clear
+    
+    case $choix_2 in
+    1)
+        # Effectuer une action
+        echo -e "Que souhaitez-vous gérer ?\n1) Gestion de la machine\n2) Gestion des fichiers\n3) Gestion du pare-feu\n4) Gestion des logiciels"
+        read choix_gestion
+        clear
+        
+        case $choix_gestion in
+        1)
+            # Gestion de la machine
+            echo -e "Quelle action ?\n1) Arrêt\n2) Redémarrage\n3) Verrouillage\n4) Mise à jour\n5) PMAD"
+            read choix_machine
+            clear
+            
+            case $choix_machine in
+                1) Arrêt_machine ;; # Arrêt
+                2) Redémarrage_machine ;; # Redémarrage
+                3) Verrouillage_machine ;; # Verrouillage
+                4) Mise-à-jour_système ;; # Mise à jour
+                5) PMAD ;; # PMAD
+                *) echo "erreur saisie!" ;;
+            esac
+            ;;
+        
+        2)
+            # Gestion des fichiers
+            echo -e "Quelle action sur les fichiers ?\n1) Création de répertoire\n2) Modification de répertoire\n3) Suppression de répertoire"
+            read actionFile
+            clear
+            
+            case $actionFile in
+                1) create_directory ;; # Création de répertoire
+                2) modify_directory ;; # Modification de répertoire
+                3) delete_directory ;; # Suppression de répertoire
+                *) echo "erreur saisie!" ;;
+            esac ;;
+        
+        3)
+            # Gestion du pare-feu
+            echo -e "Quelle action sur le pare-feu ?\n1) Activation\n2) Désactivation"
+            read actionFirewall
+            clear
+            
+            case $actionFirewall in
+                1) activer_pare_feu ;; # Activation du pare-feu
+                2) desactiver_pare_feu ;; # Désactivation du pare-feu
+                *) echo "erreur saisie!" ;;
+            esac ;;
+        
+        4)
+            # Gestion des logiciels
+            echo -e "Que voulez-vous faire ?\n1) Installation\n2) Désinstallation\n3) Exécuter un script\n0) Sortie"
+            read action_logiciel
+            clear
+            
+            case $action_logiciel in
+                1) install_software ;; # Installation de logiciel
+                2) uninstall_software ;; # Désinstallation de logiciel
+                3) ssh CLILIN01 bash < ./nomscript.sh ;; # Exécution d'un script
+                0) echo "Sortie..." ;;
+                *) echo "erreur saisie!" ;;
+            esac ;;
+        esac ;;
+    
+    2)
+        # Récupérer une information
+        echo -e "Quel choix de menu ?\n1) Informations sur la machine\n2) Informations sur les disques\n3) Informations sur les logiciels"
+        read choix_menu
+        clear
+        
+        case $choix_menu in
+        1)
+            # Informations sur la machine
+            echo -e "Que souhaitez-vous obtenir ?\n1) Version de l'OS\n2) Mémoire RAM totale\n3) Utilisation de la RAM\n4) Utilisateurs locaux\n0) Sortie"
             read info_machine
             clear
-        
+            
             case $info_machine in
-                1) version_os >> info_${horodate}_${cible}.txt ;;               # Appel de la fonction pour la version de l'OS
-                2) ram_totale >> info_${horodate}_${cible}.txt ;;               # Appel de la fonction pour la RAM totale
-                3) ram_utilisation >> info_${horodate}_${cible}.txt ;;          # Appel de la fonction pour l'utilisation de la RAM
-                4) liste_utilisateur >> info_${horodate}_${cible}.txt ;;        # Appel de la fonction pour la liste des utilisateurs locaux
+                1) version_os >> info_${horodate}_${cible}.txt ;; # Version OS
+                2) ram_totale >> info_${horodate}_${cible}.txt ;; # RAM totale
+                3) ram_utilisation >> info_${horodate}_${cible}.txt ;; # Utilisation RAM
+                4) liste_utilisateur >> info_${horodate}_${cible}.txt ;; # Utilisateurs locaux
                 0) echo "Sortie" ;;
-
+                *) echo "erreur saisie!" ;;
             esac ;;
         
-
         2)
-            # sous menu pour les disques
-            echo -e "\n1) Nombre de disque \n2) Détail partition \n3) Espace restant \n4) Détails dossier \n5) Liste lecteur \n0) Sortie"
+            # Informations sur les disques
+            echo -e "\n1) Nombre de disques\n2) Détail partition\n3) Espace restant\n4) Détails dossier\n5) Liste des lecteurs\n0) Sortie"
             read info_disque
             clear
+            
             case $info_disque in
-
-                1) nombre_disque >> info_${horodate}_${cible}.txt ;;   # Fonction nombre de disque
-                2) partition >> info_${horodate}_${cible}.txt ;;   # Fonction partition
-                3) disque_restant >> info_${horodate}_${cible}.txt ;;  #Fonction Espace disque restant par partition/volume
-                4) espace_dossier >> info_${horodate}_${cible}.txt ;;  # Fonction Nom et espace disque d'un dossier
-                5) liste_lecteur >> info_${horodate}_${cible}.txt ;;  # Fonction Liste des lecteurs monté
-                0) echo "Sortie" ;;    
-
+                1) nombre_disque >> info_${horodate}_${cible}.txt ;; # Nombre de disques
+                2) partition >> info_${horodate}_${cible}.txt ;; # Détail partition
+                3) disque_restant >> info_${horodate}_${cible}.txt ;; # Espace restant
+                4) espace_dossier >> info_${horodate}_${cible}.txt ;; # Détails dossier
+                5) liste_lecteur >> info_${horodate}_${cible}.txt ;; # Liste lecteurs
+                0) echo "Sortie" ;;
+                *) echo "erreur saisie!" ;;
             esac ;;
         
-
-        3)    
-            #sous menu information sur les logiciels
-            echo -e "Quells informations à récupérer? \n1) Liste des applications/paquets \n2) Liste des services en cours d'écéxution \0) sortie"
+        3)
+            # Informations sur les logiciels
+            echo -e "Quelles informations ?\n1) Liste des applications/paquets\n2) Liste des services en cours\n0) Sortie"
             read infoHost
             clear
+            
             case $infoHost in
-
-                1) liste_appli >> info_${horodate}_${cible}.txt ;;     # Fonction liste des applications/paquets installées
-                2) service_runing >> info_${horodate}_${cible}.txt ;;     # Fonction liste des services en cours d'execution
-                3) echo "Sortie" ;;
-                # FIN CAS demande quel type d'info récupérer sur les logiciels
+                1) liste_appli >> info_${horodate}_${cible}.txt ;; # Liste des applications
+                2) service_runing >> info_${horodate}_${cible}.txt ;; # Liste des services en cours
+                0) echo "Sortie" ;;
+                *) echo "erreur saisie!" ;;
             esac ;;
-            # FIN CAS demande quelles informations récupérer
-
         esac ;;
-        # FIN CAS demande si on doit récupérer une information ou effectuer une action
-    
     esac ;;
-    # FIN CAS accueil demande de sélectionner une cible , soit ordinateur, soit utilisateur   
-
-esac ;;
 esac
 
-# demande si on doit continuer la boucle ou sortir
-# FIN BOUCLE while
+
