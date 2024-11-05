@@ -1,4 +1,4 @@
-
+Import-Module -Force .\Fonctions_Script_Projet-2.psm1
 
 $targetType=$null
 $actionOrInfoType=$null
@@ -7,6 +7,7 @@ $userInfo=$null
 $computerInfo=$null
 $computerManagement=$null
 
+custom_log "********StartScript********"
 
 Clear-Host
 
@@ -15,12 +16,14 @@ do {
     Clear-Host
     switch ($targetType) {
     "1" {
+        custom_log "Déplacement vers Utilisateur"
         do {
             Remove-Variable userManagement,infoType -ErrorAction SilentlyContinue
             $actionOrInfoType = Read-Host -Prompt "Que voulez vous faire ?`n1) Effectuer une action`n2) Récupérer une information`n0) Retour`nx) Quitter`n"
             Clear-Host
             switch ($actionOrInfoType) {
                 "1" {
+                    custom_log "Déplacement vers Actions Utilisateur"
                     Write-Host "Quelles type d'actions effectuer sur les comptes utilisateurs ?"
                     Write-Host "1) Création de compte utilisateur local"
                     Write-Host "2) Changement de mot de passe d'un utilisateur local"
@@ -36,46 +39,51 @@ do {
                         switch ($userManagement) {
                         "1" {
                             # Fonction -> Création de compte utilisateur local
-                            Write-Output "Création de compte utilisateur local"
+                            custom_log "Action - Création de compte utilisateur local"
                         }
                         "2" {
                             # Fonction -> Changement de mot de passe
-                            Write-Output "Changement de mot de passe"
+                            custom_log "Action - Changement de mot de passe"
                         }
                         "3" {
                             # Fonction -> Suppression de compte utilisateur local
-                            Write-Output "Suppression de compte utilisateur local"
+                            custom_log "Action - Suppression de compte utilisateur local"
                         }
                         "4" {
                             # Fonction -> Désactivation de compte utilisateur local
-                            Write-Output "Désactivation de compte utilisateur local"
+                            custom_log "Action - Désactivation de compte utilisateur local"
                         }
                         "5" {
                             # Fonction -> add_user_group_admin
-                            Write-Output "Ajout à un groupe d'administration"
+                            custom_log "Action - Ajout à un groupe d'administration"
                         }
                         "6"{
                             # Fonction -> add_user_group_local
-                            Write-Output "Ajout à un groupe local"
+                            custom_log "Action - Ajout à un groupe local"
                         }
                         "7" {
                             # Fonction -> del_user_group_local
-                            Write-Output "Retrait d'un groupe local"
+                            custom_log "Action - Retrait d'un groupe local"
                         }
                         "0" { 
-                            Write-Host "retour"
                             $userManagement="0"
                             $userInfo="0"
+                            custom_log "Retour vers Utilisateur"
                             }
                         "x" {
                             Write-Host "Au revoir !"
                             $targetType="x"
+                            custom_log "*********EndScript*********"
                         }
-                        Default { Write-Host "Erreur de saisie" }
+                        Default { 
+                            Write-Host "Erreur de saisie !" -ForegroundColor Yellow
+                            custom_log "Erreur de saisie"
+                        }
                     }
-                
                 }
+                
                 "2" { 
+                    custom_log "Déplacement vers Informations Utilisateur"
                     Write-Host "Quelles informations souhaitez vous récupérer ?"
                     Write-Host "1) Dernière date de connexion d'un utilisateur"
                     Write-Host "2) Dernière modification de mot de passe"
@@ -88,61 +96,72 @@ do {
                     switch ($userInfo) {
                         "1" {
                             # Fonction -> Date de dernière connexion d’un utilisateur
-                            Write-Output "Date de dernière connexion d’un utilisateur"
+                            custom_log "Info - Date de dernière connexion d’un utilisateur"
                         }
                         "2" {
                             # Fonction -> Date de dernière modification du mot de passe
-                            Write-Output "Date de dernière modification du mot de passe"
+                            custom_log "Info - Date de dernière modification du mot de passe"
                         }
                         "3" {
                             # Fonction -> Liste des sessions ouvertes par l'utilisateur
-                            Write-Output "Liste des sessions ouvertes par l'utilisateur"
+                            custom_log "Info - Liste des sessions ouvertes par l'utilisateur"
                         }
                         "4" {
                             # Fonction -> Groupe d’appartenance d’un utilisateur
-                            Write-Output "Groupe d’appartenance d’un utilisateur"
+                            custom_log "Info - Groupe d’appartenance d’un utilisateur"
                         }
                         "5" {
                             # Fonction -> Historique des commandes exécutées par l'utilisateur
-                            Write-Output "Historique des commandes exécutées par l'utilisateur"
+                            custom_log "Info - Historique des commandes exécutées par l'utilisateur"
                         }
                         "6" {
                             # Fonction -> Droits/permissions de l’utilisateur sur un dossier
-                            Write-Output "Droits/permissions de l’utilisateur sur un dossier"
+                            custom_log "Info - Droits/permissions de l’utilisateur sur un dossier"
                         }
                         "7" {
                             # Fonction -> Droits/permissions de l’utilisateur sur un fichier
-                            Write-Output "Droits/permissions de l’utilisateur sur un fichier"
+                            custom_log "Info - Droits/permissions de l’utilisateur sur un fichier"
                         }
                         "0" { 
                             Write-Host "retour"
                             $userManagement="0"
                             $userInfo="0"
+                            custom_log "Retour vers Utilisateur"
                             }
                         "x" {
                             Write-Host "Au revoir !"
                             $targetType="x"
+                            custom_log "*********EndScript*********"
                         }
-                        Default { Write-Host "Erreur de saisie" }
+                        Default { 
+                            Write-Host "Erreur de saisie !" -ForegroundColor Yellow
+                            custom_log "Erreur de saisie"
+                        }
                     }
                 }
-                "0" { Write-Host "retour" }
+                "0" { custom_log "Retour vers Choix de la cible" }
                 "x" {
                     Write-Host "Au revoir !"
                     $targetType="x"
+                    custom_log "*********EndScript*********"
                 }
-                Default { Write-Host "Erreur de saisie !" }
+                Default { 
+                    Write-Host "Erreur de saisie !" -ForegroundColor Yellow
+                    custom_log "Erreur de saisie"
+                }
             }
         } while (($userManagement -eq "0") -and ($userInfo -eq "0")) 
         
     }    
     "2" {
+        custom_log "Déplacement vers Ordinateurs"
         do {
             Remove-Variable computerManagement,computerInfo -ErrorAction SilentlyContinue 
             $actionOrInfoType = Read-Host -Prompt "Que voulez vous faire ?`n1) Effectuer une action`n2) Récupérer une information`n0) Retour`nx) Quitter`n"
             Clear-Host
             switch ($actionOrInfoType) {
                 "1" { 
+                    custom_log "Déplacement vers Actions Ordinateur"
                     Write-Host "Quelles type d'actions effectuer sur l'hôte distant' ?"
                     Write-Host "1) Arrêt"
                     Write-Host "2) Redémarrage"
@@ -164,70 +183,74 @@ do {
                     switch ($computerManagement) {
                         "1" { 
                             # Fonction -> Arrêt
-                            Write-Host "arret machine" 
+                            custom_log "Action - Arret machine" 
                         }
                         "2"{
                             # Fonction -> Redémarrage
-                            Write-Host "Redémarrage de la machine en cours..."
+                            custom_log "Action -  Redémarrage de la machine"
                         }
                         "3" {
                             # Fonction -> Verrouillage
-                            Write-Output "Verrouillage de la machine..."
+                            custom_log "Action - Verrouillage de la machine"
                         }
                         "4" {
                             # Fonction -> Mise-à-jour du système
-                            Write-Output "Mise à jour de la machine en cours..."
+                            custom_log "Action - Mise à jour de la machine"
                         }
                         "5" {
                             # Fonction -> PMAD
-                            Write-Output "PMAD en cours..."
+                            custom_log "Action - PMAD"
                         }
                         "6"{
                             # Fonction -> Création de répertoire
-                            Write-Output "Création de répertoire en cours..."
+                            custom_log "Action - Création de répertoire"
                         }
                         "7"{
                             # Fonction -> Modification de répertoire
-                            Write-Output "Modification de répertoire en cours..."
+                            custom_log "Action - Modification de répertoire"
                         }
                         "8"{
                             # Fonction -> Suppression de répertoire
-                            Write-Output "Suppression de répertoire en cours..."
+                            custom_log "Action - Suppression de répertoire"
                         }
                         "9"{
                             # Fonction -> Activation du pare-feu
-                            Write-Output "Activation des pares feu..."
+                            custom_log "Action - Activation du parefeu"
                         }
                         "10"{
                             # Fonction -> Désactivation du pare-feu
-                            Write-Output "Désactivation du parefeu..."
+                            custom_log "Action - Désactivation du parefeu"
                         }
                         "11"{
                             # Fonction -> Installation de logiciel
-                            Write-Output "Installation de logiciel..."
+                            custom_log "Action - Installation de logiciel"
                         }
                         "12"{
                             # Fonction -> Désinstallation de logiciel
-                            Write-Output "Désinstallationde logiciel..."
+                            custom_log "Action - Désinstallationde logiciel"
                         }
                         "13" {
                             # Fonction -> Exécution de script sur la machine distante
-                            Write-Output "Exécution de script sur la machine distante..."
-                            invoke-command -computername CLIWIN01 {C:\Users\Script.ps1
+                            custom_log "Action - Exécution de script sur la machine distante"
                         }
                         "0" { 
-                            Write-Host "retour"
                             $computerManagement="0"
                             $computerInfo="0"
+                            custom_log "Retour vers Ordinateur"
                             }
                         "x" {
                             Write-Host "Au revoir !"
                             $targetType="x"
+                            custom_log "*********EndScript*********"
                         }
-                        Default { Write-Host "Erreur de saisie" }
+                        Default { 
+                            Write-Host "Erreur de saisie !" -ForegroundColor Yellow
+                            custom_log "Erreur de saisie"
+                        }
                     } 
                 }
                 "2" { 
+                    custom_log "Déplacement vers Informations Ordinateur"
                     Write-Host "Quelles informations de l'hôte distant souhaitez vous récupérer ?"
                     Write-Host "1) Version de l'OS"
                     Write-Host "2) Mémoire RAM total"
@@ -247,73 +270,84 @@ do {
                     switch ($computerInfo) {
                         "1" { 
                             # Fonction -> Version de l'OS
-                            Write-Output "Version de l'OS"
+                            custom_log "Info - Version de l'OS"
                         }
                         "2"{
                             # Fonction -> Mémoire RAM totale
-                            Write-Output "Mémoire RAM total"
+                            custom_log "Info - Mémoire RAM total"
                         }
                         "3"{
                             # Fonction -> Utilisation de la RAM
-                            Write-Output "Utilisation de la RAM"
+                            custom_log "Info - Utilisation de la RAM"
                         }
                         "4"{
                             # Fonction -> Liste des utilisateurs locaux
-                            Write-Output "Liste des utilisateurs locaux"
+                            custom_log "Info - Liste des utilisateurs locaux"
                         }
                         "5"{
                             # Fonction -> Nombre de disque
-                            Write-Output "Nombre de disque"
+                            custom_log "Info - Nombre de disque"
                         }
                         "6"{
                             # Fonction -> Partition (nombre, nom, FS, taille) par disque
-                            Write-Output "Partition (nombre, nom, FS, taille) par disque"
+                            custom_log "Info - Partition (nombre, nom, FS, taille) par disque"
                         }
                         "7"{
                             # Fonction -> Espace disque restant par partition/volume
-                            Write-Output "Espace disque restant par partition/volume"
+                            custom_log "Info - Espace disque restant par partition/volume"
                         }
                         "8"{
                             # Fonction -> Nom et espace disque d'un dossier (nom de dossier demandé)
-                            Write-Output "Nom et espace disque d'un dossier (nom de dossier demandé)"
+                            custom_log "Info - Nom et espace disque d'un dossier (nom de dossier demandé)"
                         }
                         "9"{
                             # Fonction -> Liste des lecteurs monté (disque, CD, etc.)
-                            Write-Output "Liste des lecteurs monté (disque, CD, etc.)"
+                            custom_log "Info - Liste des lecteurs monté (disque, CD, etc.)"
                         }
                         "10"{
                             # Fonction -> Liste des applications/paquets installées
-                            Write-Output "Liste des applications/paquets installées"
+                            custom_log "Info - Liste des applications/paquets installées"
                         }
                         "11"{
                             # Fonction -> Liste des services en cours d'execution
-                            Write-Output "Liste des services en cours d'execution"
+                            custom_log "Info - Liste des services en cours d'execution"
                         }
                         "0" { 
-                            Write-Host "retour" 
                             $computerManagement="0"
                             $computerInfo="0"
+                            custom_log "Retour vers Ordinateur"
                         }
                         "x" {
                             Write-Host "Au revoir !"
                             $targetType="x"
+                            custom_log "*********EndScript*********"
                         }
-                        Default { Write-Host "Erreur de saisie" }
+                        Default { 
+                            Write-Host "Erreur de saisie !" -ForegroundColor Yellow
+                        }
                     }
                 }
-                "0" { Write-Host "retour" }
+                "0" { custom_log "Retour vers Choix de la cible" }
                 "x" { 
                     Write-Host "Au revoir !"
                     $targetType="x"
+                    custom_log "*********EndScript*********"
                 }
-                Default { Write-Host "Erreur de saisie !" }
+                Default { 
+                    Write-Host "Erreur de saisie !" -ForegroundColor Yellow
+                    custom_log "Erreur de saisie"
+                }
             }
         } while (($computerManagement -eq "0") -and ($computerInfo -eq "0"))
     }
     "x" { 
     Write-Host "Au revoir !"
     $targetType="x"
+    custom_log "*********EndScript*********"
     }
-    default { Write-Host "Erreur de saisie" }
+    Default { 
+        Write-Host "Erreur de saisie !" -ForegroundColor Yellow
+        custom_log "Erreur de saisie"
+    }
     }
 } while ($targetType -ne "x")
