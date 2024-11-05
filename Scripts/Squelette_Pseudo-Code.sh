@@ -475,7 +475,7 @@ case $choix_1 in
                     2) date_dernière_modification_mot_de_passe ;; # Fonction -> Date de dernière modification du mot de passe
            
                     3) liste_sessions_utilisateur ;; # Fonction -> Liste des sessions ouvertes par l'utilisateur
-              
+                    *) echo "erreur de saisie"
                 # FIN CAS demande quelles info lié à la session récupérer
                 esac ;;
             # dans le cas 2 information lié au compte
