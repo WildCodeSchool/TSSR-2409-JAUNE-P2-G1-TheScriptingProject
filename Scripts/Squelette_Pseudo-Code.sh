@@ -1,5 +1,8 @@
 #! /bin/bash
 
+cible=whoami
+horodate=$(date '+%Y%m%d')
+
 function connexion_ssh() { 
 # Demander à l'utilisateur son nom d'utilisateur
 read -p "À quel utilisateur voulez-vous être connecté ? " User
@@ -475,11 +478,11 @@ case $choix_1 in
                 case $info_2 in
 
               
-                    1) date_dernière_connexion ;; # Fonction -> Date de dernière connexion d’un utilisateur
+                    1) date_dernière_connexion >> info_${horodate}_${cible}.txt ;; # Fonction -> Date de dernière connexion d’un utilisateur
             
-                    2) date_dernière_modification_mot_de_passe ;; # Fonction -> Date de dernière modification du mot de passe
+                    2) date_dernière_modification_mot_de_passe >> info_${horodate}_${cible}.txt ;; # Fonction -> Date de dernière modification du mot de passe
            
-                    3) liste_sessions_utilisateur ;; # Fonction -> Liste des sessions ouvertes par l'utilisateur
+                    3) liste_sessions_utilisateur >> info_${horodate}_${cible}.txt ;; # Fonction -> Liste des sessions ouvertes par l'utilisateur
                     *) echo "erreur de saisie"
                 # FIN CAS demande quelles info lié à la session récupérer
                 esac ;;
@@ -494,10 +497,10 @@ case $choix_1 in
                 case $info_3 in 
 
           
-                    1) utilisateur_1 ;;  # Fonction -> Groupe d’appartenance d’un utilisateur
-                    2) utilisateur_2 ;; # Fonction -> Historique des commandes exécutées par l'utilisateur
-                    3) utilisateur_3 ;; # Fonction -> Droits/permissions de l’utilisateur sur un dossier
-                    4) utilisateur_4 ;; # Fonction -> Droits/permissions de l’utilisateur sur un fichier
+                    1) utilisateur_1 >> info_${horodate}_${cible}.txt ;;  # Fonction -> Groupe d’appartenance d’un utilisateur
+                    2) utilisateur_2 >> info_${horodate}_${cible}.txt ;; # Fonction -> Historique des commandes exécutées par l'utilisateur
+                    3) utilisateur_3 >> info_${horodate}_${cible}.txt ;; # Fonction -> Droits/permissions de l’utilisateur sur un dossier
+                    4) utilisateur_4 >> info_${horodate}_${cible}.txt ;; # Fonction -> Droits/permissions de l’utilisateur sur un fichier
                     *) echo "erreur de saisie"
                 esac ;;
                 # FIN CAS demande quelles info lié au compte récupérer
@@ -593,10 +596,10 @@ clear
             clear
         
             case $info_machine in
-                1) version_os ;;               # Appel de la fonction pour la version de l'OS
-                2) ram_totale ;;               # Appel de la fonction pour la RAM totale
-                3) ram_utilisation ;;          # Appel de la fonction pour l'utilisation de la RAM
-                4) liste_utilisateur ;;        # Appel de la fonction pour la liste des utilisateurs locaux
+                1) version_os >> info_${horodate}_${cible}.txt ;;               # Appel de la fonction pour la version de l'OS
+                2) ram_totale >> info_${horodate}_${cible}.txt ;;               # Appel de la fonction pour la RAM totale
+                3) ram_utilisation >> info_${horodate}_${cible}.txt ;;          # Appel de la fonction pour l'utilisation de la RAM
+                4) liste_utilisateur >> info_${horodate}_${cible}.txt ;;        # Appel de la fonction pour la liste des utilisateurs locaux
                 0) echo "Sortie" ;;
 
             esac ;;
@@ -609,11 +612,11 @@ clear
             clear
             case $info_disque in
 
-                1) nombre_disque ;;   # Fonction nombre de disque
-                2) partition ;;   # Fonction partition
-                3) disque_restant ;;  #Fonction Espace disque restant par partition/volume
-                4) espace_dossier ;;  # Fonction Nom et espace disque d'un dossier
-                5) liste_lecteur ;;  # Fonction Liste des lecteurs monté
+                1) nombre_disque >> info_${horodate}_${cible}.txt ;;   # Fonction nombre de disque
+                2) partition >> info_${horodate}_${cible}.txt ;;   # Fonction partition
+                3) disque_restant >> info_${horodate}_${cible}.txt ;;  #Fonction Espace disque restant par partition/volume
+                4) espace_dossier >> info_${horodate}_${cible}.txt ;;  # Fonction Nom et espace disque d'un dossier
+                5) liste_lecteur >> info_${horodate}_${cible}.txt ;;  # Fonction Liste des lecteurs monté
                 0) echo "Sortie" ;;    
 
             esac ;;
@@ -626,8 +629,8 @@ clear
             clear
             case $infoHost in
 
-                1) liste_appli ;;     # Fonction liste des applications/paquets installées
-                2) service_runing ;;     # Fonction liste des services en cours d'execution
+                1) liste_appli >> info_${horodate}_${cible}.txt ;;     # Fonction liste des applications/paquets installées
+                2) service_runing >> info_${horodate}_${cible}.txt ;;     # Fonction liste des services en cours d'execution
                 3) echo "Sortie" ;;
                 # FIN CAS demande quel type d'info récupérer sur les logiciels
             esac ;;
