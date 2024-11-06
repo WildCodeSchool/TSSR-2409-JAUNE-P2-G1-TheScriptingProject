@@ -24,7 +24,7 @@ ssh "$User@$Ip_Valeur"
 #                                  Action Utilisateur
 
 #Fonction Création compte utilisateur
-function Création_de_compte_Utilisateur_local() {
+function Creation_de_compte_Utilisateur_local() {
     # Demande le nom d'utilisateur
 read -p "Entrez le nom d'utilisateur à créer: " username
 clear 
@@ -98,7 +98,7 @@ function Suppression_du_compte_utilisateur() {
 
 
 #Fonction Désactivation de compte utilisateur local
-function désactivation_utilisateur() {
+function desactivation_utilisateur() {
 echo -e "quel nom d'utilisateur?" choix_9
 read choix_9
 sudo usermod -L $choix_9
@@ -172,13 +172,13 @@ clear
 #                                  action Ordinateur
 
 #Fonction arrêt système
-function Arrêt_machine() { 
+function Arret_machine() { 
     echo "Arrêt de la machine en cours..."
     sudo shutdown now 
 }
 
 #Fonction redémmarage système
-function Redémarrage_machine() { 
+function Redemarrage_machine() { 
     echo "Redémarrage de la machine en cours..."
     sudo reboot
 }
@@ -190,7 +190,7 @@ function  Verrouillage_machine() {
 }
 
 #Fonction mise a jour du système
-function Mise-à-jour_système() {
+function Mise_a_jour_systeme() {
     echo "Mise à jour de la machine en cours..."
     sudo apt update && sudo apt upgrade -y
 } 
@@ -316,7 +316,7 @@ apt install $nom_logiciel_install ;
 }
 
 # Fonction -> Désinstallation de logiciel
-function désinstall-soft() {
+function desinstall-soft() {
 read -p "Quel est le nom du logiciel? " nom_logiciel_uninstall
 apt remove $nom_logiciel_uninstall
 }
@@ -488,10 +488,10 @@ case $choix_1 in
             clear
             
             case $userManagement in
-                1) Création_de_compte_utilisateur_local ;; # Fonction de création de compte
-                2) Changement_de_mot_de_passe ;;           # Fonction de changement de mot de passe
-                3) Suppression_de_compte_utilisateur ;;    # Fonction de suppression de compte
-                4) désactivation_utilisateur ;;  # Fonction de désactivation de compte
+                1) Creation_de_compte_utilisateur_local ;; # Fonction de création de compte
+                2) Changement_MDP ;;           # Fonction de changement de mot de passe
+                3) Suppression_du_compte_utilisateur ;;    # Fonction de suppression de compte
+                4) desactivation_utilisateur ;;  # Fonction de désactivation de compte
                 *) echo "Option invalide!" ;;
             esac ;;
         
@@ -523,9 +523,9 @@ case $choix_1 in
             clear
             
             case $info_2 in
-                1) date_dernière_connexion >> info_${horodate}_${cible}.txt ;; # Date de dernière connexion
+                1) date_derniere_connexion >> info_${horodate}_${cible}.txt ;; # Date de dernière connexion
                 
-                2) date_dernière_modification_mot_de_passe >> info_${horodate}_${cible}.txt ;; # Date de dernière modification du mot de passe
+                2) date_derniere_modification_mot_de_passe >> info_${horodate}_${cible}.txt ;; # Date de dernière modification du mot de passe
                 
                 3) liste_sessions_utilisateur >> info_${horodate}_${cible}.txt ;; # Liste des sessions ouvertes
                 *) echo "Erreur de saisie" ;;
@@ -568,10 +568,10 @@ case $choix_1 in
             clear
             
             case $choix_machine in
-                1) Arrêt_machine ;; # Arrêt
-                2) Redémarrage_machine ;; # Redémarrage
+                1) Arret_machine ;; # Arrêt
+                2) Redemarrage_machine ;; # Redémarrage
                 3) Verrouillage_machine ;; # Verrouillage
-                4) Mise-à-jour_système ;; # Mise à jour
+                4) Mise_a_jour_systeme ;; # Mise à jour
                 5) PMAD ;; # PMAD
                 *) echo "erreur saisie!" ;;
             esac
