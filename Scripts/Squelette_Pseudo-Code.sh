@@ -448,8 +448,9 @@ free -h | awk '{print $2 "----- "}'
 #--------------------------------------------------------------------------------------------------
 #!/bin/bash
 
+while true; do 
 # Affichage du menu de sélection de la cible (ordinateur ou utilisateur)
-echo -e "Que souhaitez-vous atteindre?\n1) Utilisateur\n2) Ordinateur\n"
+echo -e "Que souhaitez-vous atteindre?\n1) Utilisateur\n2) Ordinateur\nx) Sortir du script"
 read choix_1
 clear
 
@@ -657,6 +658,13 @@ case $choix_1 in
             esac ;;
         esac ;;
     esac ;;
+x)
+    
+    if [ $x ="0" ] ;then
+        echo "vous êtes Sorti du script"
+        exit 2
+    fi 
 esac
+done
 
 
