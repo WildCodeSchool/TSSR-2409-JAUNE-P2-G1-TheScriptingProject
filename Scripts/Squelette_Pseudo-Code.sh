@@ -1,6 +1,6 @@
 #! /bin/bash
 
-cible=whoami
+cible=$(whoami)
 horodate=$(date '+%Y%m%d')
 
 function connexion_ssh() { 
