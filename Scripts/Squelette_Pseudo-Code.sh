@@ -339,17 +339,7 @@ sudo passwd -S nata | awk '{print $3}'
 
 #Fonction Liste des sessions ouvertes par l'utilisateur
 function liste_sessions_utilisateur() {
-    local utilisateur=$1
-
-    # Vérification que le nom d'utilisateur est fourni
-    if [ -z "$utilisateur" ]; then
-        echo "Veuillez spécifier un nom d'utilisateur."
-        return 1
-    fi
-
-    # Affiche les sessions en cours pour l'utilisateur spécifié
-    echo "Sessions ouvertes pour l'utilisateur : $utilisateur"
-    who | grep "^$utilisateur" || echo "Aucune session ouverte trouvée pour $utilisateur."
+   w
 }
 
 #Fonction Groupe d’appartenance d’un utilisateur
