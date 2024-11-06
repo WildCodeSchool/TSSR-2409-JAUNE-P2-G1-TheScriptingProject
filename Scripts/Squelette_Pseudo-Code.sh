@@ -476,7 +476,7 @@ case $choix_1 in
             clear
             
             case $userManagement in
-                1) Creation_de_compte_utilisateur_local ;; # Fonction de création de compte
+                1) Creation_de_compte_Utilisateur_local ;; # Fonction de création de compte
                 2) Changement_MDP ;;           # Fonction de changement de mot de passe
                 3) Suppression_du_compte_utilisateur ;;    # Fonction de suppression de compte
                 4) desactivation_utilisateur ;;  # Fonction de désactivation de compte
