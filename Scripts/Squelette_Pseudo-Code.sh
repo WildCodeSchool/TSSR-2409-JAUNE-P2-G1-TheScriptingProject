@@ -559,7 +559,7 @@ case $choix_1 in
                 1) Arrêt_machine ;; # Arrêt
                 2) Redémarrage_machine ;; # Redémarrage
                 3) Verrouillage_machine ;; # Verrouillage
-                4) Mise_a_jour_système ;; # Mise à jour
+                4) Mise_a_jour_systeme ;; # Mise à jour
                 5) PMAD ;; # PMAD
                 *) echo "erreur saisie!" ;;
             esac
@@ -597,8 +597,8 @@ case $choix_1 in
             clear
             
             case $action_logiciel in
-                1) install_software ;; # Installation de logiciel
-                2) uninstall_software ;; # Désinstallation de logiciel
+                1) install_soft ;; # Installation de logiciel
+                2) uninstall_soft ;; # Désinstallation de logiciel
                 3) ssh CLILIN01 bash < ./nomscript.sh ;; # Exécution d'un script
                 0) echo "Sortie..." ;;
                 *) echo "erreur saisie!" ;;
