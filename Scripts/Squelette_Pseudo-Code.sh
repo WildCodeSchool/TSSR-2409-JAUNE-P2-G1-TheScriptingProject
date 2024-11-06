@@ -441,7 +441,7 @@ service --status-all
 }
 
 # Fonction -> Liste des utilisateurs locaux
-function liste_utilisateurs() {   
+function liste_utilisateur() {   
 cat /etc/passwd
 }
 
