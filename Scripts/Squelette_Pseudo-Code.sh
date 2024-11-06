@@ -98,6 +98,11 @@ function Suppression_du_compte_utilisateur() {
 
 
 #Fonction Désactivation de compte utilisateur local
+function désactivation_utilisateur() {
+echo -e "quel nom d'utilisateur?" choix_9
+read choix_9
+sudo usermod -L $choix_9
+}
 
 
 
@@ -486,7 +491,7 @@ case $choix_1 in
                 1) Création_de_compte_utilisateur_local ;; # Fonction de création de compte
                 2) Changement_de_mot_de_passe ;;           # Fonction de changement de mot de passe
                 3) Suppression_de_compte_utilisateur ;;    # Fonction de suppression de compte
-                4) Désactivation_de_compte_utilisateur ;;  # Fonction de désactivation de compte
+                4) désactivation_utilisateur ;;  # Fonction de désactivation de compte
                 *) echo "Option invalide!" ;;
             esac ;;
         
