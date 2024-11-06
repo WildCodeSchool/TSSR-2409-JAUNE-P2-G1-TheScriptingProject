@@ -328,9 +328,7 @@ apt remove $nom_logiciel_uninstall
 
 #Fonction Date de dernière connexion d’un utilisateur
 function date_dernière_connexion() {  
-utilisateur="userName"  # Remplacer "userName" par le nom d'utilisateur
-derniere_connexion=$(last -n 1 "$utilisateur" | awk '{print $4, $5, $6, $7}')
-echo "Dernière connexion de $utilisateur : $derniere_connexion"
+last | head -n1
 }
 
 #Fonction Date de dernière modification du mot de passe
