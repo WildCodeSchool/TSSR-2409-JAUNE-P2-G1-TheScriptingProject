@@ -327,15 +327,15 @@ apt remove $nom_logiciel_uninstall
 #                                   Info Utilisateur
 
 #Fonction Date de dernière connexion d’un utilisateur
-function date_dernière_connexion() {  
+function date_derniere_connexion() {  
 last | head -n1
 }
 
 #Fonction Date de dernière modification du mot de passe
-function date_dernière_modification_mot_de_passe() {
+function date_derniere_modification_mot_de_passe() {
   # Remplacer "userName" par le nom d'utilisateur
-chage -l "userName" | grep "Dernier changement de mot de passe" | awk '{print $5, $6, $7}'
-}
+sudo passwd -S nata | awk '{print $3}'
+
 
 #Fonction Liste des sessions ouvertes par l'utilisateur
 function liste_sessions_utilisateur() {
