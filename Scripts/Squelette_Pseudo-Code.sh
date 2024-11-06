@@ -559,7 +559,7 @@ case $choix_1 in
                 1) Arrêt_machine ;; # Arrêt
                 2) Redémarrage_machine ;; # Redémarrage
                 3) Verrouillage_machine ;; # Verrouillage
-                4) Mise-à-jour_système ;; # Mise à jour
+                4) Mise_a_jour_système ;; # Mise à jour
                 5) PMAD ;; # PMAD
                 *) echo "erreur saisie!" ;;
             esac
