@@ -144,6 +144,39 @@ switch ($validation) {
 }
 
 # Fonction -> Désactivation de compte utilisateur local
+function Désactivation_du_compte_utilisateur {
+
+    test_user
+    
+    $validation = Read-Host "Confirmation de la désactivation de l'utilisateur $userName [o/n]"
+    Clear-Host
+
+    switch ($validation) {
+        "o"{
+            # Désactivation de l'utilisateur
+            custom_log "ACTION - Validation de la désactivation du compte $UserName"
+
+            try {
+                Disable-LocalUser -Name $userName -ErrorAction Stop
+                Write-Host "Utilisateur $userName désactivé avec succès"
+                custom_log "ACTION - Utilisateur $userName désactivé avec succès"
+            }
+            catch {
+                Write-Host "Erreur : impossible de désactiver le compte $userName." -ForegroundColor Red
+                Write-Host "Vérifiez que le compte $userName soit actif et que le script soit lancé en tant qu'administrateur" -ForegroundColor Yellow
+                custom_log "ACTION - Erreur : impossible de désactiver le compte $userName."
+            }
+        }
+        "n" {
+            # Pas de désactivation
+            Write-Host "Désactivation du compte $userName annulée."
+            custom_log "ACTION - Erreur : Désactivation du compte $userName annulée."
+        }
+        Default {
+            Write-Host "Erreur de saisie"
+        }
+    }
+}
 
 
 # Fonction -> Ajout à un groupe d'administration
