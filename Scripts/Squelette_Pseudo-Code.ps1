@@ -39,31 +39,31 @@ do {
                         switch ($userManagement) {
                         "1" {
                             # Fonction -> Création de compte utilisateur local
-                            custom_log "Action - Création de compte utilisateur local"
+                            custom_log "ACTION - Création de compte utilisateur local"
                         }
                         "2" {
                             # Fonction -> Changement de mot de passe
-                            custom_log "Action - Changement de mot de passe"
+                            custom_log "ACTION - Changement de mot de passe"
                         }
                         "3" {
                             # Fonction -> Suppression de compte utilisateur local
-                            custom_log "Action - Suppression de compte utilisateur local"
+                            custom_log "ACTION - Suppression de compte utilisateur local"
                         }
                         "4" {
                             # Fonction -> Désactivation de compte utilisateur local
-                            custom_log "Action - Désactivation de compte utilisateur local"
+                            custom_log "ACTION - Désactivation de compte utilisateur local"
                         }
                         "5" {
                             # Fonction -> add_user_group_admin
-                            custom_log "Action - Ajout à un groupe d'administration"
+                            custom_log "ACTION - Ajout à un groupe d'administration"
                         }
                         "6"{
                             # Fonction -> add_user_group_local
-                            custom_log "Action - Ajout à un groupe local"
+                            custom_log "ACTION - Ajout à un groupe local"
                         }
                         "7" {
                             # Fonction -> del_user_group_local
-                            custom_log "Action - Retrait d'un groupe local"
+                            custom_log "ACTION - Retrait d'un groupe local"
                         }
                         "0" { 
                             $userManagement="0"
@@ -96,31 +96,31 @@ do {
                     switch ($userInfo) {
                         "1" {
                             # Fonction -> Date de dernière connexion d’un utilisateur
-                            custom_log "Info - Date de dernière connexion d’un utilisateur"
+                            custom_log "INFORMATION - Date de dernière connexion d’un utilisateur"
                         }
                         "2" {
                             # Fonction -> Date de dernière modification du mot de passe
-                            custom_log "Info - Date de dernière modification du mot de passe"
+                            custom_log "InINFORMATIONfo - Date de dernière modification du mot de passe"
                         }
                         "3" {
                             # Fonction -> Liste des sessions ouvertes par l'utilisateur
-                            custom_log "Info - Liste des sessions ouvertes par l'utilisateur"
+                            custom_log "INFORMATION - Liste des sessions ouvertes par l'utilisateur"
                         }
                         "4" {
                             # Fonction -> Groupe d’appartenance d’un utilisateur
-                            custom_log "Info - Groupe d’appartenance d’un utilisateur"
+                            custom_log "INFORMATION - Groupe d’appartenance d’un utilisateur"
                         }
                         "5" {
                             # Fonction -> Historique des commandes exécutées par l'utilisateur
-                            custom_log "Info - Historique des commandes exécutées par l'utilisateur"
+                            custom_log "INFORMATION - Historique des commandes exécutées par l'utilisateur"
                         }
                         "6" {
                             # Fonction -> Droits/permissions de l’utilisateur sur un dossier
-                            custom_log "Info - Droits/permissions de l’utilisateur sur un dossier"
+                            custom_log "INFORMATION - Droits/permissions de l’utilisateur sur un dossier"
                         }
                         "7" {
                             # Fonction -> Droits/permissions de l’utilisateur sur un fichier
-                            custom_log "Info - Droits/permissions de l’utilisateur sur un fichier"
+                            custom_log "INFORMATION - Droits/permissions de l’utilisateur sur un fichier"
                         }
                         "0" { 
                             Write-Host "retour"
@@ -183,55 +183,55 @@ do {
                     switch ($computerManagement) {
                         "1" { 
                             # Fonction -> Arrêt
-                            custom_log "Action - Arret machine" 
+                            custom_log "ACTION - Arret machine" 
                         }
                         "2"{
                             # Fonction -> Redémarrage
-                            custom_log "Action -  Redémarrage de la machine"
+                            custom_log "ACTION -  Redémarrage de la machine"
                         }
                         "3" {
                             # Fonction -> Verrouillage
-                            custom_log "Action - Verrouillage de la machine"
+                            custom_log "ACTION - Verrouillage de la machine"
                         }
                         "4" {
                             # Fonction -> Mise-à-jour du système
-                            custom_log "Action - Mise à jour de la machine"
+                            custom_log "ACTION - Mise à jour de la machine"
                         }
                         "5" {
                             # Fonction -> PMAD
-                            custom_log "Action - PMAD"
+                            custom_log "ACTION - PMAD"
                         }
                         "6"{
                             # Fonction -> Création de répertoire
-                            custom_log "Action - Création de répertoire"
+                            custom_log "ACTION - Création de répertoire"
                         }
                         "7"{
                             # Fonction -> Modification de répertoire
-                            custom_log "Action - Modification de répertoire"
+                            custom_log "ACTION - Modification de répertoire"
                         }
                         "8"{
                             # Fonction -> Suppression de répertoire
-                            custom_log "Action - Suppression de répertoire"
+                            custom_log "ACTION - Suppression de répertoire"
                         }
                         "9"{
                             # Fonction -> Activation du pare-feu
-                            custom_log "Action - Activation du parefeu"
+                            custom_log "ACTION - Activation du parefeu"
                         }
                         "10"{
                             # Fonction -> Désactivation du pare-feu
-                            custom_log "Action - Désactivation du parefeu"
+                            custom_log "ACTION - Désactivation du parefeu"
                         }
                         "11"{
                             # Fonction -> Installation de logiciel
-                            custom_log "Action - Installation de logiciel"
+                            custom_log "ACTION - Installation de logiciel"
                         }
                         "12"{
                             # Fonction -> Désinstallation de logiciel
-                            custom_log "Action - Désinstallationde logiciel"
+                            custom_log "ACTION - Désinstallationde logiciel"
                         }
                         "13" {
                             # Fonction -> Exécution de script sur la machine distante
-                            custom_log "Action - Exécution de script sur la machine distante"
+                            custom_log "ACTION - Exécution de script sur la machine distante"
                         }
                         "0" { 
                             $computerManagement="0"
@@ -270,47 +270,47 @@ do {
                     switch ($computerInfo) {
                         "1" { 
                             # Fonction -> Version de l'OS
-                            custom_log "Info - Version de l'OS"
+                            custom_log "INFORMATION - Version de l'OS"
                         }
                         "2"{
                             # Fonction -> Mémoire RAM totale
-                            custom_log "Info - Mémoire RAM total"
+                            custom_log "INFORMATION - Mémoire RAM total"
                         }
                         "3"{
                             # Fonction -> Utilisation de la RAM
-                            custom_log "Info - Utilisation de la RAM"
+                            custom_log "INFORMATION - Utilisation de la RAM"
                         }
                         "4"{
                             # Fonction -> Liste des utilisateurs locaux
-                            custom_log "Info - Liste des utilisateurs locaux"
+                            custom_log "INFORMATION - Liste des utilisateurs locaux"
                         }
                         "5"{
                             # Fonction -> Nombre de disque
-                            custom_log "Info - Nombre de disque"
+                            custom_log "INFORMATION - Nombre de disque"
                         }
                         "6"{
                             # Fonction -> Partition (nombre, nom, FS, taille) par disque
-                            custom_log "Info - Partition (nombre, nom, FS, taille) par disque"
+                            custom_log "INFORMATION - Partition (nombre, nom, FS, taille) par disque"
                         }
                         "7"{
                             # Fonction -> Espace disque restant par partition/volume
-                            custom_log "Info - Espace disque restant par partition/volume"
+                            custom_log "INFORMATION - Espace disque restant par partition/volume"
                         }
                         "8"{
                             # Fonction -> Nom et espace disque d'un dossier (nom de dossier demandé)
-                            custom_log "Info - Nom et espace disque d'un dossier (nom de dossier demandé)"
+                            custom_log "INFORMATION - Nom et espace disque d'un dossier (nom de dossier demandé)"
                         }
                         "9"{
                             # Fonction -> Liste des lecteurs monté (disque, CD, etc.)
-                            custom_log "Info - Liste des lecteurs monté (disque, CD, etc.)"
+                            custom_log "INFORMATION - Liste des lecteurs monté (disque, CD, etc.)"
                         }
                         "10"{
                             # Fonction -> Liste des applications/paquets installées
-                            custom_log "Info - Liste des applications/paquets installées"
+                            custom_log "INFORMATION - Liste des applications/paquets installées"
                         }
                         "11"{
                             # Fonction -> Liste des services en cours d'execution
-                            custom_log "Info - Liste des services en cours d'execution"
+                            custom_log "INFORMATION - Liste des services en cours d'execution"
                         }
                         "0" { 
                             $computerManagement="0"
