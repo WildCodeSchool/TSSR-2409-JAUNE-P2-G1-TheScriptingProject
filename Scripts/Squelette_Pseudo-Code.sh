@@ -333,7 +333,7 @@ last | head -n1
 
 #Fonction Date de dernière modification du mot de passe
 function date_derniere_modification_mot_de_passe() {
-  sudo passwd -S nata | awk '{print $3}'
+  sudo passwd -S $cible | awk '{print $3}'
 
 }
 
