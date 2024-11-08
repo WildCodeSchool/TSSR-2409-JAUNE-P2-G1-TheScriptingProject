@@ -40,30 +40,37 @@ do {
                         "1" {
                             # Fonction -> Création de compte utilisateur local
                             custom_log "ACTION - Création de compte utilisateur local"
+                            Création_De_Compte_Utilisateur_Local
                         }
                         "2" {
                             # Fonction -> Changement de mot de passe
                             custom_log "ACTION - Changement de mot de passe"
+                            Changement_De_Mot_De_Passe
                         }
                         "3" {
                             # Fonction -> Suppression de compte utilisateur local
                             custom_log "ACTION - Suppression de compte utilisateur local"
+                            Suppression_du_compte_utilisateur
                         }
                         "4" {
                             # Fonction -> Désactivation de compte utilisateur local
                             custom_log "ACTION - Désactivation de compte utilisateur local"
+                            Désactivation_du_compte_utilisateur
                         }
                         "5" {
                             # Fonction -> add_user_group_admin
                             custom_log "ACTION - Ajout à un groupe d'administration"
+                            add_user_group_admin
                         }
                         "6"{
                             # Fonction -> add_user_group_local
                             custom_log "ACTION - Ajout à un groupe local"
+                            add_user_group_local
                         }
                         "7" {
                             # Fonction -> del_user_group_local
                             custom_log "ACTION - Retrait d'un groupe local"
+                            del_user_group_local
                         }
                         "0" { 
                             $userManagement="0"
@@ -97,22 +104,27 @@ do {
                         "1" {
                             # Fonction -> Date de dernière connexion d’un utilisateur
                             custom_log "INFORMATION - Date de dernière connexion d’un utilisateur"
+                            user_last_logon
                         }
                         "2" {
                             # Fonction -> Date de dernière modification du mot de passe
                             custom_log "InINFORMATIONfo - Date de dernière modification du mot de passe"
+                            user_last_password_change
                         }
                         "3" {
                             # Fonction -> Liste des sessions ouvertes par l'utilisateur
                             custom_log "INFORMATION - Liste des sessions ouvertes par l'utilisateur"
+                            current_user_session
                         }
                         "4" {
                             # Fonction -> Groupe d’appartenance d’un utilisateur
                             custom_log "INFORMATION - Groupe d’appartenance d’un utilisateur"
+                            local_group_info
                         }
                         "5" {
                             # Fonction -> Historique des commandes exécutées par l'utilisateur
                             custom_log "INFORMATION - Historique des commandes exécutées par l'utilisateur"
+                            user_shell_history
                         }
                         "6" {
                             # Fonction -> Droits/permissions de l’utilisateur sur un dossier
@@ -299,6 +311,7 @@ do {
                         "8"{
                             # Fonction -> Nom et espace disque d'un dossier (nom de dossier demandé)
                             custom_log "INFORMATION - Nom et espace disque d'un dossier (nom de dossier demandé)"
+                            nom_espace_dossier
                         }
                         "9"{
                             # Fonction -> Liste des lecteurs monté (disque, CD, etc.)
