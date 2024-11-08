@@ -357,6 +357,21 @@ function local_group_info {
 }
 
 # Fonction -> Historique des commandes exécutées par l'utilisateur
+function user_shell_history {
+
+    test_user
+
+    try {        
+        Copy-Item -Path "C:\Users\$($userName)\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadline\ConsoleHost_history.txt" -Destination "$([Environment]::GetFolderPath("MyDocuments"))\Export_Get-History_$(Get-Date -UFormat %Y%m%d)_$($userName).txt" -ErrorAction Stop
+        Write-Host "L'historique de commande de l'utilisateur $userName a été envoyé vers $([Environment]::GetFolderPath("MyDocuments"))\Export_Get-History_$(Get-Date -UFormat %Y%m%d)_$($userName).txt" -ForegroundColor Cyan
+        custom_log "INFORMATION - Historique de commande envoyé dans $([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt"
+    }
+    catch {
+        Write-Host "Erreur lors de l'export de l'historique" -ForegroundColor Red
+        write-host "Possible si l'utilisateur n'a jamais saisi de commande" -ForegroundColor Yellow
+        custom_log "INFORMATION - Erreur lors de l'export de l'historique"
+    }
+}
 
 
 
