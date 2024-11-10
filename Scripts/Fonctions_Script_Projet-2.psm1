@@ -7,8 +7,15 @@ function custom_log {
     param (
         [string]$message
     )
-    Write-Output "$(Get-Date -UFormat "%Y/%m/%d - %H:%M:%S") - $($ENV:USERNAME) - $message" >> "C:\Windows\System32\LogFiles\log_evt.log"
+    try {
+        Write-Output "$(Get-Date -UFormat "%Y/%m/%d - %H:%M:%S") - $($ENV:USERNAME) - $message"  | Out-File -LiteralPath "C:\Windows\System32\LogFiles\log_evt.log" -Encoding utf8 -Append 
+    }
+    catch {
+        Write-Host "Erreur : Ecriture des logs impossible, les actions effectuées ne seront pas consignées.`nVérifiez que le script soit lancé en tant qu'administrateur" -ForegroundColor Yellow
+        return
+    }
 }
+
 
 # ---------------------------------------------------------------------------------------------------------------------------------
 #                                                 FONCTION TEST UTILISATEUR
