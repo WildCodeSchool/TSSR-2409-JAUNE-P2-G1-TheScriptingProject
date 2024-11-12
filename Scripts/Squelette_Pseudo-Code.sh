@@ -446,7 +446,12 @@ free -h | awk '{print $2 "----- "}'
 
         
 #--------------------------------------------------------------------------------------------------
-while true; do 
+
+max_execution=5
+execution_count=0
+
+while [ $execution_count -lt $max_execution ]; do
+    ((execution_count++)) 
 
 # Affichage du menu de sélection de la cible (ordinateur ou utilisateur)
 echo -e "Que souhaitez-vous atteindre?\n1) Utilisateur\n2) Ordinateur\nX) Sortir du script"
@@ -666,3 +671,4 @@ x)
     fi 
 esac
 done
+echo "Nombre maximal de tentatives atteint. Le script s'arrête."
