@@ -46,10 +46,10 @@ _**Semaine 4:**_
 
 |      Nom      |     Rôles     |       Tâche       |
 | :-----------: | :-----------: | :---------------: |
-|   Baudouin    | Scrum Master  |                   |
+|   Baudouin    | Scrum Master  | Script Powershell |
 |    Damien     | Product Owner | Script Powershell |
-|    Arnaud     |    Membre     |Doc                |
-|    Anthony    |    Membre     |Doc                |
+|    Arnaud     |    Membre     |Doc /Script bash   |
+|    Anthony    |    Membre     |Doc /Script bash   |
 
 
 ### Choix techniques
