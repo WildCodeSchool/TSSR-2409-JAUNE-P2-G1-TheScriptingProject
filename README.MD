@@ -15,10 +15,10 @@ Depuis un serveur, cibler une machine cliente avec un type d’OS différent.
 
 |   Nom    |     Rôles     |             Tâche              |
 | :------: | :-----------: | :----------------------------: |
-| Baudouin | Scrum Master  | Installation et config réseau  |
-|  Damien  | Product Owner | Installation et config réseau  |
-|  Arnaud  |    Membre     | Installation et config réseau  |
-| Anthony  |    Membre     | Installation et config réseau  |
+| Baudouin | Développeur   | Installation et config réseau  |
+|  Damien  | Developpeur   | Installation et config réseau  |
+|  Arnaud  | Scrum Master  | Installation et config réseau  |
+| Anthony  | Product Owner | Installation et config réseau  |
 
 **Semaine 2:**
 
@@ -26,17 +26,17 @@ Depuis un serveur, cibler une machine cliente avec un type d’OS différent.
 | :------: | :-----------: | :---------: |
 | Baudouin | Scrum Master  | Script Bash |
 |  Damien  | Product Owner | Script Bash |
-|  Arnaud  |    Membre     | ScriptBash  |
-| Anthony  |    Membre     | Script Bash |
+|  Arnaud  |  Développeur  | ScriptBash  |
+| Anthony  |  Développeur  | Script Bash |
 
 **Semaine 3:**
 
 |   Nom    |     Rôles     |       Tâche       |
 | :------: | :-----------: | :---------------: |
-| Baudouin | Scrum Master  | Script Powershell |
+| Baudouin | Développeur   | Script Powershell |
 |  Damien  | Product Owner | Script powershell |
-|  Arnaud  |    Membre     |    Script Bash    |
-| Anthony  |    Membre     |    Script Bash    |
+|  Arnaud  |  Scrum Master |    Script Bash    |
+| Anthony  |   Développeur |    Script Bash    |
 
 **Semaine 4:**
 
@@ -44,8 +44,8 @@ Depuis un serveur, cibler une machine cliente avec un type d’OS différent.
 | :------: | :-----------: | :---------------: |
 | Baudouin | Scrum Master  | Script Powershell |
 |  Damien  | Product Owner | Script Powershell |
-|  Arnaud  |    Membre     |  Doc/Script bash  |
-| Anthony  |    Membre     |  Doc/Script bash  |
+|  Arnaud  |  Développeur  |  Doc/Script bash  |
+| Anthony  |  Développeur  |  Doc/Script bash  |
 
 
 
