@@ -1,7 +1,7 @@
 #! /bin/bash
 
 cible=$(whoami)
-fichier_horo=$HOME/Documents/"Info-$cible-$(date +'%Y%m%d').txt"
+fichier_horo=$HOME/Documents/"Info_${cible}_$(date +'%Y%m%d').txt"
 
 function connexion_ssh() { 
 # Demander à l'utilisateur son nom d'utilisateur
