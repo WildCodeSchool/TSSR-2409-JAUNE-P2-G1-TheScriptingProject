@@ -1,7 +1,7 @@
 #! /bin/bash
 
 cible=$(whoami)
-horodate=$(date '+%Y%m%d')
+fichier_horo=$HOME/Documents/"Info-$cible-$(date +'%Y%m%d').txt"
 
 function connexion_ssh() { 
 # Demander à l'utilisateur son nom d'utilisateur
@@ -511,11 +511,11 @@ case $choix_1 in
             clear
             
             case $info_2 in
-                1) date_derniere_connexion >> info_${horodate}_${cible}.txt ;; # Date de dernière connexion
+                1) date_derniere_connexion >> $fichier_horo;; # Date de dernière connexion
                 
-                2) date_derniere_modification_mot_de_passe >> info_${horodate}_${cible}.txt ;; # Date de dernière modification du mot de passe
+                2) date_derniere_modification_mot_de_passe >> $fichier_horo ;; # Date de dernière modification du mot de passe
                 
-                3) liste_sessions_utilisateur >> info_${horodate}_${cible}.txt ;; # Liste des sessions ouvertes
+                3) liste_sessions_utilisateur >> $fichier_horo ;; # Liste des sessions ouvertes
                 *) echo "Erreur de saisie" ;;
             esac ;;
         
@@ -619,10 +619,10 @@ case $choix_1 in
             clear
             
             case $info_machine in
-                1) version_os >> info_${horodate}_${cible}.txt ;; # Version OS
-                2) ram_totale >> info_${horodate}_${cible}.txt ;; # RAM totale
-                3) ram_utilisation >> info_${horodate}_${cible}.txt ;; # Utilisation RAM
-                4) liste_utilisateur >> info_${horodate}_${cible}.txt ;; # Utilisateurs locaux
+                1) version_os >> $fichier_horo ;; # Version OS
+                2) ram_totale >> $fichier_horo;; # RAM totale
+                3) ram_utilisation >> $fichier_horo ;; # Utilisation RAM
+                4) liste_utilisateur >> $fichier_horo ;; # Utilisateurs locaux
                 0) echo "Sortie" ;;
                 *) echo "erreur saisie!" ;;
             esac ;;
@@ -634,11 +634,11 @@ case $choix_1 in
             clear
             
             case $info_disque in
-                1) nombre_disque >> info_${horodate}_${cible}.txt ;; # Nombre de disques
-                2) partition >> info_${horodate}_${cible}.txt ;; # Détail partition
-                3) disque_restant >> info_${horodate}_${cible}.txt ;; # Espace restant
-                4) espace_dossier >> info_${horodate}_${cible}.txt ;; # Détails dossier
-                5) liste_lecteur >> info_${horodate}_${cible}.txt ;; # Liste lecteurs
+                1) nombre_disque >> $fichier_horo ;; # Nombre de disques
+                2) partition >> $fichier_horo ;; # Détail partition
+                3) disque_restant >> $fichier_horo ;; # Espace restant
+                4) espace_dossier >> $fichier_horo ;; # Détails dossier
+                5) liste_lecteur >> $fichier_horo;; # Liste lecteurs
                 0) echo "Sortie" ;;
                 *) echo "erreur saisie!" ;;
             esac ;;
@@ -650,8 +650,8 @@ case $choix_1 in
             clear
             
             case $infoHost in
-                1) liste_appli >> info_${horodate}_${cible}.txt ;; # Liste des applications
-                2) service_runing >> info_${horodate}_${cible}.txt ;; # Liste des services en cours
+                1) liste_appli >> $fichier_horo ;; # Liste des applications
+                2) service_runing >> $fichier_horo ;; # Liste des services en cours
                 0) echo "Sortie" ;;
                 *) echo "erreur saisie!" ;;
             esac ;;
