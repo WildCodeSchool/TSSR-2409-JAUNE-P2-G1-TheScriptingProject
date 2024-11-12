@@ -111,7 +111,7 @@ do {
                         }
                         "2" {
                             # Fonction -> Date de dernière modification du mot de passe
-                            custom_log "InINFORMATIONfo - Date de dernière modification du mot de passe"
+                            custom_log "INFORMATION - Date de dernière modification du mot de passe"
                             user_last_password_change
                         }
                         "3" {
