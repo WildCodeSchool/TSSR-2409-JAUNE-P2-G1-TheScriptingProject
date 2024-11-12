@@ -48,9 +48,9 @@ _**Semaine 4:**_
 | :-----------: | :-----------: | :---------------: |
 |   Baudouin    | Scrum Master  |                   |
 |    Damien     | Product Owner | Script Powershell |
-|    Arnaud     |    Membre     |                   |
-|    Anthony    |    Membre     |                   |
-| Pierre Girard |    Membre     |                   |
+|    Arnaud     |    Membre     |Doc                |
+|    Anthony    |    Membre     |Doc                |
+
 
 ### Choix techniques
 
