@@ -81,9 +81,7 @@ Environnement imposé par le client :
 ### Solutions trouvées : Solutions et alternatives trouvées
 
 
-**Semaine 2**
 
-- D'abord créer un dossier `Documents` sur le `root` de debian.
 
 
 **Semaine 3**
