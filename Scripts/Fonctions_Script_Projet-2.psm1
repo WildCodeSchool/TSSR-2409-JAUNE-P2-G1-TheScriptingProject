@@ -107,47 +107,46 @@ function Changement_De_Mot_De_Passe {
 }
 
 # Fonction -> Suppression de compte utilisateur local
-function Suppression_du_compte_utilisateur 
-{
+function Suppression_du_compte_utilisateur {
 # Demander le nom d'utilisateur à supprimer
-$userName = Read-Host "Quel utilisateur doit être supprimé du compte local ?"
-Clear-Host
+    $userName = Read-Host "Quel utilisateur doit être supprimé du compte local ?"
+    Clear-Host
 
-# Tester si l'utilisateur à supprimer existe
-if (Get-LocalUser -Name $userName -ErrorAction SilentlyContinue) 
-{
-    Write-Host "L'utilisateur '$userName' existe !"
-}
-else {
-    Write-Host "Utilisateur $userName inconnu"
-    return
-}
-$validation = Read-Host "Confirmation de la suppression de l'utilisateur $userName [o/n]"
-Clear-Host
-switch ($validation) {
-    "o"{
-        custom_log "ACTION - Validation de la suppression du compte $UserName"
-        # suppression de l'utilisateur
-    if (Remove-LocalUser -Name $userName)
+    # Tester si l'utilisateur à supprimer existe
+    if (Get-LocalUser -Name $userName -ErrorAction SilentlyContinue) 
     {
-        Write-Host "Echec de la suppression de l'utilisateur $userName"
-        custom_log "ACTION - Echec de la suppression de l'utilisateur $userName"
+        Write-Host "L'utilisateur '$userName' existe !"
     }
     else {
-        Write-Host "Utilisateur $userName supprimé avec succès"
-        custom_log "ACTION - Utilisateur $userName supprimé avec succès"
+        Write-Host "Utilisateur $userName inconnu"
+        return
     }
-    }
-    "n" {
-        # pas de suppression
-        Write-Host "Suppression du compte $userName annulé"
-        custom_log "ACTION - Suppression du compte $userName annulé"
+    $validation = Read-Host "Confirmation de la suppression de l'utilisateur $userName [o/n]"
+    Clear-Host
+    switch ($validation) {
+        "o"{
+            custom_log "ACTION - Validation de la suppression du compte $UserName"
+            # suppression de l'utilisateur
+        if (Remove-LocalUser -Name $userName)
+        {
+            Write-Host "Echec de la suppression de l'utilisateur $userName"
+            custom_log "ACTION - Echec de la suppression de l'utilisateur $userName"
+        }
+        else {
+            Write-Host "Utilisateur $userName supprimé avec succès"
+            custom_log "ACTION - Utilisateur $userName supprimé avec succès"
+        }
+        }
+        "n" {
+            # pas de suppression
+            Write-Host "Suppression du compte $userName annulé"
+            custom_log "ACTION - Suppression du compte $userName annulé"
 
+        }
+        Default {
+            Write-Host "Erreur de saisie"
+        }
     }
-    Default {
-        Write-Host "Erreur de saisie"
-    }
-}
 }
 
 # Fonction -> Désactivation de compte utilisateur local
@@ -169,8 +168,8 @@ function Désactivation_du_compte_utilisateur {
                 custom_log "ACTION - Utilisateur $userName désactivé avec succès"
             }
             catch {
-                Write-Host "Erreur : impossible de désactiver le compte $userName." -ForegroundColor Red
-                Write-Host "Vérifiez que le compte $userName soit actif et que le script soit lancé en tant qu'administrateur" -ForegroundColor Yellow
+                Write-Host "Erreur : impossible de désactiver le compte $userName : $($_.Exception.Message)" -ForegroundColor Red
+                Write-Host "Vérifiez que le script soit lancé en tant qu'administrateur" -ForegroundColor Yellow
                 custom_log "ACTION - Erreur : impossible de désactiver le compte $userName."
             }
         }
@@ -198,7 +197,7 @@ function add_user_group_admin {
     }
     catch {
         Write-Host "Erreur : impossible d'ajouter l'utilisateur $userName au groupe Administrateurs." -ForegroundColor Red
-        Write-Host "Vérifiez que l'utilisateur n'est pas déjà membre du groupe Administrateurs et que le script soit bien lancé en tant qu'administrateur" -ForegroundColor Yellow
+        Write-Host "Vérifiez que l'utilisateur n'est pas déjà membre du groupe Administrateurs et que le script soit lancé en tant qu'administrateur" -ForegroundColor Yellow
         custom_log "ACTION - Erreur : impossible d'ajouter l'utilisateur $userName au groupe Administrateurs."
     }
     
@@ -232,7 +231,7 @@ function add_user_group_local {
         }
         catch {
             Write-Host "Erreur : impossible d'ajouter l'utilisateur $userName au groupe $groupName." -ForegroundColor Red
-            Write-Host "Vérifiez que l'utilisateur n'est pas déjà membre du groupe $groupName et que le script soit bien lancé en tant qu'administrateur" -ForegroundColor Yellow
+            Write-Host "Vérifiez que l'utilisateur n'est pas déjà membre du groupe $groupName et que le script soit lancé en tant qu'administrateur" -ForegroundColor Yellow
             custom_log "ACTION - Erreur : impossible d'ajouter l'utilisateur $userName au groupe $groupName."
         }
 }   
@@ -264,7 +263,7 @@ function del_user_group_local {
         }
         catch {
             Write-Host "Erreur : impossible de retirer l'utilisateur $userName du groupe $groupName." -ForegroundColor Red
-            Write-Host "Vérifiez que l'utilisateur soit membre du groupe $groupName et que le script soit bien lancé en tant qu'administrateur" -ForegroundColor Yellow
+            Write-Host "Vérifiez que l'utilisateur soit membre du groupe $groupName et que le script soit lancé en tant qu'administrateur" -ForegroundColor Yellow
             custom_log "ACTION - Erreur : impossible de retirer l'utilisateur $userName du groupe $groupName."
         }
         
@@ -272,49 +271,36 @@ function del_user_group_local {
 
 # ---------------------------------------------------------------------------------------------------------------------------------
 #                                              FONCTIONS INFORMATIONS SUR COMPTE ET GROUPE
+
 # Fonction -> Date de dernière connexion d’un utilisateur
 function user_last_logon {
-    $userName = Read-Host -prompt "Saisir le nom du compte" 
-
-    if ([string]::IsNullOrEmpty($userName)) { 
-        
-        Write-Host "Aucun nom d'utilisateur saisi" -ForegroundColor Yellow
-        return
-    }
-
-    $localUser = Get-LocalUser "$userName" -ErrorAction SilentlyContinue
-
-    if ( -not $localUser ) {
-        Write-Host "Aucun utilisateur de ce nom" -ForegroundColor Yellow
-    }
-    else{
+    test_user
+    
+    try{
         Write-Host "Dernière connexion le $($localUser.lastlogon)`n" -ForegroundColor Cyan
-        Write-Output "Dernière connexion de l'utilisateur $UserName le $($localUser.lastlogon)" >> "$([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt"
+        Write-Output "Dernière connexion de l'utilisateur $UserName le $($localUser.lastlogon)" | Out-File -LiteralPath "$([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt" -Encoding utf8 -Append 
         Write-Host "-> Information envoyée dans $([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt"
-        custom_log "INFORMATION - Envoyée dans $([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt"
+        custom_log "INFORMATION - Date de dernière connexion d’un utilisateur - Envoyée dans $([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt"
+    }
+    Catch{
+        Write-Host "Erreur sur la récupération de la dernière connexion de l'utilisateur $userName`n" -ForegroundColor Red
+        custom_log "INFORMATION - Erreur sur la récupération de la dernière connexion de l'utilisateur $userName"
     }
 }
 
 # Fonction -> Date de dernière modification du mot de passe
 function user_last_password_change {
-    $userName = Read-Host -prompt "Saisir le nom du compte" 
-
-    if ([string]::IsNullOrEmpty($userName)) { 
-        
-        Write-Host "Aucun nom d'utilisateur saisi" -ForegroundColor Yellow
-        return
-    }
-
-    $localUser = Get-LocalUser "$userName" -ErrorAction SilentlyContinue
-
-    if ( -not $localUser ) {
-        Write-Host "Aucun utilisateur de ce nom" -ForegroundColor Yellow
-    }
-    else{
-        Write-Host "Dernière changement de mot de passe pour le compte $userName, le $($localUser.PasswordLastSet)`n" -ForegroundColor Cyan
-        Write-Output "Dernière changement de mot de passe pour le compte $userName, le $($localUser.PasswordLastSet)" >> "$([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt"
+    test_user
+    
+    try{
+        Write-Host "Dernièr changement de mot de passe pour le compte $userName, le $($localUser.PasswordLastSet)`n" -ForegroundColor Cyan
+        Write-Output "Dernièr changement de mot de passe pour le compte $userName, le $($localUser.PasswordLastSet)" | Out-File -LiteralPath "$([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt" -Encoding utf8 -Append 
         Write-Host "-> Information envoyée dans $([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt"
-        custom_log "INFORMATION - Envoyée dans $([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt"
+        custom_log "INFORMATION - Date de dernière modification du mot de passe - Envoyée dans $([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt"
+    }
+    catch{
+        Write-Host "Erreur sur la récupération de la date du dernier changement du mot de passe du compte $userName" -ForegroundColor Red
+        custom_log "INFORMATION - Erreur sur la récupération de la date du dernier changement du mot de passe du compte $userName"
     }
 }
 
@@ -326,16 +312,19 @@ function current_user_session {
     $localUserSession = Get-WmiObject -Class Win32_LoggedOnUser | Select-Object Antecedent  | Where-Object { $_.Antecedent -match $userName }
 
     if ($localUserSession.Count -le 1 ) {
-        Write-Host "l'utilisateur a $($localUserSession.Count) session en cours" -ForegroundColor Cyan
-        custom_log "INFORMATION - Envoyée dans $([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt"
+        Write-Host "l'utilisateur $userName a $($localUserSession.Count) session en cours" -ForegroundColor Cyan
+        Write-Output "l'utilisateur $userName a $($localUserSession.Count) session en cours" | Out-File -LiteralPath "$([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt" -Encoding utf8 -Append 
+        custom_log "INFORMATION - Liste des sessions ouvertes par l'utilisateur - Envoyée dans $([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt"
     }
     elseif ($localUserSession.Count -le 0) {
-        Write-Host "l'utilisateur n'a aucune session en cours" -ForegroundColor Cyan
-        custom_log "INFORMATION - Envoyée dans $([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt"
+        Write-Host "l'utilisateur $userName n'a aucune session en cours" -ForegroundColor Cyan
+        Write-Output "l'utilisateur $userName n'a aucune session en cours" | Out-File -LiteralPath "$([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt" -Encoding utf8 -Append 
+        custom_log "INFORMATION - Liste des sessions ouvertes par l'utilisateur - Envoyée dans $([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt"
     } 
     else {
-        Write-Host "l'utilisateur a $($localUserSession.Count) sessions en cours" -ForegroundColor Cyan
-        custom_log "INFORMATION - Envoyée dans $([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt"
+        Write-Host "l'utilisateur $userName a $($localUserSession.Count) sessions en cours" -ForegroundColor Cyan
+        Write-Output "l'utilisateur $userName a $($localUserSession.Count) sessions en cours" | Out-File -LiteralPath "$([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt" -Encoding utf8 -Append 
+        custom_log "INFORMATION - Liste des sessions ouvertes par l'utilisateur - Envoyée dans $([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt"
     }
 }
 
@@ -348,18 +337,18 @@ function local_group_info {
     test_user
 
     Write-host "l'utilisateur $userName est membre des groupes :" -ForegroundColor Cyan
-    Write-Output "l'utilisateur $userName est membre des groupes :" >> "$([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt"
+    Write-Output "l'utilisateur $userName est membre des groupes :" | Out-File -LiteralPath "$([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt" -Encoding utf8 -Append 
     
     Get-LocalGroup | ForEach-Object { 
         if ((Get-LocalGroupMember -Group $_.Name).Name -contains "$(hostname)\$userName") { 
             Write-host $_.Name -ForegroundColor Cyan
-            Write-Output $_.Name >> "$([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt"
+            Write-Output $_.Name | Out-File -LiteralPath "$([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt" -Encoding utf8 -Append 
             
         }
     }
 
     Write-Host "`n-> Information envoyée dans $([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt"
-    custom_log "INFORMATION - Envoyée dans $([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt"
+    custom_log "INFORMATION - Liste des sessions ouvertes par l'utilisateur - Envoyée dans $([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt"
     
 }
 
@@ -371,7 +360,7 @@ function user_shell_history {
     try {        
         Copy-Item -Path "C:\Users\$($userName)\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadline\ConsoleHost_history.txt" -Destination "$([Environment]::GetFolderPath("MyDocuments"))\Export_Get-History_$(Get-Date -UFormat %Y%m%d)_$($userName).txt" -ErrorAction Stop
         Write-Host "L'historique de commande de l'utilisateur $userName a été envoyé vers $([Environment]::GetFolderPath("MyDocuments"))\Export_Get-History_$(Get-Date -UFormat %Y%m%d)_$($userName).txt" -ForegroundColor Cyan
-        custom_log "INFORMATION - Historique de commande envoyé dans $([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt"
+        custom_log "INFORMATION - Historique des commandes exécutées par l'utilisateur - Envoyé dans $([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt"
     }
     catch {
         Write-Host "Erreur lors de l'export de l'historique" -ForegroundColor Red
@@ -385,6 +374,29 @@ function user_shell_history {
 
 # Fonction -> Droits/permissions de l’utilisateur sur un dossier
 # Fonction -> Droits/permissions de l’utilisateur sur un fichier
+
+
+$dirPath =  (Read-Host "Sur quel dossier ou fichier souhaitez vous voir les permissions ? (Par défaut dossier courant)`n") -replace "^$","."
+Clear-Host
+
+try{
+    if (($accessType = Get-Acl -path "$dirPath" -ErrorAction Stop | ForEach-Object { $_.Access } )) {
+
+        Write-Host "Vérifier si l'utilisateur $userName ou un de ses groupes apparait dans la liste ci dessous :" -ForegroundColor Cyan
+        $accessType | ForEach-Object { "$($_.IdentityReference) - $($_.AccessControlType) - $($_.FileSystemRights)" } 
+
+        Write-Output "`nVérifier si l'utilisateur $userName ou un de ses groupes apparait dans la liste ci dessous :" >> "$([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt"
+        Write-Output $accessType | ForEach-Object { "$($_.IdentityReference) - $($_.AccessControlType) - $($_.FileSystemRights)" } | Out-File -LiteralPath "$([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt" -Encoding utf8 -Append 
+        custom_log "INFORMATION - Permissions de l'utilisateur '$userName' sur le dossier/fichier $dirPath - Envoyé dans $([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt"
+    }
+}
+Catch {
+    Write-Host "Erreur sur le chemin : $dirPath`n$($_.Exception.Message)" -ForegroundColor Yellow
+    custom_log "INFORMATION - Erreur sur le chemin : $dirPath`n$($_.Exception.Message)"
+}
+
+
+
 
 # ---------------------------------------------------------------------------------------------------------------------------------
 #                                              FONCTIONS ACTIONS SUR HOTE DISTANT
@@ -508,6 +520,7 @@ function nom_espace_dossier {
     Write-Host "O) Octets"
     $sizeType = Read-Host
     
+
     Clear-Host
 
     switch ($sizeType){
@@ -515,32 +528,32 @@ function nom_espace_dossier {
             $destinationSize = [math]::Round((Get-ChildItem "$destinationDir" -recurse | Measure-Object -Property Length -Sum).Sum / 1Gb,2)
             Write-Host "le volume du dossier $destinationDir est de : $destinationSize Go`n" -ForegroundColor Cyan
             Write-Host "-> Information envoyé dans $([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt"
-            Write-Output "le volume du dossier $destinationDir est de : $destinationSize Go" >> "$([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt"
-            custom_log "INFORMATION - Envoyée dans $([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt"
+            Write-Output "le volume du dossier $destinationDir est de : $destinationSize Go" | Out-File -LiteralPath "$([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt" -Encoding utf8 -Append 
+            custom_log "INFORMATION - Nom et espace disque d'un dossier - Envoyée dans $([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt"
         }
 
         "M" {
             $destinationSize = [math]::Round((Get-ChildItem "$destinationDir" -recurse | Measure-Object -Property Length -Sum).Sum / 1Mb,2)
             Write-Host "le volume du dossier $destinationDir est de : $destinationSize Mo`n" -ForegroundColor Cyan
             Write-Host "-> Information envoyé dans $([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt"
-            Write-Output "le volume du dossier $destinationDir est de : $destinationSize Mo" >> "$([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt"
-            custom_log "INFORMATION - Envoyée dans $([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt"
+            Write-Output "le volume du dossier $destinationDir est de : $destinationSize Mo" | Out-File -LiteralPath "$([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt" -Encoding utf8 -Append 
+            custom_log "INFORMATION - Nom et espace disque d'un dossier - Envoyée dans $([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt"
         }
 
         "K" {
             $destinationSize = [math]::Round((Get-ChildItem "$destinationDir" -recurse | Measure-Object -Property Length -Sum).Sum / 1Kb,2)
             Write-Host "le volume du dossier $destinationDir est de : $destinationSize Ko`n" -ForegroundColor Cyan
             Write-Host "-> Information envoyé dans $([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt"
-            Write-Output "le volume du dossier $destinationDir est de : $destinationSize Ko" >> "$([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt"
-            custom_log "INFORMATION - Envoyée dans $([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt"
+            Write-Output "le volume du dossier $destinationDir est de : $destinationSize Ko" | Out-File -LiteralPath "$([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt" -Encoding utf8 -Append 
+            custom_log "INFORMATION - Nom et espace disque d'un dossier - Envoyée dans $([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt"
         }
 
         "O" {
             $destinationSize = [math]::Round((Get-ChildItem "$destinationDir" -recurse | Measure-Object -Property Length -Sum).Sum)
             Write-Host "le volume du dossier $destinationDir est de : $destinationSize Octets`n" -ForegroundColor Cyan
             Write-Host "-> Information envoyé dans $([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt"
-            Write-Output "le volume du dossier $destinationDir est de : $destinationSize Octets" >> "$([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt"
-            custom_log "INFORMATION - Envoyée dans $([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt"
+            Write-Output "le volume du dossier $destinationDir est de : $destinationSize Octets" | Out-File -LiteralPath "$([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt" -Encoding utf8 -Append 
+            custom_log "INFORMATION - Nom et espace disque d'un dossier - Envoyée dans $([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt"
         }
         Default {
             Write-host "Erreur de saisie !"
