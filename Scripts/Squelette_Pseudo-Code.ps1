@@ -97,8 +97,7 @@ do {
                     Write-Host "3) Liste des sessions ouvertes par l'utilisateur"
                     Write-Host "4) Groupe d’appartenance d’un utilisateur"
                     Write-Host "5) Historique des commandes exécutées par l'utilisateur"
-                    Write-Host "6) Droits/permissions de l’utilisateur sur un dossier"
-                    Write-Host "7) Droits/permissions de l’utilisateur sur un fichier"
+                    Write-Host "6) Droits/permissions de l’utilisateur sur un dossier ou fichier"
                     Write-Host "0) Retour"
                     Write-Host "x) Quitter"
                     $userInfo = Read-Host 
@@ -131,11 +130,8 @@ do {
                         }
                         "6" {
                             # Fonction -> Droits/permissions de l’utilisateur sur un dossier
-                            custom_log "INFORMATION - Droits/permissions de l’utilisateur sur un dossier"
-                        }
-                        "7" {
-                            # Fonction -> Droits/permissions de l’utilisateur sur un fichier
-                            custom_log "INFORMATION - Droits/permissions de l’utilisateur sur un fichier"
+                            custom_log "INFORMATION - Droits/permissions de l’utilisateur sur un dossier ou fichier"
+                            acl_file_and_directory
                         }
                         "0" { 
                             Write-Host "retour"
