@@ -34,9 +34,9 @@ Depuis un serveur, cibler une machine cliente avec un type d’OS différent.
 |   Nom    |     Rôles     |       Tâche       |
 | :------: | :-----------: | :---------------: |
 | Baudouin | Développeur   | Script Powershell |
-|  Damien  | Product Owner | Script powershell |
+|  Damien  | Développeur   | Script powershell |
 |  Arnaud  |  Scrum Master |    Script Bash    |
-| Anthony  |   Développeur |    Script Bash    |
+| Anthony  | Product owner |    Script Bash    |
 
 **Semaine 4:**
 
