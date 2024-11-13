@@ -375,26 +375,26 @@ function user_shell_history {
 # Fonction -> Droits/permissions de l’utilisateur sur un dossier
 # Fonction -> Droits/permissions de l’utilisateur sur un fichier
 
-
-$dirPath =  (Read-Host "Sur quel dossier ou fichier souhaitez vous voir les permissions ? (Par défaut dossier courant)`n") -replace "^$","."
-Clear-Host
-
-try{
-    if (($accessType = Get-Acl -path "$dirPath" -ErrorAction Stop | ForEach-Object { $_.Access } )) {
-
-        Write-Host "Vérifier si l'utilisateur $userName ou un de ses groupes apparait dans la liste ci dessous :" -ForegroundColor Cyan
-        $accessType | ForEach-Object { "$($_.IdentityReference) - $($_.AccessControlType) - $($_.FileSystemRights)" } 
-
-        Write-Output "`nVérifier si l'utilisateur $userName ou un de ses groupes apparait dans la liste ci dessous :" >> "$([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt"
-        Write-Output $accessType | ForEach-Object { "$($_.IdentityReference) - $($_.AccessControlType) - $($_.FileSystemRights)" } | Out-File -LiteralPath "$([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt" -Encoding utf8 -Append 
-        custom_log "INFORMATION - Permissions de l'utilisateur '$userName' sur le dossier/fichier $dirPath - Envoyé dans $([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt"
+function acl_file_and_directory {
+    $dirPath =  (Read-Host "Sur quel dossier ou fichier souhaitez vous voir les permissions ? (Par défaut dossier courant)`n") -replace "^$","."
+    Clear-Host
+    
+    try{
+        if (($accessType = Get-Acl -path "$dirPath" -ErrorAction Stop | ForEach-Object { $_.Access } )) {
+    
+            Write-Host "Vérifier si l'utilisateur $userName ou un de ses groupes apparait dans la liste ci dessous :" -ForegroundColor Cyan
+            $accessType | ForEach-Object { "$($_.IdentityReference) - $($_.AccessControlType) - $($_.FileSystemRights)" } 
+    
+            Write-Output "`nVérifier si l'utilisateur $userName ou un de ses groupes apparait dans la liste ci dessous :" >> "$([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt"
+            Write-Output $accessType | ForEach-Object { "$($_.IdentityReference) - $($_.AccessControlType) - $($_.FileSystemRights)" } | Out-File -LiteralPath "$([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt" -Encoding utf8 -Append 
+            custom_log "INFORMATION - Permissions de l'utilisateur '$userName' sur le dossier/fichier $dirPath - Envoyé dans $([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt"
+        }
+    }
+    Catch {
+        Write-Host "Erreur sur le chemin : $dirPath`n$($_.Exception.Message)" -ForegroundColor Yellow
+        custom_log "INFORMATION - Erreur sur le chemin : $dirPath`n$($_.Exception.Message)"
     }
 }
-Catch {
-    Write-Host "Erreur sur le chemin : $dirPath`n$($_.Exception.Message)" -ForegroundColor Yellow
-    custom_log "INFORMATION - Erreur sur le chemin : $dirPath`n$($_.Exception.Message)"
-}
-
 
 
 
