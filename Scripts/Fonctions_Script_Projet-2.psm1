@@ -432,7 +432,8 @@ function  Mise_A_Jour_Du_Système {
     #Set-ExecutionPolicy RemoteSigned -Scope "Process ou CurrentUser ou LocalMachine"
     # Importer le module
     #Import-Module PSWindowsUpdate
-
+    Write-host "Installation du module nécessaire"
+    Install-Module -Name PSWindowsUpdate
     # Rechercher les mises à jour disponibles
     Write-Output "Recherche des mises à jour disponibles..."
     $updates = Get-WindowsUpdate
