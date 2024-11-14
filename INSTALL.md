@@ -21,7 +21,27 @@ Nous utiliserons ici des VM sur Proxmox
 
 ## Prérequis VM
 
-Toutes nos machines ont été configurées avec 2 processeurs et 4 gigas de RAM mais il est possible de diminuer notamment pour Debian à un processeur et 2 gigas de RAM.  
+# Prérequis technique Windows Serveur et Client
+
+## Windows Serveur
+- OS : **Windows Server 2022 21H2**
+- Hostname : **SRVWIN01**
+- @IP : **172.16.10.5**
+- Firewall : **Off**
+- Compte actif : **Administrator**
+- Logiciels installés : **PowerShell Core** 
+- Services activés: **WinRM**
+- Script Execution Policy : **Unrestricted**
+
+## Windows Client
+- OS : **Windows 10 Pro 22H2**
+- Hostname : **CLIWIN01**
+- @IP : **172.16.10.20**
+- Firewall : **Off**
+- Compte actif : **wilder** et **Administrateur**
+- Logiciels installés : **PowerShell Core** 
+- Services activés: **WinRM**
+- Script Execution Policy : **Unrestricted** 
 
 ## Renommer les machines : 
 
@@ -123,7 +143,12 @@ Si nécessaire, ouvrez PowerShell en tant qu'administrateur :
 Exécutez la commande suivante pour configurer les paramètres de l'hôte distant :     
 `Set-Item WSMan:\localhost\Client\TrustedHosts -Value SRVWIN01 -Force`   
 
-
+## Activation de l'exécution de script le serveur et le client Windows
+- Afin de pouvoir exécuter les scripts sans soucis, il faut sur le client et le serveur, effectuer la commande suivante :
+```PowerShell
+Set-ExecutionPolicy -Scope LocalMachine -ExecutionPolicy Unrestricted
+```
+> *La commande sur le client peut être effectuées en remote lors de la première connexion PowerShell distante.*
 
 
 
