@@ -174,19 +174,19 @@ do {
                 "1" { 
                     custom_log "Déplacement vers Actions Ordinateur"
                     Write-Host "Quelles type d'actions effectuer sur l'hôte distant' ?"
-                    Write-Host "1) Arrêt"
-                    Write-Host "2) Redémarrage"
-                    Write-Host "3) Verrouillage de la session"
+                    Write-Host "1) Arrêt (beta)"
+                    Write-Host "2) Redémarrage (beta)"
+                    Write-Host "3) Verrouillage de la session (beta)"
                     Write-Host "4) Mise à jour du système"
-                    Write-Host "5) Prise en main à distance (CLI)"
-                    Write-Host "6) Création de répertoire"
-                    Write-Host "7) Modification de répertoire"
-                    Write-Host "8) Suppression de répertoire"
-                    Write-Host "9) Activation du parefeu"
-                    Write-Host "10) Désactivation du parfeu"
-                    Write-Host "11) Installation de logiciel"
-                    Write-Host "12) Désinstallation de logiciel"
-                    Write-Host "13) Exécution de script"
+                    Write-Host "5) Prise en main à distance (CLI) (Non Fonctionnel)"
+                    Write-Host "6) Création de répertoire" 
+                    Write-Host "7) Modification de répertoire (Non Fonctionnel)"
+                    Write-Host "8) Suppression de répertoire (Non Fonctionnel)"
+                    Write-Host "9) Activation du parefeu (Non Fonctionnel)"
+                    Write-Host "10) Désactivation du parfeu (Non Fonctionnel)"
+                    Write-Host "11) Installation de logiciel (Non Fonctionnel)"
+                    Write-Host "12) Désinstallation de logiciel (beta)"
+                    Write-Host "13) Exécution de script (Non Fonctionnel)"
                     Write-Host "0) Retour"
                     Write-Host "x) Quitter"
                     $computerManagement = Read-Host 
@@ -194,55 +194,68 @@ do {
                     switch ($computerManagement) {
                         "1" { 
                             # Fonction -> Arrêt
-                            custom_log "ACTION - Arret machine" 
+                            custom_log "ACTION - Arret machine"
+                            Arrêt_De_La_Machine
                         }
                         "2"{
                             # Fonction -> Redémarrage
                             custom_log "ACTION -  Redémarrage de la machine"
+                            Redémarrage_De_La_Machine
                         }
                         "3" {
                             # Fonction -> Verrouillage
                             custom_log "ACTION - Verrouillage de la machine"
+                            Verrouillage_De_La_Machine
                         }
                         "4" {
                             # Fonction -> Mise-à-jour du système
                             custom_log "ACTION - Mise à jour de la machine"
+                            Mise_A_Jour_Du_Système
                         }
                         "5" {
                             # Fonction -> PMAD
                             custom_log "ACTION - PMAD"
+                            Write-Host "Fonctionnalité inexistante pour le moment" -foreground Red
                         }
                         "6"{
                             # Fonction -> Création de répertoire
                             custom_log "ACTION - Création de répertoire"
+                            create_directory
                         }
                         "7"{
                             # Fonction -> Modification de répertoire
                             custom_log "ACTION - Modification de répertoire"
+                            Write-Host "Fonctionnalité inexistante pour le moment" -foreground Red
                         }
                         "8"{
                             # Fonction -> Suppression de répertoire
                             custom_log "ACTION - Suppression de répertoire"
+                            Write-Host "Fonctionnalité inexistante pour le moment" -foreground Red
                         }
                         "9"{
                             # Fonction -> Activation du pare-feu
                             custom_log "ACTION - Activation du parefeu"
+                            Write-Host "Fonctionnalité inexistante pour le moment" -foreground Red
                         }
                         "10"{
                             # Fonction -> Désactivation du pare-feu
                             custom_log "ACTION - Désactivation du parefeu"
+                            Write-Host "Fonctionnalité inexistante pour le moment" -foreground Red
                         }
                         "11"{
                             # Fonction -> Installation de logiciel
                             custom_log "ACTION - Installation de logiciel"
+                            Write-Host "Fonctionnalité inexistante pour le moment" -foreground Red
                         }
                         "12"{
                             # Fonction -> Désinstallation de logiciel
                             custom_log "ACTION - Désinstallationde logiciel"
+                            Write-Host "Fonctionnalité inexistante pour le moment" -foreground Red
                         }
                         "13" {
                             # Fonction -> Exécution de script sur la machine distante
                             custom_log "ACTION - Exécution de script sur la machine distante"
+                            Write-Host "Fonctionnalité inexistante pour le moment" -foreground Red
                         }
                         "0" { 
                             $computerManagement="0"
@@ -282,30 +295,37 @@ do {
                         "1" { 
                             # Fonction -> Version de l'OS
                             custom_log "INFORMATION - Version de l'OS"
+                            version_os
                         }
                         "2"{
                             # Fonction -> Mémoire RAM totale
                             custom_log "INFORMATION - Mémoire RAM total"
+                            ram_totale
                         }
                         "3"{
                             # Fonction -> Utilisation de la RAM
                             custom_log "INFORMATION - Utilisation de la RAM"
+                            ram_utilisation
                         }
                         "4"{
                             # Fonction -> Liste des utilisateurs locaux
                             custom_log "INFORMATION - Liste des utilisateurs locaux"
+                            Get-LocalUser
                         }
                         "5"{
                             # Fonction -> Nombre de disque
                             custom_log "INFORMATION - Nombre de disque"
+                            Get-Disk
                         }
                         "6"{
                             # Fonction -> Partition (nombre, nom, FS, taille) par disque
                             custom_log "INFORMATION - Partition (nombre, nom, FS, taille) par disque"
+                            Get-Partition
                         }
                         "7"{
                             # Fonction -> Espace disque restant par partition/volume
                             custom_log "INFORMATION - Espace disque restant par partition/volume"
+                            Get-Volume
                         }
                         "8"{
                             # Fonction -> Nom et espace disque d'un dossier (nom de dossier demandé)
@@ -315,14 +335,17 @@ do {
                         "9"{
                             # Fonction -> Liste des lecteurs monté (disque, CD, etc.)
                             custom_log "INFORMATION - Liste des lecteurs monté (disque, CD, etc.)"
+                            liste_lecteur
                         }
                         "10"{
                             # Fonction -> Liste des applications/paquets installées
                             custom_log "INFORMATION - Liste des applications/paquets installées"
+                            liste_Appli
                         }
                         "11"{
                             # Fonction -> Liste des services en cours d'execution
                             custom_log "INFORMATION - Liste des services en cours d'execution"
+                            service_runing
                         }
                         "0" { 
                             $computerManagement="0"
