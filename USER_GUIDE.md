@@ -66,3 +66,4 @@ Dans le cas ou à chaque exécution du script il vous demande si vous faites con
 ```PowerShell
 Unblock-File -Path "CheminDuScript"\"Script.ps1","CheminDuScript"\"ModuileScript.psm1"
 ```
+> *Cet incident semble se produire si vous avez récuperer le Script depuis internet (GitHub). Dans le cas ou le script a été récupéré sur une ressource réseau, il ne devrait pas y avoir ce message.*
