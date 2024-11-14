@@ -442,14 +442,38 @@ function  Mise_A_Jour_Du_Système {
     if ($updates) {
         Write-Output "Installation des mises à jour..."
         Install-WindowsUpdate -AcceptAll -AutoReboot
+        custom_log "ACTION - Mise à jour effectuées"
     } else {
         Write-Output "Aucune mise à jour disponible."
+        custom_log "ACTION - Aucune mise à jour disponible"
     }
 
     Write-Output "Mises à jour terminées."
 }
 # Fonction -> PMAD
 # Fonction -> Création de répertoire
+function create_directory {
+
+    # Demander à l'utilisateur de fournir un nom de répertoire
+    Clear-Host
+    $repertoire = Read-Host -prompt "Veuillez indiquer le nom du répertoire"
+    # Chemin complet du répertoire dans le dossier personnel
+    
+    $chemin_complet = "C:\Users\$($ENV:USERNAME)\$($repertoire)"
+    
+    # Vérifier si le répertoire existe avant de le créer
+    if ($chemin_complet) { 
+        try { 
+            New-Item -Path "$chemin_complet" -ItemType Directory -ErrorAction Stop
+            Write-host "Le répertoire '$chemin_complet' a été créé."
+            custom_log "ACTION - Création du répertoire $chemin_complet"
+        }
+        catch {
+            Write-host "Le répertoire '$chemin_complet' existe déjà."
+            custom_log "ACTION - Le répertoire '$chemin_complet' existe déjà."
+        }
+    }
+}
 # Fonction -> Modification de répertoire
 # Fonction -> Suppression de répertoire
 # Fonction -> Activation du pare-feu
