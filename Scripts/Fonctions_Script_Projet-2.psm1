@@ -133,15 +133,15 @@ function Suppression_du_compte_utilisateur {
         "o"{
             custom_log "ACTION - Validation de la suppression du compte $UserName"
             # suppression de l'utilisateur
-        if (Remove-LocalUser -Name $userName)
-        {
-            Write-Host "Echec de la suppression de l'utilisateur $userName"
-            custom_log "ACTION - Echec de la suppression de l'utilisateur $userName"
-        }
-        else {
-            Write-Host "Utilisateur $userName supprimé avec succès"
-            custom_log "ACTION - Utilisateur $userName supprimé avec succès"
-        }
+            if (Remove-LocalUser -Name $userName)
+            {
+                Write-Host "Echec de la suppression de l'utilisateur $userName"
+                custom_log "ACTION - Echec de la suppression de l'utilisateur $userName"
+            }
+            else {
+                Write-Host "Utilisateur $userName supprimé avec succès"
+                custom_log "ACTION - Utilisateur $userName supprimé avec succès"
+            }
         }
         "n" {
             # pas de suppression
