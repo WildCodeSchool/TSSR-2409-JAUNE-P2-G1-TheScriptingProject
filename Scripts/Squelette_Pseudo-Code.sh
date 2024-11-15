@@ -312,13 +312,13 @@ echo "Désactivation du pare-feu réussie."
 # Fonction -> Installation de logiciel
 function install_soft() {
     read -p "Quel est le nom du logiciel? " nom_logiciel_install
-apt install $nom_logiciel_install ;
+sudo apt install $nom_logiciel_install ;
 }
 
 # Fonction -> Désinstallation de logiciel
 function desinstall_soft() {
 read -p "Quel est le nom du logiciel? " nom_logiciel_uninstall
-apt remove $nom_logiciel_uninstall
+sudo apt remove $nom_logiciel_uninstall
 }
 
 #Fonction Exécution de script sur la machine distante
