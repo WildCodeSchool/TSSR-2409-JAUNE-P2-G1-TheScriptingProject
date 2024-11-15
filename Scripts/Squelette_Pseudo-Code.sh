@@ -180,7 +180,7 @@ function Arret_machine() {
 #Fonction redemmarage système
 function Redemarrage_machine() { 
     echo "Redémarrage de la machine en cours..."
-    sudo reboot
+    sudo systemctl reboot
 }
   
 #Fonction verrouillage système
