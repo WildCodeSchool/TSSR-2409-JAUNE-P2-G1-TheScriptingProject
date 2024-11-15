@@ -38,7 +38,7 @@ function test_user {
     }
 
     # Récupère le compte de l'utilisateur et ignore le message d'erreur si inexistant afin d'afficher message d'erreur custom
-    $localUser = Get-LocalUser "$userName" -ErrorAction SilentlyContinue
+    $global:localUser = Get-LocalUser "$userName" -ErrorAction SilentlyContinue
 
     if ( -not $localUser ) {
         Write-Host "Aucun utilisateur nommé `"$userName`"" -ForegroundColor Yellow
