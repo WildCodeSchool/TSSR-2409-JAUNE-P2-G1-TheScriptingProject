@@ -573,33 +573,33 @@ function nom_espace_dossier {
             # L'opérateur MATH suivi de ::Round permet d'arrondir la valeur récupérée, Gb, Mb, Kb et bit, et arrondi ensuite à deux chiffre après la virgule.
             $destinationSize = [math]::Round((Get-ChildItem "$destinationDir" -recurse | Measure-Object -Property Length -Sum).Sum / 1Gb,2)
             Write-Host "le volume du dossier $destinationDir est de : $destinationSize Go`n" -ForegroundColor Cyan
-            Write-Host "-> Information envoyé dans $([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt"
-            Write-Output "le volume du dossier $destinationDir est de : $destinationSize Go" | Out-File -LiteralPath "$([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt" -Encoding utf8 -Append 
-            custom_log "INFORMATION - Nom et espace disque d'un dossier - Envoyée dans $([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt"
+            Write-Host "-> Information envoyé dans $([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$(hostname).txt"
+            Write-Output "le volume du dossier $destinationDir est de : $destinationSize Go" | Out-File -LiteralPath "$([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$(hostname).txt" -Encoding utf8 -Append 
+            custom_log "INFORMATION - Nom et espace disque d'un dossier - Envoyée dans $([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$(hostname).txt"
         }
 
         "M" {
             $destinationSize = [math]::Round((Get-ChildItem "$destinationDir" -recurse | Measure-Object -Property Length -Sum).Sum / 1Mb,2)
             Write-Host "le volume du dossier $destinationDir est de : $destinationSize Mo`n" -ForegroundColor Cyan
-            Write-Host "-> Information envoyé dans $([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt"
-            Write-Output "le volume du dossier $destinationDir est de : $destinationSize Mo" | Out-File -LiteralPath "$([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt" -Encoding utf8 -Append 
-            custom_log "INFORMATION - Nom et espace disque d'un dossier - Envoyée dans $([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt"
+            Write-Host "-> Information envoyé dans $([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$(hostname).txt"
+            Write-Output "le volume du dossier $destinationDir est de : $destinationSize Mo" | Out-File -LiteralPath "$([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$(hostname).txt" -Encoding utf8 -Append 
+            custom_log "INFORMATION - Nom et espace disque d'un dossier - Envoyée dans $([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$(hostname).txt"
         }
 
         "K" {
             $destinationSize = [math]::Round((Get-ChildItem "$destinationDir" -recurse | Measure-Object -Property Length -Sum).Sum / 1Kb,2)
             Write-Host "le volume du dossier $destinationDir est de : $destinationSize Ko`n" -ForegroundColor Cyan
-            Write-Host "-> Information envoyé dans $([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt"
-            Write-Output "le volume du dossier $destinationDir est de : $destinationSize Ko" | Out-File -LiteralPath "$([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt" -Encoding utf8 -Append 
-            custom_log "INFORMATION - Nom et espace disque d'un dossier - Envoyée dans $([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt"
+            Write-Host "-> Information envoyé dans $([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$(hostname).txt"
+            Write-Output "le volume du dossier $destinationDir est de : $destinationSize Ko" | Out-File -LiteralPath "$([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$(hostname).txt" -Encoding utf8 -Append 
+            custom_log "INFORMATION - Nom et espace disque d'un dossier - Envoyée dans $([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$(hostname).txt"
         }
 
         "O" {
             $destinationSize = [math]::Round((Get-ChildItem "$destinationDir" -recurse | Measure-Object -Property Length -Sum).Sum)
             Write-Host "le volume du dossier $destinationDir est de : $destinationSize Octets`n" -ForegroundColor Cyan
-            Write-Host "-> Information envoyé dans $([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt"
-            Write-Output "le volume du dossier $destinationDir est de : $destinationSize Octets" | Out-File -LiteralPath "$([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt" -Encoding utf8 -Append 
-            custom_log "INFORMATION - Nom et espace disque d'un dossier - Envoyée dans $([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt"
+            Write-Host "-> Information envoyé dans $([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$(hostname).txt"
+            Write-Output "le volume du dossier $destinationDir est de : $destinationSize Octets" | Out-File -LiteralPath "$([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$(hostname).txt" -Encoding utf8 -Append 
+            custom_log "INFORMATION - Nom et espace disque d'un dossier - Envoyée dans $([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$(hostname).txt"
         }
         Default {
             Write-host "Erreur de saisie !"
