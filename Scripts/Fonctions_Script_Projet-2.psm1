@@ -8,9 +8,12 @@ function custom_log {
         [string]$message
     )
     try {
+        # Formate le log avec date et nom d'utilisateur exécutant le script et récupère l'attribut. 
+        # Envoie et ajoute au fichier log avec encodage UTF8 afin d'éviter les problème d'affichage à cause de l'encodage windows
         Write-Output "$(Get-Date -UFormat "%Y/%m/%d - %H:%M:%S") - $($ENV:USERNAME) - $message"  | Out-File -LiteralPath "C:\Windows\System32\LogFiles\log_evt.log" -Encoding utf8 -Append 
     }
     catch {
+        # Message d'erreur indiquant qu l'user n'est pas connecté en tant qu'admin
         Write-Host "Erreur : Ecriture des logs impossible, les actions effectuées ne seront pas consignées.`nVérifiez que le script soit lancé en tant qu'administrateur" -ForegroundColor Yellow
         return
     }
@@ -23,15 +26,18 @@ function custom_log {
 # Fonction afin de tester si un utilisateur existe ou si rien n'a été saisi
 function test_user {
 
+    # Initialise la variable userName en tant que variable globale
     $global:userName = Read-Host -prompt "Saisir le nom du compte" 
     Clear-Host
 
+    # Test afin de savoir si la saisie est vide ou nul
     if ([string]::IsNullOrEmpty($userName)) { 
         
         Write-Host "Aucun utilisateur saisi" -ForegroundColor Yellow
         return
     }
 
+    # Récupère le compte de l'utilisateur et ignore le message d'erreur si inexistant afin d'afficher message d'erreur custom
     $localUser = Get-LocalUser "$userName" -ErrorAction SilentlyContinue
 
     if ( -not $localUser ) {
@@ -168,6 +174,7 @@ function Désactivation_du_compte_utilisateur {
                 custom_log "ACTION - Utilisateur $userName désactivé avec succès"
             }
             catch {
+                # Affiche le message d'erreur correspondant sur l'impossibilté de désactivation du compte
                 Write-Host "Erreur : impossible de désactiver le compte $userName : $($_.Exception.Message)" -ForegroundColor Red
                 Write-Host "Vérifiez que le script soit lancé en tant qu'administrateur" -ForegroundColor Yellow
                 custom_log "ACTION - Erreur : impossible de désactiver le compte $userName."
@@ -191,11 +198,13 @@ function add_user_group_admin {
     test_user    
     
     try {
+        # Essaye d'ajouter au groupe, dans le cas d'une erreur, stop. Obligatoire comme la cmdlet ne stop pas nativement
         Add-LocalGroupMember -Group "Administrateurs" -Member "$userName" -ErrorAction Stop
         Write-Host "Ajout de $userName au groupe Administrateurs" -ForegroundColor Cyan
         custom_log "ACTION - Ajout de $userName au groupe Administrateurs"
     }
     catch {
+        # Affiche un message d'erreur en cas d'jout impossible
         Write-Host "Erreur : impossible d'ajouter l'utilisateur $userName au groupe Administrateurs." -ForegroundColor Red
         Write-Host "Vérifiez que l'utilisateur n'est pas déjà membre du groupe Administrateurs et que le script soit lancé en tant qu'administrateur" -ForegroundColor Yellow
         custom_log "ACTION - Erreur : impossible d'ajouter l'utilisateur $userName au groupe Administrateurs."
@@ -209,7 +218,8 @@ function add_user_group_admin {
 function add_user_group_local {    
 
     test_user
-    
+
+    # test le groupe fonctionne comme la fonction test_user
     $groupName = Read-Host -prompt "Saisir le nom du groupe"
     Clear-Host
     if ([string]::IsNullOrEmpty($groupName)) {
@@ -278,8 +288,9 @@ function user_last_logon {
     
     try{
         Write-Host "Dernière connexion le $($localUser.lastlogon)`n" -ForegroundColor Cyan
-        Write-Output "Dernière connexion de l'utilisateur $UserName le $($localUser.lastlogon)" | Out-File -LiteralPath "$([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt" -Encoding utf8 -Append 
         Write-Host "-> Information envoyée dans $([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt"
+        # Envoie l'information demandé vers le fichier d'information situé dans le profil de l'user exécutant le script et formate le nom du fichier. l'envoie avec encodage UTF 8 et ajoute en fin de fichier
+        Write-Output "Dernière connexion de l'utilisateur $UserName le $($localUser.lastlogon)" | Out-File -LiteralPath "$([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt" -Encoding utf8 -Append 
         custom_log "INFORMATION - Date de dernière connexion d’un utilisateur - Envoyée dans $([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt"
     }
     Catch{
@@ -294,8 +305,8 @@ function user_last_password_change {
     
     try{
         Write-Host "Dernièr changement de mot de passe pour le compte $userName, le $($localUser.PasswordLastSet)`n" -ForegroundColor Cyan
-        Write-Output "Dernièr changement de mot de passe pour le compte $userName, le $($localUser.PasswordLastSet)" | Out-File -LiteralPath "$([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt" -Encoding utf8 -Append 
         Write-Host "-> Information envoyée dans $([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt"
+        Write-Output "Dernièr changement de mot de passe pour le compte $userName, le $($localUser.PasswordLastSet)" | Out-File -LiteralPath "$([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt" -Encoding utf8 -Append 
         custom_log "INFORMATION - Date de dernière modification du mot de passe - Envoyée dans $([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt"
     }
     catch{
@@ -313,16 +324,19 @@ function current_user_session {
 
     if ($localUserSession.Count -le 1 ) {
         Write-Host "l'utilisateur $userName a $($localUserSession.Count) session en cours" -ForegroundColor Cyan
+        Write-Host "`n-> Information envoyée dans $([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt"
         Write-Output "l'utilisateur $userName a $($localUserSession.Count) session en cours" | Out-File -LiteralPath "$([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt" -Encoding utf8 -Append 
         custom_log "INFORMATION - Liste des sessions ouvertes par l'utilisateur - Envoyée dans $([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt"
     }
     elseif ($localUserSession.Count -le 0) {
         Write-Host "l'utilisateur $userName n'a aucune session en cours" -ForegroundColor Cyan
+        Write-Host "`n-> Information envoyée dans $([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt"
         Write-Output "l'utilisateur $userName n'a aucune session en cours" | Out-File -LiteralPath "$([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt" -Encoding utf8 -Append 
         custom_log "INFORMATION - Liste des sessions ouvertes par l'utilisateur - Envoyée dans $([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt"
     } 
     else {
         Write-Host "l'utilisateur $userName a $($localUserSession.Count) sessions en cours" -ForegroundColor Cyan
+        Write-Host "`n-> Information envoyée dans $([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt"
         Write-Output "l'utilisateur $userName a $($localUserSession.Count) sessions en cours" | Out-File -LiteralPath "$([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt" -Encoding utf8 -Append 
         custom_log "INFORMATION - Liste des sessions ouvertes par l'utilisateur - Envoyée dans $([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt"
     }
@@ -357,14 +371,17 @@ function user_shell_history {
 
     test_user
 
-    try {        
+    try {
+        # Récupère les logs personne de l'user ciblé dans %AppData%\Roaming\Microsoft\Windows\PowerShell\PSReadline\ConsoleHost_history.tx
         Copy-Item -Path "C:\Users\$($userName)\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadline\ConsoleHost_history.txt" -Destination "$([Environment]::GetFolderPath("MyDocuments"))\Export_Get-History_$(Get-Date -UFormat %Y%m%d)_$($userName).txt" -ErrorAction Stop
         Write-Host "L'historique de commande de l'utilisateur $userName a été envoyé vers $([Environment]::GetFolderPath("MyDocuments"))\Export_Get-History_$(Get-Date -UFormat %Y%m%d)_$($userName).txt" -ForegroundColor Cyan
+        Write-Host "`n-> Information envoyée dans $([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt"
         custom_log "INFORMATION - Historique des commandes exécutées par l'utilisateur - Envoyé dans $([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt"
     }
     catch {
         Write-Host "Erreur lors de l'export de l'historique" -ForegroundColor Red
         write-host "Possible si l'utilisateur n'a jamais saisi de commande" -ForegroundColor Yellow
+        Write-Host "`n-> Information envoyée dans $([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt"
         custom_log "INFORMATION - Erreur lors de l'export de l'historique"
     }
 }
@@ -378,15 +395,18 @@ function user_shell_history {
 function acl_file_and_directory {
     $dirPath =  (Read-Host "Sur quel dossier ou fichier souhaitez vous voir les permissions ? (Par défaut dossier courant)`n") -replace "^$","."
     Clear-Host
-    
+
+    # Récupère les droits ACL pour un fichier, il faut ensuite voir manuellement si l'utilisateur apparait dans un des groupes 
     try{
         if (($accessType = Get-Acl -path "$dirPath" -ErrorAction Stop | ForEach-Object { $_.Access } )) {
     
             Write-Host "Vérifier si l'utilisateur $userName ou un de ses groupes apparait dans la liste ci dessous :" -ForegroundColor Cyan
             $accessType | ForEach-Object { "$($_.IdentityReference) - $($_.AccessControlType) - $($_.FileSystemRights)" } 
+            Write-Host "`n-> Information envoyée dans $([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt"
     
-            Write-Output "`nVérifier si l'utilisateur $userName ou un de ses groupes apparait dans la liste ci dessous :" >> "$([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt"
+            Write-Output "`nVérifier si l'utilisateur $userName ou un de ses groupes apparait dans la liste ci dessous :" | Out-File -LiteralPath "$([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt" -Encoding utf8 -Append 
             Write-Output $accessType | ForEach-Object { "$($_.IdentityReference) - $($_.AccessControlType) - $($_.FileSystemRights)" } | Out-File -LiteralPath "$([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt" -Encoding utf8 -Append 
+           
             custom_log "INFORMATION - Permissions de l'utilisateur '$userName' sur le dossier/fichier $dirPath - Envoyé dans $([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt"
         }
     }
@@ -550,6 +570,7 @@ function nom_espace_dossier {
 
     switch ($sizeType){
         "G" {
+            # L'opérateur MATH suivi de ::Round permet d'arrondir la valeur récupérée, Gb, Mb, Kb et bit, et arrondi ensuite à deux chiffre après la virgule.
             $destinationSize = [math]::Round((Get-ChildItem "$destinationDir" -recurse | Measure-Object -Property Length -Sum).Sum / 1Gb,2)
             Write-Host "le volume du dossier $destinationDir est de : $destinationSize Go`n" -ForegroundColor Cyan
             Write-Host "-> Information envoyé dans $([Environment]::GetFolderPath("MyDocuments"))\info_$(Get-Date -UFormat %Y%m%d)_$($userName).txt"
