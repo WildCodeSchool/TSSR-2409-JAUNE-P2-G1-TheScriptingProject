@@ -561,8 +561,8 @@ case $choix_1 in
             clear
             
             case $choix_machine in
-                1) Arrêt_machine ;; # Arrêt
-                2) Redémarrage_machine ;; # Redémarrage
+                1) Arret_machine ;; # Arrêt
+                2) Redemarrage_machine ;; # Redémarrage
                 3) Verrouillage_machine ;; # Verrouillage
                 4) Mise_a_jour_systeme ;; # Mise à jour
                 5) PMAD ;; # PMAD
